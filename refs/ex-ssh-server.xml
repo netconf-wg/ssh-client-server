@@ -1,0 +1,19 @@
+<listening-ssh-server
+  xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-server">
+  <port>830</port>
+  <host-keys>
+    <host-key>
+      <name>deployment-specific-certificate</name>
+      <certificate>ex-key-sect571r1-cert</certificate>
+    </host-key>
+  </host-keys>
+  </certificates>
+  <client-cert-auth>
+    <trusted-ca-certs>
+      deployment-specific-ca-certs
+    </trusted-ca-certs>
+    <trusted-client-certs>
+      explicitly-trusted-client-certs
+    </trusted-client-certs>
+  </client-cert-auth>
+</listening-ssh-server>

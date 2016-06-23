@@ -1,0 +1,434 @@
+<?xml version='1.0'?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd" [
+<!ENTITY rfc793 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.793.xml">
+<!ENTITY rfc2119 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml">
+<!ENTITY rfc3688 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml">
+<!ENTITY rfc4252 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4252.xml">
+<!ENTITY rfc4253 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4253.xml">
+<!ENTITY rfc4254 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.4254.xml">
+<!ENTITY rfc5246 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
+<!ENTITY rfc6020 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6020.xml">
+<!ENTITY rfc6187 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6187.xml">
+<!ENTITY rfc6241 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6241.xml">
+<!ENTITY rfc6335 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6335.xml">
+<!ENTITY rfc6991 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6991.xml">
+]>
+
+<?rfc toc="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes" ?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<?rfc linkmailto="no" ?>
+<?rfc editing="no" ?>
+<?rfc comments="yes" ?>
+<?rfc inline="yes"?>
+<?rfc rfcedstyle="yes"?>
+<?rfc-ext allow-markup-in-artwork="yes" ?>
+<?rfc-ext include-index="no" ?>
+<!--<?rfc strict="no"?> -->
+
+<rfc category="std"
+     ipr="trust200902"
+     docName="draft-ietf-netconf-ssh-client-server-latest" >
+    <front>
+        <title>SSH Client and Server Models</title>
+        <author initials="K.W." surname="Watsen" fullname="Kent Watsen">
+            <organization>Juniper Networks</organization>
+            <address>
+                <email>kwatsen@juniper.net</email>
+            </address>
+        </author>
+        <date/>
+        <area>Operations</area>
+        <workgroup>NETCONF Working Group</workgroup>
+        <abstract>
+            <t>This draft defines two YANG modules, one
+            defining groupings for a generic SSH client and the other defining
+            groupings for a generic SSH server.  It is intended that these 
+            groupings will be used in the data models for applications using
+            the SSH protocol.</t>
+        </abstract>
+        <note title="Editorial Note (To be removed by RFC Editor)">
+          <t>This draft contains many placeholder values that need to be replaced
+          with finalized values at the time of publication.  This note summarizes
+          all of the substitutions that are needed.  Please note that no other
+          RFC Editor instructions are specified anywhere else in this document.</t>
+
+          <t>This document contains references to other drafts in progress, both in
+          the Normative References section, as well as in body text throughout.  
+          Please update the following references to reflect their final RFC assignments:
+            <list style="symbols">
+              <t>draft-ietf-netconf-system-keychain</t>
+            </list>
+          </t>
+          <t>Artwork in this document contains shorthand references to drafts in 
+          progress.  Please apply the following replacements:
+            <list  style="symbols">
+              <t><spanx style="verb">XXXX</spanx> --&gt; the assigned RFC value for this draft</t>
+              <t><spanx style="verb">YYYY</spanx> --&gt; the assigned RFC value for draft-ietf-netconf-system-keychain</t>
+            </list>
+          </t>
+          <t>Artwork in this document contains placeholder values for the date of publication of this
+          draft.  Please apply the following replacement:
+            <list  style="symbols">
+              <t><spanx style="verb">YYYY-MM-DD</spanx> --&gt; the publication date of this draft</t>
+            </list>
+          </t>
+          <t>The following two Appendix sections are to be removed prior to publication:
+            <list  style="symbols">
+              <t>Appendix A.  Change Log</t>
+              <t>Appendix B.  Open Issues</t>
+            </list>
+          </t>
+        </note>
+    </front>
+    <middle>
+
+        <section title="Introduction">
+
+            <t>This draft defines two YANG <xref target="RFC6020"/> modules, one
+            defining groupings for a generic SSH client and the other defining
+            groupings for a generic SSH server (SSH is defined in <xref 
+            target="RFC4252"/>, <xref target="RFC4253"/>, and <xref target="RFC4254"/>).
+            It is intended that these groupings will be used in the data models
+            for applications using the SSH protocol.  For instance, these groupings
+            could be used to help define the data model for an OpenSSH <xref 
+            target="OPENSSH"/> server or for a NETCONF <xref target="RFC6241"/>
+            over SSH based server.</t>
+
+            <t>The two YANG modules in this draft each define two groupings. One
+            grouping defines everything other than what's needed for the TCP
+            <xref target="RFC793"/> protocol layer.  The other grouping uses the
+            first grouping while adding TCP layer specifics (e.g., addresses to
+            connect to, ports to listen on, etc.).  This separation is done in
+            order to enable applications the opportunity to define their own
+            strategy for how the underlying TCP connection is established.  For
+            instance, applications supporting NETCONF Call Home 
+            <xref target="draft-ietf-netconf-call-home"/> could use the first grouping for the SSH
+            parts it provides, while adding data nodes for the reversed TCP layer.</t>
+
+            <section title="Terminology">
+              <t>The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL",
+              "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY",
+              and "OPTIONAL" in this document are to be interpreted as
+              described in RFC 2119 <xref target="RFC2119"/>.</t>
+            </section>
+            <section title="Tree Diagrams" anchor="tree-diagrams">
+            <t>A simplified graphical representation of the data models
+            is used in this document.  The meaning of the symbols in
+            these diagrams is as follows:
+              <list style="symbols">
+                <t>Brackets "[" and "]" enclose list keys.</t>
+                <t>Braces "{" and "}" enclose feature names, and indicate
+                that the named feature must be present for the subtree
+                to be present.</t>
+                <t>Abbreviations before data node names: "rw" means
+                configuration (read-write) and "ro" state data 
+                (read-only).</t>
+                <t>Symbols after data node names: "?" means an optional
+                node, "!" means a presence container, and "*" denotes a
+                list and leaf-list.</t>
+                <t>Parentheses enclose choice and case nodes, and case
+                nodes are also marked with a colon (":").</t>
+                <t>Ellipsis ("...") stands for contents of subtrees that
+                are not shown.</t>
+              </list>
+            </t>
+            </section>
+        </section>
+
+      <section title="The SSH Client Model" anchor="ssh-client-model">
+
+        <t>The SSH client model presented in this section contains two
+        YANG groupings, one for a client that initiates the underlying
+        TCP connection and another for a client that has had the TCP
+        connection opened for it already (e.g., call home).</t>
+
+        <t>Both of these groupings reference data nodes defined by the
+        System Keychain model <xref target="draft-ietf-netconf-system-keychain"/>.  For
+        instance, a reference to the keychain model is made to indicate
+        which trusted CA certificate a client should use to authenticate
+        PKIX-based host keys <xref target="RFC6187"/>.</t>
+
+        <section title="Tree Diagram">
+          <t>The following tree diagram presents the data model for
+          the two groupings defined in the ietf-ssh-client module.</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree.txt)
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+
+        <section title="Example Usage">
+          <t>This section shows how it would appear if the 
+          initiating-ssh-client-grouping were populated with some data.
+          This example is consistent with the examples presented in
+          Section 2.2 of <xref target="draft-ietf-netconf-system-keychain"/>.</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-client.xml)
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+
+        <section title="YANG Model" anchor="ssh-client-yang-module">
+          <t>This YANG module has a normative references to <xref target="RFC4253"/>,
+          <xref target="RFC6991"/>, and <xref target="draft-ietf-netconf-system-keychain"/>.</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+
+<CODE BEGINS> file "ietf-ssh-client@YYYY-MM-DD.yang"
+
+INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
+
+<CODE ENDS>
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+      </section>
+
+
+      <section title="The SSH Server Model" anchor="ssh-server-model">
+
+        <t>The SSH server model presented in this section contains two
+        YANG groupings, one for a server that opens a socket to accept
+        TCP connections and another for a server that has had the TCP
+        connection opened for it already (e.g., inetd).</t>
+
+        <t>Both of these groupings reference data nodes defined by the
+        System Keychain model <xref target="draft-ietf-netconf-system-keychain"/>.  For
+        instance, a reference to the keychain model is made to indicate
+        which host key a server should present.</t>
+
+        <section title="Tree Diagram">
+          <t>The following tree diagram presents the data model for
+          the two groupings defined in the ietf-ssh-server module.</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree.txt)
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+
+        <section title="Example Usage">
+          <t>This section shows how it would appear if the 
+          listening-ssh-server-grouping were populated with some data.
+          This example is consistent with the examples presented in
+          Section 2.2 of <xref target="draft-ietf-netconf-system-keychain"/>.</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-server.xml)
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+
+        <section title="YANG Model" anchor="ssh-server-yang-module">
+          <t>This YANG module has a normative references to <xref target="RFC4253"/>,
+          <xref target="RFC6991"/>, and <xref target="draft-ietf-netconf-system-keychain"/>.</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+
+<CODE BEGINS> file "ietf-ssh-server@YYYY-MM-DD.yang"
+
+INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
+
+<CODE ENDS>
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+      </section>
+
+
+
+      <section title="Security Considerations">
+
+<!--
+I removed all the NACM statements in the new modules
+
+            <t>There are a number of data nodes defined in the 
+            "ietf-netconf-server" and "ietf-restconf-server" YANG
+            modules which are readable and/or writable that may 
+            be considered sensitive or vulnerable in some 
+            network environments.  Write and read operations to
+            these data nodes can have a negative effect on network
+            operations.  It is thus important to control write
+            and read access to these data nodes.  Below are the 
+            data nodes and their sensitivity/vulnerability.</t>
+
+            <t>netconf-server/tls/client-auth/trusted-ca-certs:
+            <list style="symbols">
+              <t>This container contains certificates that a NETCONF server
+              is to use as trust anchors for authenticating X.509-based
+              client certificates.  Write access to this node is
+              protected using an nacm:default-deny-write statement.</t>
+            </list>
+            </t>
+
+            <t>netconf-server/tls/client-auth/trusted-client-certs:
+            <list style="symbols">
+              <t>This container contains certificates that a NETCONF server
+              is to trust directly when authenticating X.509-based
+              client certificates.  Write access to this node is
+              protected using an nacm:default-deny-write statement.</t>
+            </list>
+            </t>
+
+            <t>restconf-server/tls/client-auth/trusted-ca-certs:
+            <list style="symbols">
+              <t>This container contains certificates that a RESTCONF server
+              is to use as trust anchors for authenticating X.509-based
+              client certificates.  Write access to this node is
+              protected using an nacm:default-deny-write statement.</t>
+            </list>
+            </t>
+
+            <t>restconf-server/tls/client-auth/trusted-client-certs:
+            <list style="symbols">
+              <t>This container contains certificates that a RESTCONF server
+              is to trust directly when authenticating X.509-based
+              client certificates.  Write access to this node is
+              protected using an nacm:default-deny-write statement.</t>
+            </list>
+            </t>
+-->
+      </section>
+
+      <section title="IANA Considerations">
+        <section title="The IETF XML Registry">
+          <t>This document registers two URIs in the IETF XML 
+          registry <xref target="RFC2119"/>.  Following the format in 
+          <xref target="RFC3688"/>, the following registrations are
+          requested:</t>
+          <t>
+            <figure>
+                <artwork><![CDATA[
+   URI: urn:ietf:params:xml:ns:yang:ietf-ssh-client
+   Registrant Contact: The NETCONF WG of the IETF.
+   XML: N/A, the requested URI is an XML namespace.
+
+   URI: urn:ietf:params:xml:ns:yang:ietf-ssh-server
+   Registrant Contact: The NETCONF WG of the IETF.
+   XML: N/A, the requested URI is an XML namespace.
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+        <section title="The YANG Module Names Registry">
+          <t>This document registers two YANG modules in the
+          YANG Module Names registry <xref target="RFC6020"/>.
+          Following the format in <xref target="RFC6020"/>, the
+          the following registrations are requested:</t>
+          <t>
+            <figure>
+                <artwork><![CDATA[
+   name:         ietf-ssh-client
+   namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-client
+   prefix:       sshc
+   reference:    RFC XXXX
+
+   name:         ietf-ssh-server
+   namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-server
+   prefix:       sshs
+   reference:    RFC XXXX
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+      </section>
+
+
+      <section title="Acknowledgements">
+        <t>The authors would like to thank for following for
+        lively discussions on list and in the halls (ordered
+        by last name): Andy Bierman, Martin Bjorklund, Benoit Claise,
+        Mehmet Ersue, David Lamparter, Alan Luchuk, Ladislav Lhotka,
+        Radek Krejci, Tom Petch, Juergen Schoenwaelder, Phil Shafer, 
+        Sean Turner, and Bert Wijnen.</t>
+     </section>
+
+    </middle>
+
+    <back>
+      <references title="Normative References">
+        &rfc2119;
+        &rfc6020;
+        &rfc6187;
+        &rfc6241;
+        &rfc6991;
+
+        <reference anchor='draft-ietf-netconf-system-keychain' target="https://tools.ietf.org/html/draft-ieft-netconf-system-keychain">
+          <front>
+            <title>System Keychain Model</title>
+            <author initials='K.W.' surname='Watsen' fullname='Kent Watsen'>
+              <organization>Juniper Networks</organization>
+            </author>
+            <date year='2016' />
+          </front>
+          <seriesInfo name='Internet-Draft' value='draft-ieft-netconf-system-keychain-00'/>
+        </reference>
+
+      </references>
+
+      <references title="Informative References">
+
+        <reference anchor="RFC793" target="https://www.ietf.org/rfc/rfc793.txt">
+          <front>
+            <title>TRANSMISSION CONTROL PROTOCOL</title>
+            <author initials="J." surname="Postel" fullname="J. Postel">
+              <organization/>
+            </author>
+            <date year="1981" month="September"/>
+          </front>
+          <seriesInfo name="STD" value="7"/>
+        </reference>
+        &rfc4252;
+        &rfc4253;
+        &rfc4254;
+        &rfc3688;
+        <reference anchor='draft-ietf-netconf-call-home' target="https://tools.ietf.org/html/draft-ieft-netconf-call-home-17">
+          <front>
+            <title>
+              NETCONF Call Home and RESTCONF Call Home
+            </title>
+            <author initials='K.W.' surname='Watsen' fullname='Kent Watsen'>
+              <organization>Juniper Networks</organization>
+            </author>
+            <date year='2015'/>
+          </front>
+          <seriesInfo name='Internet-Draft' value='draft-ieft-netconf-call-home-17' />
+        </reference>
+
+        <reference anchor='OPENSSH' target="http://www.openssh.com">
+          <front>
+            <title>OpenSSH</title>
+            <author fullname='The OpenBSD Project'/>
+            <date year='2016'/>
+          </front>
+        </reference>
+
+      </references>
+
+      <section title="Change Log">
+        <t>This draft was split out from draft-ietf-netconf-server-model</t>
+      </section>
+
+      <section title="Open Issues">
+        <t>Please see: https://github.com/netconf-wg/ssh-client-server/issues.</t>
+      </section>
+    </back>
+</rfc>
+
