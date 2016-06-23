@@ -9,7 +9,7 @@
 <!ENTITY rfc5246 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.5246.xml">
 <!ENTITY rfc6020 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6020.xml">
 <!ENTITY rfc6187 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6187.xml">
-<!ENTITY rfc6241 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6241.xml">
+<!ENTITY rfc6242 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6242.xml">
 <!ENTITY rfc6335 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6335.xml">
 <!ENTITY rfc6991 SYSTEM "http://xml.resource.org/public/rfc/bibxml/reference.RFC.6991.xml">
 ]>
@@ -44,16 +44,15 @@
         <workgroup>NETCONF Working Group</workgroup>
         <abstract>
             <t>This draft defines two YANG modules, one
-            defining groupings for a generic SSH client and the other defining
+            defines groupings for a generic SSH client and the other defines
             groupings for a generic SSH server.  It is intended that these 
-            groupings will be used in the data models for applications using
-            the SSH protocol.</t>
+            groupings will be used by applications using the SSH protocol.</t>
         </abstract>
         <note title="Editorial Note (To be removed by RFC Editor)">
           <t>This draft contains many placeholder values that need to be replaced
           with finalized values at the time of publication.  This note summarizes
-          all of the substitutions that are needed.  Please note that no other
-          RFC Editor instructions are specified anywhere else in this document.</t>
+          all of the substitutions that are needed.  No other RFC Editor
+          instructions are specified elsewhere in this document.</t>
 
           <t>This document contains references to other drafts in progress, both in
           the Normative References section, as well as in body text throughout.  
@@ -69,8 +68,8 @@
               <t><spanx style="verb">YYYY</spanx> --&gt; the assigned RFC value for draft-ietf-netconf-system-keychain</t>
             </list>
           </t>
-          <t>Artwork in this document contains placeholder values for the date of publication of this
-          draft.  Please apply the following replacement:
+          <t>Artwork in this document contains placeholder values for the date of 
+          publication of this draft.  Please apply the following replacement:
             <list  style="symbols">
               <t><spanx style="verb">YYYY-MM-DD</spanx> --&gt; the publication date of this draft</t>
             </list>
@@ -87,15 +86,15 @@
 
         <section title="Introduction">
 
-            <t>This draft defines two YANG <xref target="RFC6020"/> modules, one
-            defining groupings for a generic SSH client and the other defining
-            groupings for a generic SSH server (SSH is defined in <xref 
-            target="RFC4252"/>, <xref target="RFC4253"/>, and <xref target="RFC4254"/>).
-            It is intended that these groupings will be used in the data models
-            for applications using the SSH protocol.  For instance, these groupings
-            could be used to help define the data model for an OpenSSH <xref 
-            target="OPENSSH"/> server or for a NETCONF <xref target="RFC6241"/>
-            over SSH based server.</t>
+            <t>This draft defines two YANG <xref target="RFC6020"/> modules, 
+            one defines groupings for a generic SSH client and the other 
+            defines groupings for a generic SSH server (SSH is defined in 
+            <xref target="RFC4252"/>, <xref target="RFC4253"/>, and 
+            <xref target="RFC4254"/>).  It is intended that these groupings
+            will be used by applications using the SSH protocol.  For 
+            instance, these groupings could be used to help define the data
+            model for an OpenSSH <xref target="OPENSSH"/> server or a 
+            NETCONF over SSH <xref target="RFC6242"/> based server.</t>
 
             <t>The two YANG modules in this draft each define two groupings. One
             grouping defines everything other than what's needed for the TCP
@@ -105,8 +104,9 @@
             order to enable applications the opportunity to define their own
             strategy for how the underlying TCP connection is established.  For
             instance, applications supporting NETCONF Call Home 
-            <xref target="draft-ietf-netconf-call-home"/> could use the first grouping for the SSH
-            parts it provides, while adding data nodes for the reversed TCP layer.</t>
+            <xref target="draft-ietf-netconf-call-home"/> could use the first
+            grouping for the SSH parts it provides, while adding data nodes for
+            the reversed TCP layer.</t>
 
             <section title="Terminology">
               <t>The keywords "MUST", "MUST NOT", "REQUIRED", "SHALL",
@@ -114,6 +114,7 @@
               and "OPTIONAL" in this document are to be interpreted as
               described in RFC 2119 <xref target="RFC2119"/>.</t>
             </section>
+
             <section title="Tree Diagrams" anchor="tree-diagrams">
             <t>A simplified graphical representation of the data models
             is used in this document.  The meaning of the symbols in
@@ -149,7 +150,7 @@
         System Keychain model <xref target="draft-ietf-netconf-system-keychain"/>.  For
         instance, a reference to the keychain model is made to indicate
         which trusted CA certificate a client should use to authenticate
-        PKIX-based host keys <xref target="RFC6187"/>.</t>
+        X.509v3 certificate based host keys <xref target="RFC6187"/>.</t>
 
         <section title="Tree Diagram">
           <t>The following tree diagram presents the data model for
@@ -178,8 +179,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-client.xml)
         </section>
 
         <section title="YANG Model" anchor="ssh-client-yang-module">
-          <t>This YANG module has a normative references to <xref target="RFC4253"/>,
-          <xref target="RFC6991"/>, and <xref target="draft-ietf-netconf-system-keychain"/>.</t>
+          <t>This YANG module has a normative references to <xref target="RFC6991"/>
+          and <xref target="draft-ietf-netconf-system-keychain"/>.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -204,8 +205,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
         connection opened for it already (e.g., inetd).</t>
 
         <t>Both of these groupings reference data nodes defined by the
-        System Keychain model <xref target="draft-ietf-netconf-system-keychain"/>.  For
-        instance, a reference to the keychain model is made to indicate
+        System Keychain model <xref target="draft-ietf-netconf-system-keychain"/>.
+        For instance, a reference to the keychain model is made to indicate
         which host key a server should present.</t>
 
         <section title="Tree Diagram">
@@ -350,7 +351,6 @@ I removed all the NACM statements in the new modules
         </section>
       </section>
 
-
       <section title="Acknowledgements">
         <t>The authors would like to thank for following for
         lively discussions on list and in the halls (ordered
@@ -367,7 +367,6 @@ I removed all the NACM statements in the new modules
         &rfc2119;
         &rfc6020;
         &rfc6187;
-        &rfc6241;
         &rfc6991;
 
         <reference anchor='draft-ietf-netconf-system-keychain' target="https://tools.ietf.org/html/draft-ieft-netconf-system-keychain">
@@ -395,10 +394,13 @@ I removed all the NACM statements in the new modules
           </front>
           <seriesInfo name="STD" value="7"/>
         </reference>
+
+        &rfc3688;
         &rfc4252;
         &rfc4253;
         &rfc4254;
-        &rfc3688;
+        &rfc6242;
+
         <reference anchor='draft-ietf-netconf-call-home' target="https://tools.ietf.org/html/draft-ieft-netconf-call-home-17">
           <front>
             <title>

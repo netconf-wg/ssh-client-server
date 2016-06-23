@@ -9,9 +9,9 @@ module ietf-ssh-client {
     reference 
       "RFC 6991: Common YANG Data Types";
   }
+
   import ietf-system-keychain {
     prefix kc;
-    revision-date YYYY-MM-DD;
     reference
       "RFC YYYY: System Keychain Model";
   }
