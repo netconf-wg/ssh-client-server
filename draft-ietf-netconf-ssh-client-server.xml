@@ -43,7 +43,7 @@
         <area>Operations</area>
         <workgroup>NETCONF Working Group</workgroup>
         <abstract>
-            <t>This draft defines two YANG modules, one
+            <t>This document defines two YANG modules, one
             defines groupings for a generic SSH client and the other defines
             groupings for a generic SSH server.  It is intended that these 
             groupings will be used by applications using the SSH protocol.</t>
@@ -86,7 +86,7 @@
 
         <section title="Introduction">
 
-            <t>This draft defines two YANG <xref target="RFC6020"/> modules, 
+            <t>This document defines two YANG <xref target="RFC6020"/> modules, 
             one defines groupings for a generic SSH client and the other 
             defines groupings for a generic SSH server (SSH is defined in 
             <xref target="RFC4252"/>, <xref target="RFC4253"/>, and 
@@ -96,7 +96,7 @@
             model for an OpenSSH <xref target="OPENSSH"/> server or a 
             NETCONF over SSH <xref target="RFC6242"/> based server.</t>
 
-            <t>The two YANG modules in this draft each define two groupings. One
+            <t>The two YANG modules in this document each define two groupings. One
             grouping defines everything other than what's needed for the TCP
             <xref target="RFC793"/> protocol layer.  The other grouping uses the
             first grouping while adding TCP layer specifics (e.g., addresses to
