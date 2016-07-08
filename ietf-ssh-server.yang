@@ -157,9 +157,10 @@ module ietf-ssh-server {
     leaf address {
       type inet:ip-address;
       description
-       "The IP address of the interface to listen on. The SSH 
+       "The IP address of the interface to listen on.  The SSH 
         server will listen on all interfaces if no value is
-        specified.";
+        specified.  Please note that some addresses have special
+        meanings (e.g., '0.0.0.0' and '::').";
     }
     leaf port {
       type inet:port-number;

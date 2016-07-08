@@ -425,7 +425,13 @@ I removed all the NACM statements in the new modules
       </references>
 
       <section title="Change Log">
-        <t>This draft was split out from draft-ietf-netconf-server-model</t>
+        <section title="server-model-09 to 00">
+          <t>
+            <list style="symbols">
+              <t>This draft was split out from draft-ietf-netconf-server-model-09.</t>
+            </list>
+          </t>
+        </section>
       </section>
 
       <section title="Open Issues">
