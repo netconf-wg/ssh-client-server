@@ -39,6 +39,12 @@
                 <email>kwatsen@juniper.net</email>
             </address>
         </author>
+        <author initials="G.W." surname="Wu" fullname="Gary Wu">
+            <organization>Cisco Networks</organization>
+            <address>
+                <email>garywu@cisco.com</email>
+            </address>
+        </author>
         <date/>
         <area>Operations</area>
         <workgroup>NETCONF Working Group</workgroup>
@@ -429,6 +435,8 @@ I removed all the NACM statements in the new modules
           <t>
             <list style="symbols">
               <t>This draft was split out from draft-ietf-netconf-server-model-09.</t>
+              <t>Added in previously missing ietf-ssh-client module.</t>
+              <t>Noted that '0.0.0.0' and '::' might have special meanings.</t>
             </list>
           </t>
         </section>

@@ -1,10 +1,9 @@
 
 echo "Testing YANG syntax..."
-pyang --ietf --max-line-length=70 -p ../ ../ietf-system-keychain\@*.yang
+pyang --ietf --max-line-length=70 -p ../ ../ietf-ssh-client\@*.yang
 pyang --ietf --max-line-length=70 -p ../ ../ietf-ssh-server\@*.yang
-pyang --ietf --max-line-length=70 -p ../ ../ietf-tls-server\@*.yang
-pyang --ietf --max-line-length=70 -p ../ ../ietf-netconf-server\@*.yang
-pyang --ietf --max-line-length=70 -p ../ ../ietf-restconf-server\@*.yang
+
+exit
 
 echo "Testing keychain module..."
 ./validate.sh ietf-system-keychain\@*.yang ex-system-keychain.xml
