@@ -4,16 +4,17 @@ module ietf-ssh-client {
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-client";
   prefix "sshc";
 
-  import ietf-inet-types {
-    prefix inet;
-    reference 
-      "RFC 6991: Common YANG Data Types";
+  import ietf-netconf-acm {
+    prefix nacm;
+    reference
+      "RFC 6536: Network Configuration Protocol (NETCONF) Access
+       Control Model";
   }
 
-  import ietf-system-keychain {
-    prefix kc;
+  import ietf-keystore {
+    prefix ks;
     reference
-      "RFC YYYY: System Keychain Model";
+      "RFC YYYY: Keystore Model";
   }
 
   organization
@@ -22,12 +23,6 @@ module ietf-ssh-client {
   contact
    "WG Web:   <http://tools.ietf.org/wg/netconf/>
     WG List:  <mailto:netconf@ietf.org>
-
-    WG Chair: Mehmet Ersue
-              <mailto:mehmet.ersue@nsn.com>
-
-    WG Chair: Mahesh Jethanandani
-              <mailto:mjethanandani@gmail.com>
 
     Author:   Kent Watsen
               <mailto:kwatsen@juniper.net>
@@ -69,10 +64,11 @@ module ietf-ssh-client {
        Authentication";
   }
 
-  grouping initiating-ssh-client-grouping {
+  grouping ssh-client-grouping {
     description
-      "A reusable grouping for a SSH client that initiates the
-       underlying TCP transport connection.";
+      "A reusable grouping for configuring a SSH client without
+       any consideration for how an underlying TCP session is 
+       established.";
 
     container server-auth {
       description
@@ -80,7 +76,7 @@ module ietf-ssh-client {
 
       leaf trusted-ssh-host-keys {
         type leafref {
-          path "/kc:keychain/kc:trusted-ssh-host-keys/kc:name";
+          path "/ks:keystore/ks:trusted-ssh-host-keys/ks:name";
         }
         description
           "A reference to a list of SSH host keys used by the
@@ -92,7 +88,7 @@ module ietf-ssh-client {
       leaf trusted-ca-certs {
         if-feature ssh-x509-certs;
         type leafref {
-          path "/kc:keychain/kc:trusted-certificates/kc:name";
+          path "/ks:keystore/ks:trusted-certificates/ks:name";
         }
         description
           "A reference to a list of certificate authority (CA)
@@ -101,8 +97,9 @@ module ietf-ssh-client {
       }
 
       leaf trusted-server-certs {
+        if-feature ssh-x509-certs;
         type leafref {
-          path "/kc:keychain/kc:trusted-certificates/kc:name";
+          path "/ks:keystore/ks:trusted-certificates/ks:name";
         }
         description
           "A reference to a list of server certificates used by
@@ -117,100 +114,41 @@ module ietf-ssh-client {
         "The credentials used by the client to authenticate to
          the SSH server.";
 
-      list matches {
-        key name;
+      leaf username {
+        type string;
         description
-          "A matches expression, which performs like a firewall
-           rulebase in that each matches expression is considered
-           for a match before moving onto the next matches
-           expression.  The first matching expression terminates
-           the search, and its 'user-auth-credentials' are used
-           to log into the SSH server.";
-        leaf name {
+          "The username of this user.  This will be the username
+           used, for instance, to log into an SSH server.";
+      }
+
+      choice auth-type {
+        description
+          "The authentication type.";
+        leaf certificate {
+          if-feature ssh-x509-certs;
+          type leafref {
+            path "/keystore/keys/key/certificates/certificate/name";
+          }
+          description
+            "A certificates to be used for user authentication.";
+        }
+        leaf public-key {
+          type leafref {
+            path "/keystore/keys/key/name";
+          }
+          description
+            "A public keys to be used for user authentication.";
+        }
+        leaf password {
+          nacm:default-deny-all;
           type string;
           description
-            "An arbitrary name for this matches expression.";
-        }
-        list match {
-          key name;
-          description
-            "A match rule.  The presented SSH server's host key
-             is matched against possible trusted SSH host keys
-             and certificates.  If a match is found, the specified
-             'user-auth-credentials' is used to log into the
-             SSH server.";
-          leaf name {
-            type string;
-            description
-              "An arbitrary name for this match rule.";
-          }
-          leaf trusted-ssh-host-keys {
-            type leafref {
-              path "/kc:keychain/kc:trusted-ssh-host-keys/kc:name";
-            }
-            description
-              "A test to see if the presented SSH host key 
-               matches any of the host keys in the specified 
-               'trusted-ssh-host-keys' list maintained by the
-               system-keychain module.";
-          }
-          leaf trusted-ca-certs {
-            type leafref {
-              path "/kc:keychain/kc:trusted-certificates/kc:name";
-            }
-            description
-              "A test to see if the presented SSH host key matches
-               any of the trusted CA certificates in the specified
-               'trusted-certificates' list maintained by the 
-               system-keychain module.";
-          }
-          leaf trusted-server-certs {
-            type leafref {
-              path "/kc:keychain/kc:trusted-certificates/kc:name";
-            }
-            description
-              "A test to see if the presented SSH host key matches
-               any of the trusted server certificates in the specified
-               'trusted-certificates' list maintained by the 
-               system-keychain module.";
-          }
-        }
-        leaf user-auth-credentials {
-          type leafref {
-            path "/kc:keychain/kc:user-auth-credentials/"
-                 + "kc:user-auth-credential/kc:username";
-          }
-          description
-            "The specific user authentication credentials to use if
-             all of the above 'match' expressions match.";
+            "A password to be used for user authentication.";
         }
       }
-    }
-  }  // end initiating-ssh-client-grouping
 
-
-  grouping listening-ssh-client-grouping {
-    description
-      "A reusable grouping for a SSH client that does not
-       the underlying TCP transport connection have been
-       established using some other mechanism.";
-    leaf address {
-      type inet:ip-address;
-      description
-       "The IP address to listen for call-home connections on.";
-    }
-    leaf port {
-      type inet:port-number;
-      description
-       "The port number to listen for call-home connections.
-        When this grouping is used, it is RECOMMENED that
-        refine statement is used to either set a default port
-        value or to set mandatory true.";
-    }
-    uses initiating-ssh-client-grouping;
-  }
-
-
+    } // end client-auth
+  } // ssh-client-grouping
 
 }
 

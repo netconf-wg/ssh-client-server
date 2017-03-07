@@ -4,16 +4,10 @@ module ietf-ssh-server {
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-server";
   prefix "sshs";
 
-  import ietf-inet-types {
-    prefix inet;
-    reference 
-      "RFC 6991: Common YANG Data Types";
-  }
-
-  import ietf-system-keychain {
-    prefix kc;
+  import ietf-keystore {
+    prefix ks;
     reference
-      "RFC YYYY: System Keychain Model";
+      "RFC YYYY: Keystore Model";
   }
 
   organization
@@ -23,13 +17,7 @@ module ietf-ssh-server {
    "WG Web:   <http://tools.ietf.org/wg/netconf/>
     WG List:  <mailto:netconf@ietf.org>
 
-    WG Chair: Mehmet Ersue
-              <mailto:mehmet.ersue@nsn.com>
-
-    WG Chair: Mahesh Jethanandani
-              <mailto:mjethanandani@gmail.com>
-
-    Editor:   Kent Watsen
+    Author:   Kent Watsen
               <mailto:kwatsen@juniper.net>";
 
 
@@ -68,11 +56,11 @@ module ietf-ssh-server {
   }
 
   // grouping
-  grouping non-listening-ssh-server-grouping {
+  grouping ssh-server-grouping {
     description
-      "A reusable grouping for a SSH server that can be used as a
-       basis for specific SSH server instances.";
-
+      "A reusable grouping for configuring a SSH server without
+       any consideration for how underlying TCP sessions are 
+       established.";
     container host-keys {
       description
         "The list of host-keys the SSH server will present when
@@ -90,31 +78,31 @@ module ietf-ssh-server {
           "RFC 4253: The Secure Shell (SSH) Transport Layer Protocol";
         leaf name {
           type string;
-          mandatory true;
           description
             "An arbitrary name for this host-key";
         }
-        choice type {
+        choice host-key-type {
+          mandatory true;
           description
             "The type of host key being specified";
           leaf public-key {
             type leafref {
-              path "/kc:keychain/kc:private-keys/kc:private-key/"
-                   + "kc:name";
+              path "/ks:keystore/ks:private-keys/ks:private-key/"
+                   + "ks:name";
             }
             description
               "The public key is actually identified by the name of
-               its cooresponding private-key in the keychain.";
+               its cooresponding private-key in the keystore.";
           }
           leaf certificate {
             if-feature ssh-x509-certs;
             type leafref {
-              path "/kc:keychain/kc:private-keys/kc:private-key/"
-                   + "kc:certificate-chains/kc:certificate-chain/"
-                   + "kc:name";
+              path "/ks:keystore/ks:private-keys/ks:private-key/"
+                   + "ks:certificate-chains/ks:certificate-chain/"
+                   + "ks:name";
             }
             description
-              "The name of a certificate in the keychain.";
+              "The name of a certificate in the keystore.";
           }
         }
       }
@@ -128,7 +116,7 @@ module ietf-ssh-server {
          certificates.";
       leaf trusted-ca-certs {
         type leafref {
-          path "/kc:keychain/kc:trusted-certificates/kc:name";
+          path "/ks:keystore/ks:trusted-certificates/ks:name";
         }
         description
           "A reference to a list of certificate authority (CA) 
@@ -138,7 +126,7 @@ module ietf-ssh-server {
   
       leaf trusted-client-certs {
         type leafref {
-          path "/kc:keychain/kc:trusted-certificates/kc:name";
+          path "/ks:keystore/ks:trusted-certificates/ks:name";
         }
         description
           "A reference to a list of client certificates used by 
@@ -147,31 +135,9 @@ module ietf-ssh-server {
            exact match to a configured trusted client certificate.";
       }
     }
-  }
 
+  } // ssh-server-grouping
 
-  grouping listening-ssh-server-grouping {
-    description
-      "A reusable grouping for a SSH server that can be used as a
-       basis for specific SSH server instances.";
-    leaf address {
-      type inet:ip-address;
-      description
-       "The IP address of the interface to listen on.  The SSH 
-        server will listen on all interfaces if no value is
-        specified.  Please note that some addresses have special
-        meanings (e.g., '0.0.0.0' and '::').";
-    }
-    leaf port {
-      type inet:port-number;
-      description
-       "The local port number on this interface the SSH server 
-        listens on.  When this grouping is used, it is RECOMMENED
-        that refine statement is used to either set a default port
-        value or to set mandatory true.";
-    }
-    uses non-listening-ssh-server-grouping;
-  }
 }
 
 
