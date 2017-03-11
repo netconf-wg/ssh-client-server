@@ -5,7 +5,7 @@
   <host-keys>
     <host-key>
       <name>deployment-specific-certificate</name>
-      <certificate>ex-key-sect571r1-cert</certificate>
+      <certificate>ex-rsa-cert</certificate>
     </host-key>
   </host-keys>
 
@@ -15,12 +15,8 @@
 
   <!-- which client-certs will this SSH server trust -->
   <client-cert-auth>
-    <trusted-ca-certs>
-      deployment-specific-ca-certs
-    </trusted-ca-certs>
-    <trusted-client-certs>
-      explicitly-trusted-client-certs
-    </trusted-client-certs>
+    <trusted-ca-certs>deployment-specific-ca-certs</trusted-ca-certs>
+    <trusted-client-certs>explicitly-trusted-client-certs</trusted-client-certs>
   </client-cert-auth>
 
 </ssh-server>

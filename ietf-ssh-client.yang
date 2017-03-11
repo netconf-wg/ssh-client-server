@@ -76,7 +76,7 @@ module ietf-ssh-client {
 
       leaf trusted-ssh-host-keys {
         type leafref {
-          path "/ks:keystore/ks:trusted-ssh-host-keys/ks:name";
+          path "/ks:keystore/ks:trusted-host-keys/ks:name";
         }
         description
           "A reference to a list of SSH host keys used by the
@@ -127,14 +127,14 @@ module ietf-ssh-client {
         leaf certificate {
           if-feature ssh-x509-certs;
           type leafref {
-            path "/keystore/keys/key/certificates/certificate/name";
+            path "/ks:keystore/ks:keys/ks:key/ks:certificates/ks:certificate/ks:name";
           }
           description
             "A certificates to be used for user authentication.";
         }
         leaf public-key {
           type leafref {
-            path "/keystore/keys/key/name";
+            path "/ks:keystore/ks:keys/ks:key/ks:name";
           }
           description
             "A public keys to be used for user authentication.";

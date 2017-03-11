@@ -3,19 +3,13 @@
 
   <!-- which host-keys will this client trust -->
   <server-auth>
-    <trusted-ssh-host-keys>
-      explicitly-trusted-ssh-host-key
-    </trusted-ssh-host-keys>
+    <trusted-ssh-host-keys>explicitly-trusted-ssh-host-keys</trusted-ssh-host-keys>
   </server-auth>
 
   <!-- how this client will authenticate itself to the server -->
   <client-auth>
-    <username>
-      foobar
-    </username>
-    <public-key>
-      my-rsa-user-key
-    </public-key>
+    <username>foobar</username>
+    <public-key>ex-rsa-key</public-key>
   </client-auth>
 
 </ssh-client>

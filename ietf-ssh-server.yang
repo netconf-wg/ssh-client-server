@@ -87,8 +87,7 @@ module ietf-ssh-server {
             "The type of host key being specified";
           leaf public-key {
             type leafref {
-              path "/ks:keystore/ks:private-keys/ks:private-key/"
-                   + "ks:name";
+              path "/ks:keystore/ks:keys/ks:key/ks:name";
             }
             description
               "The public key is actually identified by the name of
@@ -97,9 +96,8 @@ module ietf-ssh-server {
           leaf certificate {
             if-feature ssh-x509-certs;
             type leafref {
-              path "/ks:keystore/ks:private-keys/ks:private-key/"
-                   + "ks:certificate-chains/ks:certificate-chain/"
-                   + "ks:name";
+              path "/ks:keystore/ks:keys/ks:key/ks:certificates/"
+                   + "ks:certificate/ks:name";
             }
             description
               "The name of a certificate in the keystore.";
