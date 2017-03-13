@@ -6,6 +6,7 @@ module ietf-ssh-server {
 
   import ietf-ssh-common {
     prefix sshcom;
+    revision-date YYYY-MM-DD; // stable grouping definitions
     reference
       "RFC XXXX: SSH Client and Server Models";
   }
