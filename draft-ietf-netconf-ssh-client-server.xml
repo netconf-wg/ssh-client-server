@@ -268,9 +268,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         widely supported by popular implementations.  Note that the list of
         algorithms is not exhaustive.  As well, some algorithms that are
         REQUIRED by <xref target="RFC4253"/> are missing, notably "ssh-dss" and
-        "diffie-hellman-group1-sha1" due to their falling out of favor with
-        security experts and there being alternatives that are widely
-        supported.</t>
+        "diffie-hellman-group1-sha1" due to their weak security and there being
+        alternatives that are widely supported.</t>
 
         <section title="Tree Diagram">
           <t>The following tree diagram presents the data model for
@@ -386,10 +385,16 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
     <back>
       <references title="Normative References">
         <?rfc include="reference.RFC.2119.xml"?>
+        <?rfc include="reference.RFC.4344.xml"?>
+        <?rfc include="reference.RFC.4419.xml"?>
+        <?rfc include="reference.RFC.5656.xml"?>
         <?rfc include="reference.RFC.6187.xml"?>
+        <?rfc include="reference.RFC.6668.xml"?>
         <?rfc include="reference.RFC.6991.xml"?>
         <?rfc include="reference.RFC.7950.xml"?>
 
+          <t>This YANG module has a normative references to <xref target="RFC4344"/>,
+          <xref target="RFC4419"/>, and <xref target="RFC5656"/>.</t>
         <reference anchor='draft-ietf-netconf-keystore' target="https://datatracker.ietf.org/html/draft-ieft-netconf-keystore">
           <front>
             <title>Keystore Model</title>
@@ -418,10 +423,6 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         <?rfc include="reference.RFC.4252.xml"?>
         <?rfc include="reference.RFC.4253.xml"?>
         <?rfc include="reference.RFC.4254.xml"?>
-        <?rfc include="reference.RFC.4344.xml"?>
-        <?rfc include="reference.RFC.4419.xml"?>
-        <?rfc include="reference.RFC.5656.xml"?>
-        <?rfc include="reference.RFC.6668.xml"?>
         <?rfc include="reference.RFC.6242.xml"?>
         <?rfc include="reference.RFC.8071.xml"?>
 
