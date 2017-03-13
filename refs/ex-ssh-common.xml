@@ -1,5 +1,5 @@
 <!-- hypothetical example, as groupings don't have instance data -->
-<transport-params xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-client">
+<transport-params xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
 
   <host-key>
     <host-key-alg>x509v3-rsa2048-sha256</host-key-alg>
