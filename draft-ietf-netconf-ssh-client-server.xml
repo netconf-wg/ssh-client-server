@@ -137,12 +137,12 @@
       <section title="The SSH Client Model" anchor="ssh-client-model">
 
         <t>The SSH client model presented in this section contains one
-        YANG grouping, to just configure the SSH client omiting, for
+        YANG grouping, to just configure the SSH client omitting, for
         instance, any configuration for which IP address or port the
         client should connect to.</t>
 
         <t>This grouping references data nodes defined by the
-        Keystore model <xref target="draft-ietf-netconf-keystore"/>.  For
+        keystore model <xref target="draft-ietf-netconf-keystore"/>.  For
         instance, a reference to the keystore model is made to indicate
         which trusted CA certificate a client should use to authenticate
         X.509v3 certificate based host keys <xref target="RFC6187"/>.</t>
@@ -201,7 +201,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
         for connections on.</t>
 
         <t>This grouping references data nodes defined by the
-        Keystore model <xref target="draft-ietf-netconf-keystore"/>.
+        keystore model <xref target="draft-ietf-netconf-keystore"/>.
         For instance, a reference to the keystore model is made to indicate
         which host key a server should present.</t>
 
@@ -452,7 +452,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
             </list>
           </t>
         </section>
-        <section title="00 to 02">
+        <section title="01 to 02">
           <t>
             <list style="symbols">
               <t>Removed the groupings 'listening-ssh-client-grouping' and
@@ -460,6 +460,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
               transport-independent groupings.</t>
               <t>Simplified the "client-auth" part in the ietf-ssh-client
               module.  It now inlines what it used to point to keystore for..</t>
+              <t>Added cipher suites for various algorithms.</t>
             </list>
           </t>
         </section>

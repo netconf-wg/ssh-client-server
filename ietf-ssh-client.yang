@@ -153,6 +153,7 @@ module ietf-ssh-client {
                 "The private key is restricted due to access-control.";
               }
             }
+          }
           description
             "A password to be used for user authentication.";
         }
