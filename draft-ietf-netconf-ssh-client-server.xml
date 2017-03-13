@@ -322,7 +322,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
       <section title="IANA Considerations">
         <section title="The IETF XML Registry">
-          <t>This document registers two URIs in the IETF XML 
+          <t>This document registers three URIs in the IETF XML 
           registry <xref target="RFC3688"/>.  Following the format in 
           <xref target="RFC3688"/>, the following registrations are
           requested:</t>
@@ -345,7 +345,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </t>
         </section>
         <section title="The YANG Module Names Registry">
-          <t>This document registers two YANG modules in the
+          <t>This document registers three YANG modules in the
           YANG Module Names registry <xref target="RFC7950"/>.
           Following the format in <xref target="RFC7950"/>, the
           the following registrations are requested:</t>
