@@ -298,6 +298,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
         </section>
 
         <section title="YANG Model" anchor="ssh-common-yang-module">
+          <t>This YANG module has a normative references to <xref target="RFC4344"/>,
+          <xref target="RFC4419"/>, and <xref target="RFC5656"/>.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -411,17 +413,6 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </front>
           <seriesInfo name="FIPS PUB" value="180-4"/>
         </reference>-->
-
-        <reference anchor="RFC793" target="https://www.ietf.org/rfc/rfc793.txt">
-          <front>
-            <title>TRANSMISSION CONTROL PROTOCOL</title>
-            <author initials="J." surname="Postel" fullname="J. Postel">
-              <organization/>
-            </author>
-            <date year="1981" month="September"/>
-          </front>
-          <seriesInfo name="STD" value="7"/>
-        </reference>
 
         <?rfc include="reference.RFC.3688.xml"?>
         <?rfc include="reference.RFC.4252.xml"?>

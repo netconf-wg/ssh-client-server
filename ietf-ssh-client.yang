@@ -130,7 +130,8 @@ module ietf-ssh-client {
         leaf certificate {
           if-feature sshcom:ssh-x509-certs;
           type leafref {
-            path "/ks:keystore/ks:keys/ks:key/ks:certificates/ks:certificate/ks:name";
+            path "/ks:keystore/ks:keys/ks:key/ks:certificates/"
+                 + "ks:certificate/ks:name";
           }
           description
             "A certificates to be used for user authentication.";
@@ -144,7 +145,14 @@ module ietf-ssh-client {
         }
         leaf password {
           nacm:default-deny-all;
-          type string;
+          type union {
+            type string;
+            type enumeration {
+              enum "RESTRICTED" {
+               description
+                "The private key is restricted due to access-control.";
+              }
+            }
           description
             "A password to be used for user authentication.";
         }
