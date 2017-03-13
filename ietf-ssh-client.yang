@@ -4,6 +4,12 @@ module ietf-ssh-client {
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-client";
   prefix "sshc";
 
+  import ietf-ssh-common {
+    prefix sshcom;
+    reference
+      "RFC XXXX: SSH Client and Server Models";
+  }
+
   import ietf-netconf-acm {
     prefix nacm;
     reference
@@ -55,13 +61,10 @@ module ietf-ssh-client {
      "RFC XXXX: SSH Client and Server Models";
   }
 
-  feature ssh-x509-certs {
+  feature ssh-client-transport-params-config {
     description
-      "The ssh-x509-certs feature indicates that the SSH
-       client supports RFC 6187";
-    reference
-      "RFC 6187: X.509v3 Certificates for Secure Shell
-       Authentication";
+      "SSH transport layer parameters are configurable on an SSH
+       client.";
   }
 
   grouping ssh-client-grouping {
@@ -86,7 +89,7 @@ module ietf-ssh-client {
       }
 
       leaf trusted-ca-certs {
-        if-feature ssh-x509-certs;
+        if-feature sshcom:ssh-x509-certs;
         type leafref {
           path "/ks:keystore/ks:trusted-certificates/ks:name";
         }
@@ -97,7 +100,7 @@ module ietf-ssh-client {
       }
 
       leaf trusted-server-certs {
-        if-feature ssh-x509-certs;
+        if-feature sshcom:ssh-x509-certs;
         type leafref {
           path "/ks:keystore/ks:trusted-certificates/ks:name";
         }
@@ -125,7 +128,7 @@ module ietf-ssh-client {
         description
           "The authentication type.";
         leaf certificate {
-          if-feature ssh-x509-certs;
+          if-feature sshcom:ssh-x509-certs;
           type leafref {
             path "/ks:keystore/ks:keys/ks:key/ks:certificates/ks:certificate/ks:name";
           }
@@ -146,8 +149,15 @@ module ietf-ssh-client {
             "A password to be used for user authentication.";
         }
       }
-
     } // end client-auth
+
+    container transport-params {
+      if-feature ssh-client-transport-params-config;
+      uses sshcom:transport-params-grouping;
+      description
+        "Configurable parameters for the SSH transport layer.";
+    }
+
   } // ssh-client-grouping
 
 }

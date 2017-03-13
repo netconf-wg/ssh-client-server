@@ -27,7 +27,7 @@
             </address>
         </author>
         <author initials="G.W." surname="Wu" fullname="Gary Wu">
-            <organization>Cisco Networks</organization>
+            <organization>Cisco Systems</organization>
             <address>
                 <email>garywu@cisco.com</email>
             </address>
@@ -36,10 +36,12 @@
         <area>Operations</area>
         <workgroup>NETCONF Working Group</workgroup>
         <abstract>
-            <t>This document defines two YANG modules, one
-            defines a grouping for a generic SSH client and the other defines
-            a grouping for a generic SSH server.  It is intended that these 
-            groupings will be used by applications using the SSH protocol.</t>
+            <t>This document defines three YANG modules: the first defines
+            groupings for a generic SSH client, the second defines groupings
+            for a generic SSH server, and the third defines common identities
+            and groupings used by both the client and the server.  It is
+            intended that these groupings will be used by applications using
+            the SSH protocol.</t>
         </abstract>
         <note title="Editorial Note (To be removed by RFC Editor)">
           <t>This draft contains many placeholder values that need to be replaced
@@ -79,17 +81,19 @@
 
         <section title="Introduction">
 
-            <t>This document defines two YANG <xref target="RFC7950"/> modules, 
-            one defines a grouping for a generic SSH client and the other 
-            defines a grouping for a generic SSH server (SSH is defined in 
-            <xref target="RFC4252"/>, <xref target="RFC4253"/>, and 
-            <xref target="RFC4254"/>).  It is intended that these groupings
-            will be used by applications using the SSH protocol.  For 
-            instance, these groupings could be used to help define the data
-            model for an OpenSSH <xref target="OPENSSH"/> server or a 
-            NETCONF over SSH <xref target="RFC6242"/> based server.</t>
+            <t>This document defines three YANG <xref target="RFC7950"/>
+            modules: the first defines a grouping for a generic SSH client, the
+            second defines a grouping for a generic SSH server, and the third
+            defines identities and groupings common to both the client and the
+            server (SSH is defined in <xref target="RFC4252"/>, <xref
+            target="RFC4253"/>, and <xref target="RFC4254"/>).  It is intended
+            that these groupings will be used by applications using the SSH
+            protocol.  For instance, these groupings could be used to help
+            define the data model for an OpenSSH <xref target="OPENSSH"/>
+            server or a NETCONF over SSH <xref target="RFC6242"/> based
+            server.</t>
 
-            <t>The two YANG modules in this document each define one grouping,
+            <t>The client and server YANG modules in this document each define one grouping,
             which is focused on just SSH-specific configuration, and specifically
             avoids any transport-level configuration, such as what ports to
             listen-on or connect-to.  This enables applications the opportunity
@@ -246,6 +250,68 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         </section>
       </section>
 
+      <section title="The SSH Common Model" anchor="ssh-common-model">
+
+        <t>The SSH common model presented in this section contains identities
+        and groupings common to both SSH clients and SSH servers.  The
+        transport-params-grouping can be used to configure the list of SSH
+        transport algorithms permitted by the SSH client or SSH server.  The
+        lists of algorithms are ordered such that, if multiple algorithms are
+        permitted by the client, the algorithm that appears first in its list
+        that is also permitted by the server is used for the SSH transport
+        layer connection.  The ability to restrict the the algorithms allowed
+        is provided in this grouping for SSH clients and SSH servers that are
+        capable of doing so and may serve to make SSH clients and SSH servers
+        compliant with security policies.</t>
+
+        <t>Features are defined for algorithms that are OPTIONAL or are not
+        widely supported by popular implementations.  Note that the list of
+        algorithms is not exhaustive.  As well, some algorithms that are
+        REQUIRED by <xref target="RFC4253"/> are missing, notably "ssh-dss" and
+        "diffie-hellman-group1-sha1" due to their falling out of favor with
+        security experts and there being alternatives that are widely
+        supported.</t>
+
+        <section title="Tree Diagram">
+          <t>The following tree diagram presents the data model for
+          the grouping defined in the ietf-ssh-common module.  Please
+          see <xref target="tree-diagrams"/> for tree diagram notation.</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree.txt)
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+
+        <section title="Example Usage">
+          <t>This section shows how it would appear if the
+          transport-params-grouping were populated with some data.</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+
+        <section title="YANG Model" anchor="ssh-common-yang-module">
+          <t>
+            <figure>
+              <artwork><![CDATA[
+
+<CODE BEGINS> file "ietf-ssh-common@YYYY-MM-DD.yang"
+
+INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
+
+<CODE ENDS>
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+      </section>
 
 
       <section title="Security Considerations">
@@ -268,6 +334,10 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
    URI: urn:ietf:params:xml:ns:yang:ietf-ssh-server
    Registrant Contact: The NETCONF WG of the IETF.
    XML: N/A, the requested URI is an XML namespace.
+
+   URI: urn:ietf:params:xml:ns:yang:ietf-ssh-common
+   Registrant Contact: The NETCONF WG of the IETF.
+   XML: N/A, the requested URI is an XML namespace.
 ]]></artwork>
             </figure>
           </t>
@@ -288,6 +358,11 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
    name:         ietf-ssh-server
    namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-server
    prefix:       sshs
+   reference:    RFC XXXX
+
+   name:         ietf-ssh-common
+   namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-common
+   prefix:       sshcom
    reference:    RFC XXXX
 ]]></artwork>
             </figure>
@@ -328,6 +403,15 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
 
       <references title="Informative References">
 
+        <!--<reference anchor='FIPS180-4' target="http://csrc.nist.gov/publications/fips/fips180-4/fips-180-4.pdf">
+          <front>
+            <title>Secure Hash Standard (SHS)</title>
+            <author fullname='National Institute of Standards and Technology'/>
+            <date year='2012' month='March'/>
+          </front>
+          <seriesInfo name="FIPS PUB" value="180-4"/>
+        </reference>-->
+
         <reference anchor="RFC793" target="https://www.ietf.org/rfc/rfc793.txt">
           <front>
             <title>TRANSMISSION CONTROL PROTOCOL</title>
@@ -343,6 +427,10 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         <?rfc include="reference.RFC.4252.xml"?>
         <?rfc include="reference.RFC.4253.xml"?>
         <?rfc include="reference.RFC.4254.xml"?>
+        <?rfc include="reference.RFC.4344.xml"?>
+        <?rfc include="reference.RFC.4419.xml"?>
+        <?rfc include="reference.RFC.5656.xml"?>
+        <?rfc include="reference.RFC.6668.xml"?>
         <?rfc include="reference.RFC.6242.xml"?>
         <?rfc include="reference.RFC.8071.xml"?>
 

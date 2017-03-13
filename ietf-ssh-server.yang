@@ -4,6 +4,12 @@ module ietf-ssh-server {
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-server";
   prefix "sshs";
 
+  import ietf-ssh-common {
+    prefix sshcom;
+    reference
+      "RFC XXXX: SSH Client and Server Models";
+  }
+
   import ietf-keystore {
     prefix ks;
     reference
@@ -46,13 +52,10 @@ module ietf-ssh-server {
   }
 
   // features
-  feature ssh-x509-certs {
+  feature ssh-server-transport-params-config {
     description
-      "The ssh-x509-certs feature indicates that the NETCONF 
-       server supports RFC 6187";
-    reference
-      "RFC 6187: X.509v3 Certificates for Secure Shell 
-       Authentication";
+      "SSH transport layer parameters are configurable on an SSH
+       server.";
   }
 
   // grouping
@@ -94,7 +97,7 @@ module ietf-ssh-server {
                its cooresponding private-key in the keystore.";
           }
           leaf certificate {
-            if-feature ssh-x509-certs;
+            if-feature sshcom:ssh-x509-certs;
             type leafref {
               path "/ks:keystore/ks:keys/ks:key/ks:certificates/"
                    + "ks:certificate/ks:name";
@@ -107,7 +110,7 @@ module ietf-ssh-server {
     }
 
     container client-cert-auth {
-      if-feature ssh-x509-certs;
+      if-feature sshcom:ssh-x509-certs;
       description
         "A reference to a list of trusted certificate authority (CA)
          certificates and a reference to a list of trusted client
@@ -132,6 +135,13 @@ module ietf-ssh-server {
            A clients certificate is authenticated if it is an
            exact match to a configured trusted client certificate.";
       }
+    }
+
+    container transport-params {
+      if-feature ssh-server-transport-params-config;
+      uses sshcom:transport-params-grouping;
+      description
+        "Configurable parameters for the SSH transport layer.";
     }
 
   } // ssh-server-grouping
