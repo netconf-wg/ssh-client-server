@@ -510,6 +510,17 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
             </list>
           </t>
         </section>
+        <section title="03 to 04">
+          <t>
+            <list style="symbols">
+              <t>Added RFC 8174 to Requirements Language Section.</t>
+              <t>Enhanced description statement for ietf-ssh-server's 
+                 "trusted-ca-certs" leaf.</t>
+              <t>Added mandatory true to ietf-ssh-client's "client-auth"
+                 'choice' statement.</t>
+            </list>
+          </t>
+        </section>
       </section>
     </back>
 </rfc>
