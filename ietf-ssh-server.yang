@@ -95,7 +95,7 @@ module ietf-ssh-server {
             }
             description
               "The public key is actually identified by the name of
-               its cooresponding private-key in the keystore.";
+               its corresponding private-key in the keystore.";
           }
           leaf certificate {
             if-feature sshcom:ssh-x509-certs;
@@ -125,7 +125,6 @@ module ietf-ssh-server {
            certificates used by the SSH server to authenticate
            SSH client certificates.";
       }
-  
       leaf trusted-client-certs {
         type leafref {
           path "/ks:keystore/ks:trusted-certificates/ks:name";

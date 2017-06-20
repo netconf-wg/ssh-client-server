@@ -75,9 +75,9 @@ module ietf-ssh-client {
        established.";
 
     container server-auth {
+      must 'trusted-ssh-host-keys or trusted-ca-certs or trusted-server-certs';
       description
         "Trusted server identities.";
-
       leaf trusted-ssh-host-keys {
         type leafref {
           path "/ks:keystore/ks:trusted-host-keys/ks:name";
@@ -97,7 +97,9 @@ module ietf-ssh-client {
         description
           "A reference to a list of certificate authority (CA)
            certificates used by the SSH client to authenticate
-           SSH server certificates.";
+           SSH server certificates.  A server certificate is
+           authenticated if it has a valid chain of trust to
+           a configured trusted CA certificate.";
       }
 
       leaf trusted-server-certs {
@@ -146,15 +148,7 @@ module ietf-ssh-client {
         }
         leaf password {
           nacm:default-deny-all;
-          type union {
-            type string;
-            type enumeration {
-              enum "RESTRICTED" {
-               description
-                "The private key is restricted due to access-control.";
-              }
-            }
-          }
+          type string;
           description
             "A password to be used for user authentication.";
         }
