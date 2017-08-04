@@ -15,8 +15,12 @@
 
   <!-- which client-certs will this SSH server trust -->
   <client-cert-auth>
-    <trusted-ca-certs>deployment-specific-ca-certs</trusted-ca-certs>
-    <trusted-client-certs>explicitly-trusted-client-certs</trusted-client-certs>
+    <trusted-ca-certs>
+      deployment-specific-ca-certs
+    </trusted-ca-certs>
+    <trusted-client-certs>
+      explicitly-trusted-client-certs
+    </trusted-client-certs>
   </client-cert-auth>
 
 </ssh-server>

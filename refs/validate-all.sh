@@ -1,8 +1,8 @@
 
 echo "Testing YANG syntax..."
-pyang --ietf --max-line-length=70 -p ../ ../ietf-ssh-client\@*.yang
-pyang --ietf --max-line-length=70 -p ../ ../ietf-ssh-server\@*.yang
-pyang --ietf --max-line-length=70 -p ../ ../ietf-ssh-common\@*.yang
+pyang --ietf --max-line-length=69 -p ../ ../ietf-ssh-client\@*.yang
+pyang --ietf --max-line-length=69 -p ../ ../ietf-ssh-server\@*.yang
+pyang --ietf --max-line-length=69 -p ../ ../ietf-ssh-common\@*.yang
 
 exit
 

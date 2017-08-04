@@ -1,29 +1,27 @@
 <!-- hypothetical example, as groupings don't have instance data -->
-<transport-params xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
+<transport-params
+    xmlns:sshcmn="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
 
   <host-key>
-    <host-key-alg>x509v3-rsa2048-sha256</host-key-alg>
-    <host-key-alg>ssh-rsa</host-key-alg>
+    <host-key-alg>sshcmn:x509v3-rsa2048-sha256</host-key-alg>
+    <host-key-alg>sshcmn:ssh-rsa</host-key-alg>
   </host-key>
   <key-exchange>
     <key-exchange-alg>
-      diffie-hellman-group-exchange-sha256
+      sshcmn:diffie-hellman-group-exchange-sha256
     </key-exchange-alg>
   </key-exchange>
   <encryption>
-    <encryption-alg>aes256-ctr</encryption-alg>
-    <encryption-alg>aes192-ctr</encryption-alg>
-    <encryption-alg>aes128-ctr</encryption-alg>
-    <encryption-alg>aes256-cbc</encryption-alg>
-    <encryption-alg>aes192-cbc</encryption-alg>
-    <encryption-alg>aes128-cbc</encryption-alg>
+    <encryption-alg>sshcmn:aes256-ctr</encryption-alg>
+    <encryption-alg>sshcmn:aes192-ctr</encryption-alg>
+    <encryption-alg>sshcmn:aes128-ctr</encryption-alg>
+    <encryption-alg>sshcmn:aes256-cbc</encryption-alg>
+    <encryption-alg>sshcmn:aes192-cbc</encryption-alg>
+    <encryption-alg>sshcmn:aes128-cbc</encryption-alg>
   </encryption>
   <mac>
-    <mac-alg>hmac-sha2-256</mac-alg>
-    <mac-alg>hmac-sha2-512</mac-alg>
+    <mac-alg>sshcmn:hmac-sha2-256</mac-alg>
+    <mac-alg>sshcmn:hmac-sha2-512</mac-alg>
   </mac>
-  <compression>
-    <compression-alg>none</compression-alg>
-  </compression>
 
 </transport-params>

@@ -5,7 +5,7 @@ module ietf-ssh-client {
   prefix "sshc";
 
   import ietf-ssh-common {
-    prefix sshcom;
+    prefix sshcmn;
     revision-date YYYY-MM-DD; // stable grouping definitions
     reference
       "RFC XXXX: SSH Client and Server Models";
@@ -15,7 +15,7 @@ module ietf-ssh-client {
     prefix nacm;
     reference
       "RFC 6536: Network Configuration Protocol (NETCONF) Access
-       Control Model";
+                 Control Model";
   }
 
   import ietf-keystore {
@@ -42,7 +42,7 @@ module ietf-ssh-client {
    "This module defines a reusable grouping for a SSH client that
     can be used as a basis for specific SSH client instances.
 
-    Copyright (c) 2014 IETF Trust and the persons identified as
+    Copyright (c) 2017 IETF Trust and the persons identified as
     authors of the code. All rights reserved.
 
     Redistribution and use in source and binary forms, with or
@@ -71,11 +71,12 @@ module ietf-ssh-client {
   grouping ssh-client-grouping {
     description
       "A reusable grouping for configuring a SSH client without
-       any consideration for how an underlying TCP session is 
+       any consideration for how an underlying TCP session is
        established.";
 
     container server-auth {
-      must 'trusted-ssh-host-keys or trusted-ca-certs or trusted-server-certs';
+      must "trusted-ssh-host-keys or trusted-ca-certs"
+           + " or trusted-server-certs";
       description
         "Trusted server identities.";
       leaf trusted-ssh-host-keys {
@@ -90,7 +91,7 @@ module ietf-ssh-client {
       }
 
       leaf trusted-ca-certs {
-        if-feature sshcom:ssh-x509-certs;
+        if-feature sshcmn:ssh-x509-certs;
         type leafref {
           path "/ks:keystore/ks:trusted-certificates/ks:name";
         }
@@ -103,7 +104,7 @@ module ietf-ssh-client {
       }
 
       leaf trusted-server-certs {
-        if-feature sshcom:ssh-x509-certs;
+        if-feature sshcmn:ssh-x509-certs;
         type leafref {
           path "/ks:keystore/ks:trusted-certificates/ks:name";
         }
@@ -132,20 +133,20 @@ module ietf-ssh-client {
         description
           "The authentication type.";
         leaf certificate {
-          if-feature sshcom:ssh-x509-certs;
+          if-feature sshcmn:ssh-x509-certs;
           type leafref {
             path "/ks:keystore/ks:keys/ks:key/ks:certificates/"
                  + "ks:certificate/ks:name";
           }
           description
-            "A certificates to be used for user authentication.";
+            "A certificate to be used for user authentication.";
         }
         leaf public-key {
           type leafref {
             path "/ks:keystore/ks:keys/ks:key/ks:name";
           }
           description
-            "A public keys to be used for user authentication.";
+            "A public key to be used for user authentication.";
         }
         leaf password {
           nacm:default-deny-all;
@@ -158,13 +159,11 @@ module ietf-ssh-client {
 
     container transport-params {
       if-feature ssh-client-transport-params-config;
-      uses sshcom:transport-params-grouping;
       description
-        "Configurable parameters for the SSH transport layer.";
+        "Configurable parameters of the SSH transport layer.";
+      uses sshcmn:transport-params-grouping;
     }
 
   } // ssh-client-grouping
 
 }
-
-

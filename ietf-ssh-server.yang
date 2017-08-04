@@ -5,7 +5,7 @@ module ietf-ssh-server {
   prefix "sshs";
 
   import ietf-ssh-common {
-    prefix sshcom;
+    prefix sshcmn;
     revision-date YYYY-MM-DD; // stable grouping definitions
     reference
       "RFC XXXX: SSH Client and Server Models";
@@ -79,7 +79,8 @@ module ietf-ssh-server {
            its SSH_MSG_KEXINIT message, as defined in Section 7.1
            of RFC 4253.";
         reference
-          "RFC 4253: The Secure Shell (SSH) Transport Layer Protocol";
+          "RFC 4253: The Secure Shell (SSH) Transport Layer
+                     Protocol";
         leaf name {
           type string;
           description
@@ -98,7 +99,7 @@ module ietf-ssh-server {
                its corresponding private-key in the keystore.";
           }
           leaf certificate {
-            if-feature sshcom:ssh-x509-certs;
+            if-feature sshcmn:ssh-x509-certs;
             type leafref {
               path "/ks:keystore/ks:keys/ks:key/ks:certificates/"
                    + "ks:certificate/ks:name";
@@ -111,7 +112,7 @@ module ietf-ssh-server {
     }
 
     container client-cert-auth {
-      if-feature sshcom:ssh-x509-certs;
+      if-feature sshcmn:ssh-x509-certs;
       description
         "A reference to a list of trusted certificate authority (CA)
          certificates and a reference to a list of trusted client
@@ -141,13 +142,11 @@ module ietf-ssh-server {
 
     container transport-params {
       if-feature ssh-server-transport-params-config;
-      uses sshcom:transport-params-grouping;
       description
-        "Configurable parameters for the SSH transport layer.";
+        "Configurable parameters of the SSH transport layer.";
+      uses sshcmn:transport-params-grouping;
     }
 
   } // ssh-server-grouping
 
 }
-
-

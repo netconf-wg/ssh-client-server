@@ -3,7 +3,9 @@
 
   <!-- which host-keys will this client trust -->
   <server-auth>
-    <trusted-ssh-host-keys>explicitly-trusted-ssh-host-keys</trusted-ssh-host-keys>
+    <trusted-ssh-host-keys>
+      explicitly-trusted-ssh-host-keys
+    </trusted-ssh-host-keys>
   </server-auth>
 
   <!-- how this client will authenticate itself to the server -->
