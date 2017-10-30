@@ -5,7 +5,7 @@ module ietf-ssh-client {
   prefix "sshc";
 
   import ietf-ssh-common {
-    prefix sshcom;
+    prefix sshcmn;
     revision-date YYYY-MM-DD; // stable grouping definitions
     reference
       "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
@@ -15,7 +15,7 @@ module ietf-ssh-client {
     prefix nacm;
     reference
       "RFC 6536: Network Configuration Protocol (NETCONF) Access
-       Control Model";
+                 Control Model";
   }
 
   import ietf-keystore {
@@ -75,7 +75,7 @@ module ietf-ssh-client {
   grouping ssh-client-grouping {
     description
       "A reusable grouping for configuring a SSH client without
-       any consideration for how an underlying TCP session is 
+       any consideration for how an underlying TCP session is
        established.";
 
     container client-identity {
@@ -95,7 +95,7 @@ module ietf-ssh-client {
         description
           "The authentication type.";
         container certificate {
-          if-feature sshcom:ssh-x509-certs;
+          if-feature sshcmn:ssh-x509-certs;
           uses ks:private-key-grouping;
           uses ks:certificate-grouping;
           description
@@ -130,7 +130,7 @@ module ietf-ssh-client {
       }
 
       leaf pinned-ca-certs {
-        if-feature sshcom:ssh-x509-certs;
+        if-feature sshcmn:ssh-x509-certs;
         type ks:pinned-certificates;
         description
           "A reference to a list of certificate authority (CA)
@@ -141,7 +141,7 @@ module ietf-ssh-client {
       }
 
       leaf pinned-server-certs {
-        if-feature sshcom:ssh-x509-certs;
+        if-feature sshcmn:ssh-x509-certs;
         type ks:pinned-certificates;
         description
           "A reference to a list of server certificates used by
@@ -153,9 +153,9 @@ module ietf-ssh-client {
 
     container transport-params {
       if-feature ssh-client-transport-params-config;
-      uses sshcom:transport-params-grouping;
       description
-        "Configurable parameters for the SSH transport layer.";
+        "Configurable parameters of the SSH transport layer.";
+      uses sshcmn:transport-params-grouping;
     }
 
   }

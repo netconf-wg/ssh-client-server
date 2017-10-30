@@ -2,7 +2,7 @@ module ietf-ssh-common {
   yang-version 1.1;
 
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-common";
-  prefix "sshcom";
+  prefix "sshcmn";
 
   organization
    "IETF NETCONF (Network Configuration) Working Group";
@@ -83,13 +83,6 @@ module ietf-ssh-common {
       "FIPS PUB 180-4: Secure Hash Standard (SHS)";
   }
 
-  feature ssh-zlib {
-    description
-      "ZLIB (LZ77) compression is supported for SSH.";
-    reference
-      "RFC 4253: The Secure Shell (SSH) Transport Layer Protocol";
-  }
-
   // identities
 
   identity public-key-alg-base {
@@ -152,8 +145,8 @@ module ietf-ssh-common {
     base public-key-alg-base;
     if-feature ssh-x509-certs;
     description
-      "RSASSA-PKCS1-v1_5 signature scheme using a public key stored in
-       an X.509v3 certificate and using SHA-1 as the hashing
+      "RSASSA-PKCS1-v1_5 signature scheme using a public key stored
+       in an X.509v3 certificate and using SHA-1 as the hashing
        algorithm.";
     reference
       "RFC 6187: X.509v3 Certificates for Secure Shell
@@ -164,13 +157,13 @@ module ietf-ssh-common {
     base public-key-alg-base;
     if-feature "ssh-x509-certs and ssh-sha2";
     description
-      "RSASSA-PKCS1-v1_5 signature scheme using a public key stored in
-       an X.509v3 certificate and using SHA-256 as the hashing
+      "RSASSA-PKCS1-v1_5 signature scheme using a public key stored
+       in an X.509v3 certificate and using SHA-256 as the hashing
        algorithm.  RSA keys conveyed using this format MUST have a
        modulus of at least 2048 bits.";
     reference
       "RFC 6187: X.509v3 Certificates for Secure Shell
-       Authentication";
+                 Authentication";
   }
 
   identity x509v3-ecdsa-sha2-nistp256 {
@@ -182,7 +175,7 @@ module ietf-ssh-common {
        certificate and using the SHA2 family of hashing algorithms.";
     reference
       "RFC 6187: X.509v3 Certificates for Secure Shell
-       Authentication";
+                 Authentication";
   }
 
   identity x509v3-ecdsa-sha2-nistp384 {
@@ -194,7 +187,7 @@ module ietf-ssh-common {
        certificate and using the SHA2 family of hashing algorithms.";
     reference
       "RFC 6187: X.509v3 Certificates for Secure Shell
-       Authentication";
+                 Authentication";
   }
 
   identity x509v3-ecdsa-sha2-nistp521 {
@@ -206,7 +199,7 @@ module ietf-ssh-common {
        certificate and using the SHA2 family of hashing algorithms.";
     reference
       "RFC 6187: X.509v3 Certificates for Secure Shell
-       Authentication";
+                 Authentication";
   }
 
   identity key-exchange-alg-base {
@@ -320,7 +313,7 @@ module ietf-ssh-common {
       "AES in SDCTR mode, with 128-bit key.";
     reference
       "RFC 4344: The Secure Shell (SSH) Transport Layer Encryption
-         Modes";
+                 Modes";
   }
 
   identity aes192-ctr {
@@ -330,7 +323,7 @@ module ietf-ssh-common {
       "AES in SDCTR mode, with 192-bit key.";
     reference
       "RFC 4344: The Secure Shell (SSH) Transport Layer Encryption
-         Modes";
+                 Modes";
   }
 
   identity aes256-ctr {
@@ -377,36 +370,11 @@ module ietf-ssh-common {
                  Secure Shell (SSH) Transport Layer Protocol";
   }
 
-  identity compression-alg-base {
-    description
-      "Base identity used to identify compression algorithms.";
-  }
-
-  identity none {
-    base compression-alg-base;
-    description
-      "No compression.";
-    reference
-      "RFC 4253: The Secure Shell (SSH) Transport Layer Protocol";
-  }
-
-  identity zlib {
-    base compression-alg-base;
-    if-feature ssh-zlib;
-    description
-      "ZLIB (LZ77) compression.";
-    reference
-      "RFC 4253: The Secure Shell (SSH) Transport Layer Protocol";
-  }
-
   // groupings
 
   grouping transport-params-grouping {
     description
-      "A reusable grouping for SSH transport parameters.
-       For configurable parameters, a zero-element leaf-list of
-       algorithms indicates the system default configuration for that
-       parameter.";
+      "A reusable grouping for SSH transport parameters.";
     reference
       "RFC 4253: The Secure Shell (SSH) Transport Layer Protocol";
     container host-key {
@@ -418,7 +386,12 @@ module ietf-ssh-common {
         }
         ordered-by user;
         description
-          "Host key algorithms in order of descending preference.";
+          "Acceptable host key algorithms in order of descending
+           preference.
+
+           If this leaf-list is not configured (has zero elements)
+           the acceptable host key algorithms are implementation-
+           defined.";
       }
     }
     container key-exchange {
@@ -430,8 +403,12 @@ module ietf-ssh-common {
         }
         ordered-by user;
         description
-          "Key exchange algorithms in order of descending
-           preference.";
+          "Acceptable key exchange algorithms in order of descending
+           preference.
+
+           If this leaf-list is not configured (has zero elements)
+           the acceptable key exchange algorithms are implementation-
+           defined.";
       }
     }
     container encryption {
@@ -443,7 +420,12 @@ module ietf-ssh-common {
         }
         ordered-by user;
         description
-          "Encryption algorithms in order of descending preference.";
+          "Acceptable encryption algorithms in order of descending
+           preference.
+
+           If this leaf-list is not configured (has zero elements)
+           the acceptable encryption algorithms are implementation-
+           defined.";
       }
     }
     container mac {
@@ -455,20 +437,15 @@ module ietf-ssh-common {
         }
         ordered-by user;
         description
-          "MAC algorithms in order of descending preference.";
+          "Acceptable MAC algorithms in order of descending
+           preference.
+
+           If this leaf-list is not configured (has zero elements)
+           the acceptable MAC algorithms are implementation-
+           defined.";
       }
     }
-    container compression {
-      description
-        "Parameters regarding compression.";
-      leaf-list compression-alg {
-        type identityref {
-          base compression-alg-base;
-        }
-        ordered-by user;
-        description
-          "Compression algorithms in order of descending preference.";
-      }
-    }
-  }
+
+  } // transport-params-grouping
+
 }

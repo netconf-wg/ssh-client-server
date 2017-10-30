@@ -150,7 +150,7 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-client.xml,68)
         </section>
 
         <section title="YANG Module" anchor="ssh-client-yang-module">
-          <t>This YANG module has a normative references to <xref target="RFC6991"/>
+          <t>This YANG module has normative references to <xref target="RFC6991"/>
           and <xref target="I-D.ietf-netconf-keystore"/>.</t>
           <t>
             <figure>
@@ -204,7 +204,7 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-server.xml,68)
         </section>
 
         <section title="YANG Module" anchor="ssh-server-yang-module">
-          <t>This YANG module has a normative references to <xref target="RFC4253"/>,
+          <t>This YANG module has normative references to <xref target="RFC4253"/>,
           <xref target="RFC6991"/>, and <xref target="I-D.ietf-netconf-keystore"/>.</t>
           <t>
             <figure>
@@ -264,7 +264,7 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
         </section>
 
         <section title="YANG Module" anchor="ssh-common-yang-module">
-          <t>This YANG module has a normative references to <xref target="RFC4344"/>,
+          <t>This YANG module has normative references to <xref target="RFC4344"/>,
           <xref target="RFC4419"/>, <xref target="RFC5656"/>, and <xref target="RFC6668"/>.</t>
           <t>
             <figure>
@@ -375,7 +375,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
    name:         ietf-ssh-common
    namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-common
-   prefix:       sshcom
+   prefix:       sshcmn
    reference:    RFC XXXX
 ]]></artwork>
             </figure>
@@ -482,9 +482,22 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
                  "trusted-ca-certs" leaf.</t>
               <t>Added mandatory true to ietf-ssh-client's "client-auth"
                  'choice' statement.</t>
+              <t>Changed the YANG prefix for module ietf-ssh-common
+                 from 'sshcom' to 'sshcmn'.</t>
+              <t>Removed the compression algorithms as they are not commonly
+                 configurable in vendors' implementations.</t>
+              <t>Updating descriptions in transport-params-grouping and
+                 the servers's usage of it.</t>
               <t>Now tree diagrams reference ietf-netmod-yang-tree-diagrams</t>
               <t>Updated YANG to use typedefs around leafrefs to common keystore paths</t>
               <t>Now inlines key and certificates (no longer a leafref to keystore)</t>
+            </list>
+          </t>
+        </section>
+        <section title="04 to 05">
+          <t>
+            <list style="symbols">
+              <t>Merged changes from co-author.</t>
             </list>
           </t>
         </section>
