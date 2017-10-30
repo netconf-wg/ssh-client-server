@@ -19,7 +19,7 @@
      ipr="trust200902"
      docName="draft-ietf-netconf-ssh-client-server-latest" >
     <front>
-        <title>SSH Client and Server Models</title>
+        <title>YANG Groupings for SSH Clients and SSH Servers</title>
         <author initials="K.W." surname="Watsen" fullname="Kent Watsen">
             <organization>Juniper Networks</organization>
             <address>
@@ -78,66 +78,42 @@
     </front>
     <middle>
 
-        <section title="Introduction">
+      <section title="Introduction">
+        <t>This document defines three YANG <xref target="RFC7950"/>
+        modules: the first defines a grouping for a generic SSH client, the
+        second defines a grouping for a generic SSH server, and the third
+        defines identities and groupings common to both the client and the
+        server (SSH is defined in <xref target="RFC4252"/>, <xref
+        target="RFC4253"/>, and <xref target="RFC4254"/>).  It is intended
+        that these groupings will be used by applications using the SSH
+        protocol.  For instance, these groupings could be used to help
+        define the data model for an OpenSSH <xref target="OPENSSH"/>
+        server or a NETCONF over SSH <xref target="RFC6242"/> based
+        server.</t>
 
-            <t>This document defines three YANG <xref target="RFC7950"/>
-            modules: the first defines a grouping for a generic SSH client, the
-            second defines a grouping for a generic SSH server, and the third
-            defines identities and groupings common to both the client and the
-            server (SSH is defined in <xref target="RFC4252"/>, <xref
-            target="RFC4253"/>, and <xref target="RFC4254"/>).  It is intended
-            that these groupings will be used by applications using the SSH
-            protocol.  For instance, these groupings could be used to help
-            define the data model for an OpenSSH <xref target="OPENSSH"/>
-            server or a NETCONF over SSH <xref target="RFC6242"/> based
-            server.</t>
+        <t>The client and server YANG modules in this document each define one grouping,
+        which is focused on just SSH-specific configuration, and specifically
+        avoids any transport-level configuration, such as what ports to
+        listen-on or connect-to.  This enables applications the opportunity
+        to define their own strategy for how the underlying TCP connection
+        is established.  For instance, applications supporting NETCONF Call Home 
+        <xref target="RFC8071"/> could use the grouping for the SSH parts it
+        provides, while adding data nodes for the TCP-level call-home
+        configuration.</t>
+      </section>
 
-            <t>The client and server YANG modules in this document each define one grouping,
-            which is focused on just SSH-specific configuration, and specifically
-            avoids any transport-level configuration, such as what ports to
-            listen-on or connect-to.  This enables applications the opportunity
-            to define their own strategy for how the underlying TCP connection
-            is established.  For instance, applications supporting NETCONF Call Home 
-            <xref target="RFC8071"/> could use the grouping for the SSH parts it
-            provides, while adding data nodes for the TCP-level call-home
-            configuration.</t>
-
-            <section title="Terminology">
-              <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
-              NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
-              "MAY", and "OPTIONAL" in this document are to be interpreted as
-              described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/>
-              when, and only when, they appear in all capitals, as shown here.</t>
-            </section>
-
-            <section title="Tree Diagrams" anchor="tree-diagrams">
-            <t>A simplified graphical representation of the data models
-            is used in this document.  The meaning of the symbols in
-            these diagrams is as follows:
-              <list style="symbols">
-                <t>Brackets "[" and "]" enclose list keys.</t>
-                <t>Braces "{" and "}" enclose feature names, and indicate
-                that the named feature must be present for the subtree
-                to be present.</t>
-                <t>Abbreviations before data node names: "rw" means
-                configuration (read-write) and "ro" state data 
-                (read-only).</t>
-                <t>Symbols after data node names: "?" means an optional
-                node, "!" means a presence container, and "*" denotes a
-                list and leaf-list.</t>
-                <t>Parentheses enclose choice and case nodes, and case
-                nodes are also marked with a colon (":").</t>
-                <t>Ellipsis ("...") stands for contents of subtrees that
-                are not shown.</t>
-              </list>
-            </t>
-            </section>
-        </section>
+      <section title="Terminology">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+        NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+        "MAY", and "OPTIONAL" in this document are to be interpreted as
+        described in BCP 14 <xref target="RFC2119"/> <xref target="RFC8174"/>
+        when, and only when, they appear in all capitals, as shown here.</t>
+      </section>
 
       <section title="The SSH Client Model" anchor="ssh-client-model">
 
         <t>The SSH client model presented in this section contains one
-        YANG grouping, to just configure the SSH client omitting, for
+        YANG grouping, to just configure the SSH client, omitting, for
         instance, any configuration for which IP address or port the
         client should connect to.</t>
 
@@ -148,9 +124,8 @@
         X.509v3 certificate based host keys <xref target="RFC6187"/>.</t>
 
         <section title="Tree Diagram">
-          <t>The following tree diagram presents the data model for
-          the grouping defined in the ietf-ssh-client module.  Please
-          see <xref target="tree-diagrams"/> for tree diagram notation.</t>
+          <t>The following tree diagram <xref target="I-D.ietf-netmod-yang-tree-diagrams"/>
+          provides an overview of the data model for the "ietf-ssh-client" module.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -168,23 +143,20 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree.txt)
           <t>
             <figure>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ex-ssh-client.xml)
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-client.xml,68)
 ]]></artwork>
             </figure>
           </t>
         </section>
 
-        <section title="YANG Model" anchor="ssh-client-yang-module">
+        <section title="YANG Module" anchor="ssh-client-yang-module">
           <t>This YANG module has a normative references to <xref target="RFC6991"/>
           and <xref target="I-D.ietf-netconf-keystore"/>.</t>
           <t>
             <figure>
               <artwork><![CDATA[
-
 <CODE BEGINS> file "ietf-ssh-client@YYYY-MM-DD.yang"
-
 INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
-
 <CODE ENDS>
 ]]></artwork>
             </figure>
@@ -196,7 +168,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
       <section title="The SSH Server Model" anchor="ssh-server-model">
 
         <t>The SSH server model presented in this section contains one
-        YANG grouping, for just the SSH-level configuration omitting,
+        YANG grouping, for just the SSH-level configuration, omitting,
         for instance, configuration for which ports to open to listen
         for connections on.</t>
 
@@ -206,9 +178,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
         which host key a server should present.</t>
 
         <section title="Tree Diagram">
-          <t>The following tree diagram presents the data model for
-          the grouping defined in the ietf-ssh-server module. Please
-          see <xref target="tree-diagrams"/> for tree diagram notation.</t>
+          <t>The following tree diagram <xref target="I-D.ietf-netmod-yang-tree-diagrams"/>
+          provides an overview of the data model for the "ietf-ssh-server" module.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -226,23 +197,20 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree.txt)
           <t>
             <figure>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ex-ssh-server.xml)
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-server.xml,68)
 ]]></artwork>
             </figure>
           </t>
         </section>
 
-        <section title="YANG Model" anchor="ssh-server-yang-module">
+        <section title="YANG Module" anchor="ssh-server-yang-module">
           <t>This YANG module has a normative references to <xref target="RFC4253"/>,
           <xref target="RFC6991"/>, and <xref target="I-D.ietf-netconf-keystore"/>.</t>
           <t>
             <figure>
               <artwork><![CDATA[
-
 <CODE BEGINS> file "ietf-ssh-server@YYYY-MM-DD.yang"
-
 INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
-
 <CODE ENDS>
 ]]></artwork>
             </figure>
@@ -272,9 +240,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         alternatives that are widely supported.</t>
 
         <section title="Tree Diagram">
-          <t>The following tree diagram presents the data model for
-          the grouping defined in the ietf-ssh-common module.  Please
-          see <xref target="tree-diagrams"/> for tree diagram notation.</t>
+          <t>The following tree diagram <xref target="I-D.ietf-netmod-yang-tree-diagrams"/>
+          provides an overview of the data model for the "ietf-ssh-common" module.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -296,17 +263,14 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
           </t>
         </section>
 
-        <section title="YANG Model" anchor="ssh-common-yang-module">
+        <section title="YANG Module" anchor="ssh-common-yang-module">
           <t>This YANG module has a normative references to <xref target="RFC4344"/>,
-          <xref target="RFC4419"/>, and <xref target="RFC5656"/>.</t>
+          <xref target="RFC4419"/>, <xref target="RFC5656"/>, and <xref target="RFC6668"/>.</t>
           <t>
             <figure>
               <artwork><![CDATA[
-
 <CODE BEGINS> file "ietf-ssh-common@YYYY-MM-DD.yang"
-
 INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
-
 <CODE ENDS>
 ]]></artwork>
             </figure>
@@ -316,7 +280,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
 
       <section title="Security Considerations">
-        <t>The YANG module defined in this document is designed to be accessed via YANG
+        <t>The YANG modules defined in this document are designed to be accessed via YANG
         based management protocols, such as NETCONF <xref target="RFC6241"/> and
         RESTCONF <xref target="RFC8040"/>.  Both of these protocols have mandatory-to-implement
         secure transport layers (e.g., SSH, TLS) with mutual authentication.</t>
@@ -325,31 +289,36 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         to restrict access for particular users to a pre-configured subset of all available
         protocol operations and content.</t>
 
-        <t>There are a number of data nodes defined in this YANG module that are
+        <t>Since the modules defined in this document define only groupings, these
+        considerations are primarily for the designers of other modules that use
+        these groupings.</t>
+ 
+        <t>There are a number of data nodes defined in the YANG modules that are
         writable/creatable/deletable (i.e., config true, which is the default). These data
         nodes may be considered sensitive or vulnerable in some network environments. Write
         operations (e.g., edit-config) to these data nodes without proper protection can
         have a negative effect on network operations. These are the subtrees and data nodes
         and their sensitivity/vulnerability:
           <list style="hanging" hangIndent="6">
-            <t hangText="   /:">The entire data tree defined by this module is sensitive to
-              write operations.  For instance, the addition or removal of references to
-              keys, certificates, trusted anchors, etc., can dramatically alter the 
-              implemented security policy.  However, no NACM annotations are applied as
-              the data SHOULD be editable by users other than a designated 'recovery session'.</t>
+            <t hangText="   /:">The entire data tree defined by all the modules defined in
+              this draft are sensitive to write operations.  For instance, the addition or
+              removal of references to keys, certificates, trusted anchors, etc., can
+              dramatically alter the implemented security policy.  However, no NACM
+              annotations are applied as the data SHOULD be editable by users other than
+              a designated 'recovery session'.</t>
           </list>
         </t>
 
-        <t>Some of the readable data nodes in this YANG module may be considered sensitive
+        <t>Some of the readable data nodes in the YANG modules may be considered sensitive
         or vulnerable in some network environments. It is thus important to control read
         access (e.g., via get, get-config, or notification) to these data nodes. These are
         the subtrees and data nodes and their sensitivity/vulnerability:
           <list style="hanging" hangIndent="6">
-            <t hangText="   /client-auth/password:">This node is additionally
-              sensitive to read operations such that, in normal use cases, it should never
-              be returned to a client.  The best reason for returning this node is to support
-              backup/restore type workflows.  This being the case, this node is marked
-              with the NACM value 'default-deny-all'.</t>
+            <t hangText="   /client-auth/password:">This node in the 'ietf-ssh-client' module
+              is additionally sensitive to read operations such that, in normal use cases, it 
+              should never be returned to a client.  The only time this node should be returned
+              is to support backup/restore type workflows.  This being the case, this node is
+              marked with the NACM value 'default-deny-all'.</t>
           </list>
         </t>
 
@@ -459,6 +428,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         <?rfc include="reference.RFC.6242.xml"?>
         <?rfc include="reference.RFC.8040.xml"?>
         <?rfc include="reference.RFC.8071.xml"?>
+        <?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams"?>
 
         <reference anchor='OPENSSH' target="http://www.openssh.com">
           <front>
@@ -471,18 +441,10 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       </references>
 
       <section title="Change Log">
-        <section title="server-model-09 to 00">
-          <t>
-            <list style="symbols">
-              <t>This draft was split out from draft-ietf-netconf-server-model-09.</t>
-              <t>Added in previously missing ietf-ssh-client module.</t>
-              <t>Noted that '0.0.0.0' and '::' might have special meanings.</t>
-            </list>
-          </t>
-        </section>
         <section title="00 to 01">
           <t>
             <list style="symbols">
+              <t>Noted that '0.0.0.0' and '::' might have special meanings.</t>
               <t>Renamed "keychain" to "keystore".</t>
             </list>
           </t>
@@ -513,11 +475,16 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         <section title="03 to 04">
           <t>
             <list style="symbols">
+              <t>Change title to "YANG Groupings for SSH Clients and SSH Servers"</t>
+              <t>Added reference to RFC 6668</t>
               <t>Added RFC 8174 to Requirements Language Section.</t>
               <t>Enhanced description statement for ietf-ssh-server's 
                  "trusted-ca-certs" leaf.</t>
               <t>Added mandatory true to ietf-ssh-client's "client-auth"
                  'choice' statement.</t>
+              <t>Now tree diagrams reference ietf-netmod-yang-tree-diagrams</t>
+              <t>Updated YANG to use typedefs around leafrefs to common keystore paths</t>
+              <t>Now inlines key and certificates (no longer a leafref to keystore)</t>
             </list>
           </t>
         </section>

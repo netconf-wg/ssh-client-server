@@ -8,7 +8,7 @@ module ietf-ssh-server {
     prefix sshcom;
     revision-date YYYY-MM-DD; // stable grouping definitions
     reference
-      "RFC XXXX: SSH Client and Server Models";
+      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   import ietf-keystore {
@@ -25,14 +25,17 @@ module ietf-ssh-server {
     WG List:  <mailto:netconf@ietf.org>
 
     Author:   Kent Watsen
-              <mailto:kwatsen@juniper.net>";
+              <mailto:kwatsen@juniper.net>
+
+    Author:   Gary Wu
+              <mailto:garywu@cisco.com>";
 
 
   description
    "This module defines a reusable grouping for a SSH server that
     can be used as a basis for specific SSH server instances.
 
-    Copyright (c) 2014 IETF Trust and the persons identified as
+    Copyright (c) 2017 IETF Trust and the persons identified as
     authors of the code. All rights reserved.
 
     Redistribution and use in source and binary forms, with or
@@ -49,23 +52,25 @@ module ietf-ssh-server {
     description
      "Initial version";
     reference
-     "RFC XXXX: SSH Client and Server Models";
+     "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   // features
+
   feature ssh-server-transport-params-config {
     description
       "SSH transport layer parameters are configurable on an SSH
        server.";
   }
 
-  // grouping
+  // groupings
+
   grouping ssh-server-grouping {
     description
       "A reusable grouping for configuring a SSH server without
        any consideration for how underlying TCP sessions are 
        established.";
-    container host-keys {
+    container server-identity {
       description
         "The list of host-keys the SSH server will present when
          establishing a SSH connection.";
@@ -89,22 +94,17 @@ module ietf-ssh-server {
           mandatory true;
           description
             "The type of host key being specified";
-          leaf public-key {
-            type leafref {
-              path "/ks:keystore/ks:keys/ks:key/ks:name";
-            }
+          container public-key {
+            uses ks:private-key-grouping;
             description
-              "The public key is actually identified by the name of
-               its corresponding private-key in the keystore.";
+              "The SSH server uses a public-key for its host key.";
           }
-          leaf certificate {
+          container certificate {
             if-feature sshcom:ssh-x509-certs;
-            type leafref {
-              path "/ks:keystore/ks:keys/ks:key/ks:certificates/"
-                   + "ks:certificate/ks:name";
-            }
+            uses ks:private-key-grouping;
+            uses ks:certificate-grouping; 
             description
-              "The name of a certificate in the keystore.";
+              "The SSH server uses a certificate for its host key.";
           }
         }
       }
@@ -113,29 +113,25 @@ module ietf-ssh-server {
     container client-cert-auth {
       if-feature sshcom:ssh-x509-certs;
       description
-        "A reference to a list of trusted certificate authority (CA)
-         certificates and a reference to a list of trusted client
+        "A reference to a list of pinned certificate authority (CA)
+         certificates and a reference to a list of pinned client
          certificates.";
-      leaf trusted-ca-certs {
-        type leafref {
-          path "/ks:keystore/ks:trusted-certificates/ks:name";
-        }
+      leaf pinned-ca-certs {
+        type ks:pinned-certificates;
         description
           "A reference to a list of certificate authority (CA) 
            certificates used by the SSH server to authenticate
            SSH client certificates.  A client certificate is
            authenticated if it has a valid chain of trust to
-           a configured trusted CA certificate.";
+           a configured pinned CA certificate.";
       }
-      leaf trusted-client-certs {
-        type leafref {
-          path "/ks:keystore/ks:trusted-certificates/ks:name";
-        }
+      leaf pinned-client-certs {
+        type ks:pinned-certificates;
         description
           "A reference to a list of client certificates used by 
            the SSH server to authenticate SSH client certificates.
            A clients certificate is authenticated if it is an
-           exact match to a configured trusted client certificate.";
+           exact match to a configured pinned client certificate.";
       }
     }
 
@@ -146,8 +142,5 @@ module ietf-ssh-server {
         "Configurable parameters for the SSH transport layer.";
     }
 
-  } // ssh-server-grouping
-
+  }
 }
-
-

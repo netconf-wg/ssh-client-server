@@ -1,15 +1,47 @@
 <!-- hypothetical example, as groupings don't have instance data -->
-<ssh-client xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-client">
+<ssh-client xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-client"
+            xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
+
+  <!-- how this client will authenticate itself to the server -->
+  <client-identity>
+    <username>foobar</username>
+    <public-key>
+      <algorithm xmlns:ks="urn:ietf:params:xml:ns:yang:ietf-keystore">ks:secp521r1</algorithm>
+      <private-key>base64encodedvalue==</private-key>
+      <public-key>base64encodedvalue==</public-key>
+    </public-key>
+  </client-identity>
 
   <!-- which host-keys will this client trust -->
   <server-auth>
-    <trusted-ssh-host-keys>explicitly-trusted-ssh-host-keys</trusted-ssh-host-keys>
+    <pinned-ssh-host-keys>explicitly-trusted-ssh-host-keys</pinned-ssh-host-keys>
   </server-auth>
 
-  <!-- how this client will authenticate itself to the server -->
-  <client-auth>
-    <username>foobar</username>
-    <public-key>ex-rsa-key</public-key>
-  </client-auth>
-
+  <transport-params>
+    <host-key>
+      <host-key-alg>algs:ssh-rsa</host-key-alg>
+    </host-key>
+    <key-exchange>
+      <key-exchange-alg>
+        algs:diffie-hellman-group-exchange-sha256
+      </key-exchange-alg>
+    </key-exchange>
+    <encryption>
+      <encryption-alg>algs:aes256-ctr</encryption-alg>
+      <encryption-alg>algs:aes192-ctr</encryption-alg>
+      <encryption-alg>algs:aes128-ctr</encryption-alg>
+      <encryption-alg>algs:aes256-cbc</encryption-alg>
+      <encryption-alg>algs:aes192-cbc</encryption-alg>
+      <encryption-alg>algs:aes128-cbc</encryption-alg>
+    </encryption>
+    <mac>
+      <mac-alg>algs:hmac-sha2-256</mac-alg>
+      <mac-alg>algs:hmac-sha2-512</mac-alg>
+    </mac>
+    <compression>
+      <compression-alg>algs:none</compression-alg>
+    </compression>
+  
+  </transport-params>
+  
 </ssh-client>

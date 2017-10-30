@@ -1,22 +1,49 @@
 <!-- hypothetical example, as groupings don't have instance data -->
-<ssh-server xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-server">
+<ssh-server xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-server"
+            xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
 
   <!-- which host-keys will this SSH server present -->
-  <host-keys>
+  <server-identity>
     <host-key>
       <name>deployment-specific-certificate</name>
-      <certificate>ex-rsa-cert</certificate>
+      <public-key>
+        <algorithm xmlns:ks="urn:ietf:params:xml:ns:yang:ietf-keystore">ks:secp521r1</algorithm>
+        <private-key>base64encodedvalue==</private-key>
+        <public-key>base64encodedvalue==</public-key>
+      </public-key>
     </host-key>
-  </host-keys>
-
-  <!-- NOTE: password/public-key auth is NOT configured here, -->
-  <!-- as it is configured in the ietf-system (RFC 7317)      -->
-  <!-- module instead.                                        -->
+  </server-identity>
 
   <!-- which client-certs will this SSH server trust -->
   <client-cert-auth>
-    <trusted-ca-certs>deployment-specific-ca-certs</trusted-ca-certs>
-    <trusted-client-certs>explicitly-trusted-client-certs</trusted-client-certs>
+    <pinned-ca-certs>deployment-specific-ca-certs</pinned-ca-certs>
+    <pinned-client-certs>explicitly-trusted-client-certs</pinned-client-certs>
   </client-cert-auth>
+
+  <transport-params>
+    <host-key>
+      <host-key-alg>algs:ssh-rsa</host-key-alg>
+    </host-key>
+    <key-exchange>
+      <key-exchange-alg>
+        algs:diffie-hellman-group-exchange-sha256
+      </key-exchange-alg>
+    </key-exchange>
+    <encryption>
+      <encryption-alg>algs:aes256-ctr</encryption-alg>
+      <encryption-alg>algs:aes192-ctr</encryption-alg>
+      <encryption-alg>algs:aes128-ctr</encryption-alg>
+      <encryption-alg>algs:aes256-cbc</encryption-alg>
+      <encryption-alg>algs:aes192-cbc</encryption-alg>
+      <encryption-alg>algs:aes128-cbc</encryption-alg>
+    </encryption>
+    <mac>
+      <mac-alg>algs:hmac-sha2-256</mac-alg>
+      <mac-alg>algs:hmac-sha2-512</mac-alg>
+    </mac>
+    <compression>
+      <compression-alg>algs:none</compression-alg>
+    </compression>
+  </transport-params>
 
 </ssh-server>

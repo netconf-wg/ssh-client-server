@@ -8,7 +8,7 @@ module ietf-ssh-client {
     prefix sshcom;
     revision-date YYYY-MM-DD; // stable grouping definitions
     reference
-      "RFC XXXX: SSH Client and Server Models";
+      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   import ietf-netconf-acm {
@@ -42,7 +42,7 @@ module ietf-ssh-client {
    "This module defines a reusable grouping for a SSH client that
     can be used as a basis for specific SSH client instances.
 
-    Copyright (c) 2014 IETF Trust and the persons identified as
+    Copyright (c) 2017 IETF Trust and the persons identified as
     authors of the code. All rights reserved.
 
     Redistribution and use in source and binary forms, with or
@@ -59,8 +59,10 @@ module ietf-ssh-client {
     description
      "Initial version";
     reference
-     "RFC XXXX: SSH Client and Server Models";
+     "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
+
+  // features
 
   feature ssh-client-transport-params-config {
     description
@@ -68,54 +70,15 @@ module ietf-ssh-client {
        client.";
   }
 
+  // groupings
+
   grouping ssh-client-grouping {
     description
       "A reusable grouping for configuring a SSH client without
        any consideration for how an underlying TCP session is 
        established.";
 
-    container server-auth {
-      must 'trusted-ssh-host-keys or trusted-ca-certs or trusted-server-certs';
-      description
-        "Trusted server identities.";
-      leaf trusted-ssh-host-keys {
-        type leafref {
-          path "/ks:keystore/ks:trusted-host-keys/ks:name";
-        }
-        description
-          "A reference to a list of SSH host keys used by the
-           SSH client to authenticate SSH server host keys.
-           A server host key is authenticate if it is an exact
-           match to a configured trusted SSH host key.";
-      }
-
-      leaf trusted-ca-certs {
-        if-feature sshcom:ssh-x509-certs;
-        type leafref {
-          path "/ks:keystore/ks:trusted-certificates/ks:name";
-        }
-        description
-          "A reference to a list of certificate authority (CA)
-           certificates used by the SSH client to authenticate
-           SSH server certificates.  A server certificate is
-           authenticated if it has a valid chain of trust to
-           a configured trusted CA certificate.";
-      }
-
-      leaf trusted-server-certs {
-        if-feature sshcom:ssh-x509-certs;
-        type leafref {
-          path "/ks:keystore/ks:trusted-certificates/ks:name";
-        }
-        description
-          "A reference to a list of server certificates used by
-           the SSH client to authenticate SSH server certificates.
-           A server certificate is authenticated if it is an
-           exact match to a configured trusted server certificate.";
-      }
-    }
-
-    container client-auth {
+    container client-identity {
       description
         "The credentials used by the client to authenticate to
          the SSH server.";
@@ -131,30 +94,62 @@ module ietf-ssh-client {
         mandatory true;
         description
           "The authentication type.";
-        leaf certificate {
+        container certificate {
           if-feature sshcom:ssh-x509-certs;
-          type leafref {
-            path "/ks:keystore/ks:keys/ks:key/ks:certificates/"
-                 + "ks:certificate/ks:name";
-          }
+          uses ks:private-key-grouping;
+          uses ks:certificate-grouping;
           description
-            "A certificates to be used for user authentication.";
+            "A certificates to be used for client authentication.";
         }
-        leaf public-key {
-          type leafref {
-            path "/ks:keystore/ks:keys/ks:key/ks:name";
-          }
+        container public-key {
+          uses ks:private-key-grouping;
           description
-            "A public keys to be used for user authentication.";
+            "A public key to be used for client authentication.";
         }
         leaf password {
           nacm:default-deny-all;
           type string;
           description
-            "A password to be used for user authentication.";
+            "A password to be used for client authentication.";
         }
       }
     } // end client-auth
+
+    container server-auth {
+      must 'pinned-ssh-host-keys or pinned-ca-certs or ' 
+           + 'pinned-server-certs';
+      description
+        "Trusted server identities.";
+      leaf pinned-ssh-host-keys {
+        type ks:pinned-host-keys;
+        description
+          "A reference to a list of SSH host keys used by the
+           SSH client to authenticate SSH server host keys.
+           A server host key is authenticated if it is an exact
+           match to a configured SSH host key.";
+      }
+
+      leaf pinned-ca-certs {
+        if-feature sshcom:ssh-x509-certs;
+        type ks:pinned-certificates;
+        description
+          "A reference to a list of certificate authority (CA)
+           certificates used by the SSH client to authenticate
+           SSH server certificates.  A server certificate is
+           authenticated if it has a valid chain of trust to
+           a configured CA certificate.";
+      }
+
+      leaf pinned-server-certs {
+        if-feature sshcom:ssh-x509-certs;
+        type ks:pinned-certificates;
+        description
+          "A reference to a list of server certificates used by
+           the SSH client to authenticate SSH server certificates.
+           A server certificate is authenticated if it is an
+           exact match to a configured server certificate.";
+      }
+    } // end server-auth
 
     container transport-params {
       if-feature ssh-client-transport-params-config;
@@ -163,8 +158,5 @@ module ietf-ssh-client {
         "Configurable parameters for the SSH transport layer.";
     }
 
-  } // ssh-client-grouping
-
+  }
 }
-
-

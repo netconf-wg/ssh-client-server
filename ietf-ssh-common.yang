@@ -17,7 +17,6 @@ module ietf-ssh-common {
     Author:   Gary Wu
               <mailto:garywu@cisco.com>";
 
-
   description
    "This module defines a common features, identities, and groupings
     for Secure Shell (SSH).
@@ -39,10 +38,11 @@ module ietf-ssh-common {
     description
      "Initial version";
     reference
-     "RFC XXXX: SSH Client and Server Models";
+     "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   // features
+
   feature ssh-ecc {
     description
       "Elliptic Curve Cryptography is supported for SSH.";
@@ -91,6 +91,7 @@ module ietf-ssh-common {
   }
 
   // identities
+
   identity public-key-alg-base {
     description
       "Base identity used to identify public key algorithms.";
@@ -399,6 +400,7 @@ module ietf-ssh-common {
   }
 
   // groupings
+
   grouping transport-params-grouping {
     description
       "A reusable grouping for SSH transport parameters.
