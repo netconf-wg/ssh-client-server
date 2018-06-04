@@ -1,4 +1,3 @@
-<!-- hypothetical example, as groupings don't have instance data -->
 <ssh-server xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-server"
             xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
 
@@ -7,7 +6,7 @@
     <host-key>
       <name>deployment-specific-certificate</name>
       <public-key>
-        <algorithm xmlns:ks="urn:ietf:params:xml:ns:yang:ietf-keystore">ks:secp521r1</algorithm>
+        <algorithm xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types">ct:rsa1024</algorithm>
         <private-key>base64encodedvalue==</private-key>
         <public-key>base64encodedvalue==</public-key>
       </public-key>
@@ -16,7 +15,7 @@
 
   <!-- which client-certs will this SSH server trust -->
   <client-cert-auth>
-    <pinned-ca-certs>deployment-specific-ca-certs</pinned-ca-certs>
+    <pinned-ca-certs>explicitly-trusted-client-ca-certs</pinned-ca-certs>
     <pinned-client-certs>explicitly-trusted-client-certs</pinned-client-certs>
   </client-cert-auth>
 
@@ -41,9 +40,6 @@
       <mac-alg>algs:hmac-sha2-256</mac-alg>
       <mac-alg>algs:hmac-sha2-512</mac-alg>
     </mac>
-    <compression>
-      <compression-alg>algs:none</compression-alg>
-    </compression>
   </transport-params>
 
 </ssh-server>

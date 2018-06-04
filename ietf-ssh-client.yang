@@ -11,24 +11,24 @@ module ietf-ssh-client {
       "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
-  import ietf-netconf-acm {
-    prefix nacm;
+  import ietf-trust-anchors {
+    prefix ta;
     reference
-      "RFC 6536: Network Configuration Protocol (NETCONF) Access
-                 Control Model";
+      "RFC YYYY: YANG Data Model for Global Trust Anchors";
   }
 
   import ietf-keystore {
     prefix ks;
     reference
-      "RFC YYYY: Keystore Model";
+      "RFC ZZZZ:
+         YANG Data Model for a Centralized Keystore Mechanism";
   }
 
   organization
    "IETF NETCONF (Network Configuration) Working Group";
 
   contact
-   "WG Web:   <http://tools.ietf.org/wg/netconf/>
+   "WG Web:   <http://datatracker.ietf.org/wg/netconf/>
     WG List:  <mailto:netconf@ietf.org>
 
     Author:   Kent Watsen
@@ -42,7 +42,7 @@ module ietf-ssh-client {
    "This module defines a reusable grouping for a SSH client that
     can be used as a basis for specific SSH client instances.
 
-    Copyright (c) 2017 IETF Trust and the persons identified as
+    Copyright (c) 2018 IETF Trust and the persons identified as
     authors of the code. All rights reserved.
 
     Redistribution and use in source and binary forms, with or
@@ -94,26 +94,32 @@ module ietf-ssh-client {
         mandatory true;
         description
           "The authentication type.";
-        container certificate {
-          if-feature sshcmn:ssh-x509-certs;
-          uses ks:private-key-grouping;
-          uses ks:certificate-grouping;
-          description
-            "A certificates to be used for client authentication.";
-        }
-        container public-key {
-          uses ks:private-key-grouping;
-          description
-            "A public key to be used for client authentication.";
-        }
         leaf password {
-          nacm:default-deny-all;
           type string;
           description
             "A password to be used for client authentication.";
         }
-      }
-    } // end client-auth
+        container public-key {
+          uses ks:local-or-keystore-asymmetric-key-grouping;
+          description
+            "A locally-defined or referenced asymmetric key pair
+             to be used for client authentication.";
+          reference
+            "RFC ZZZZ:
+              YANG Data Model for a Centralized Keystore Mechanism";
+        }
+        container certificate {
+          if-feature sshcmn:ssh-x509-certs;
+          uses ks:local-or-keystore-end-entity-certificate-grouping;
+          description
+            "A locally-defined or referenced certificate
+             to be used for client authentication.";
+          reference
+            "RFC ZZZZ
+              YANG Data Model for a Centralized Keystore Mechanism";
+        }
+      } // end auth-type
+    } // end client-identity
 
     container server-auth {
       must 'pinned-ssh-host-keys or pinned-ca-certs or ' 
@@ -121,33 +127,39 @@ module ietf-ssh-client {
       description
         "Trusted server identities.";
       leaf pinned-ssh-host-keys {
-        type ks:pinned-host-keys;
+        type ta:pinned-host-keys-ref;
         description
           "A reference to a list of SSH host keys used by the
            SSH client to authenticate SSH server host keys.
            A server host key is authenticated if it is an exact
            match to a configured SSH host key.";
+        reference
+          "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
 
       leaf pinned-ca-certs {
         if-feature sshcmn:ssh-x509-certs;
-        type ks:pinned-certificates;
+        type ta:pinned-certificates-ref;
         description
           "A reference to a list of certificate authority (CA)
            certificates used by the SSH client to authenticate
            SSH server certificates.  A server certificate is
            authenticated if it has a valid chain of trust to
            a configured CA certificate.";
+        reference
+          "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
 
       leaf pinned-server-certs {
         if-feature sshcmn:ssh-x509-certs;
-        type ks:pinned-certificates;
+        type ta:pinned-certificates-ref;
         description
           "A reference to a list of server certificates used by
            the SSH client to authenticate SSH server certificates.
            A server certificate is authenticated if it is an
            exact match to a configured server certificate.";
+        reference
+          "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
     } // end server-auth
 
@@ -158,5 +170,6 @@ module ietf-ssh-client {
       uses sshcmn:transport-params-grouping;
     }
 
-  }
+  } // end ssh-client-grouping
+
 }

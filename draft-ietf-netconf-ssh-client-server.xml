@@ -19,7 +19,7 @@
      ipr="trust200902"
      docName="draft-ietf-netconf-ssh-client-server-latest" >
     <front>
-        <title>YANG Groupings for SSH Clients and SSH Servers</title>
+        <title abbrev="Groupings for SSH Clients and Servers">YANG Groupings for SSH Clients and SSH Servers</title>
         <author initials="K.W." surname="Watsen" fullname="Kent Watsen">
             <organization>Juniper Networks</organization>
             <address>
@@ -53,6 +53,7 @@
           the Normative References section, as well as in body text throughout.  
           Please update the following references to reflect their final RFC assignments:
             <list style="symbols">
+              <t>I-D.ietf-netconf-trust-anchors</t>
               <t>I-D.ietf-netconf-keystore</t>
             </list>
           </t>
@@ -60,7 +61,8 @@
           progress.  Please apply the following replacements:
             <list  style="symbols">
               <t><spanx style="verb">XXXX</spanx> --&gt; the assigned RFC value for this draft</t>
-              <t><spanx style="verb">YYYY</spanx> --&gt; the assigned RFC value for I-D.ietf-netconf-keystore</t>
+              <t><spanx style="verb">YYYY</spanx> --&gt; the assigned RFC value for I-D.ietf-netconf-trust-anchors</t>
+              <t><spanx style="verb">ZZZZ</spanx> --&gt; the assigned RFC value for I-D.ietf-netconf-keystore</t>
             </list>
           </t>
           <t>Artwork in this document contains placeholder values for the date of 
@@ -79,27 +81,37 @@
     <middle>
 
       <section title="Introduction">
-        <t>This document defines three YANG <xref target="RFC7950"/>
+        <t>This document defines three YANG 1.1 <xref target="RFC7950"/>
         modules: the first defines a grouping for a generic SSH client, the
         second defines a grouping for a generic SSH server, and the third
         defines identities and groupings common to both the client and the
-        server (SSH is defined in <xref target="RFC4252"/>, <xref
-        target="RFC4253"/>, and <xref target="RFC4254"/>).  It is intended
-        that these groupings will be used by applications using the SSH
-        protocol.  For instance, these groupings could be used to help
-        define the data model for an OpenSSH <xref target="OPENSSH"/>
-        server or a NETCONF over SSH <xref target="RFC6242"/> based
-        server.</t>
+        server.  It is intended that these groupings will be used by
+        applications using the SSH protocol <xref target="RFC4252"/>,
+        <xref target="RFC4253"/>, and <xref target="RFC4254"/>.  For
+        instance, these groupings could be used to help define the data
+        model for an OpenSSH <xref target="OPENSSH"/> server or a
+        NETCONF over SSH <xref target="RFC6242"/> based server.</t>
 
-        <t>The client and server YANG modules in this document each define one grouping,
-        which is focused on just SSH-specific configuration, and specifically
-        avoids any transport-level configuration, such as what ports to
-        listen-on or connect-to.  This enables applications the opportunity
-        to define their own strategy for how the underlying TCP connection
-        is established.  For instance, applications supporting NETCONF Call Home 
-        <xref target="RFC8071"/> could use the grouping for the SSH parts it
-        provides, while adding data nodes for the TCP-level call-home
-        configuration.</t>
+        <t>The client and server YANG modules in this document each define
+        one grouping, which is focused on just SSH-specific configuration,
+        and specifically avoids any transport-level configuration, such as
+        what ports to listen on or connect to.  This affords applications
+        the opportunity to define their own strategy for how the underlying
+        TCP connection is established.  For instance, applications supporting
+        NETCONF Call Home <xref target="RFC8071"/> could use the 
+        "ssh-server-grouping" grouping for the SSH parts it provides, while
+        adding data nodes for the TCP-level call-home configuration.</t>
+
+        <t>The modules defined in this document uses groupings defined
+        in <xref target="I-D.ietf-netconf-keystore"/> <!-- and
+        <xref target="I-D.kwatsen-netconf-trust-anchors"/> --> enabling keys
+        <!-- and trust anchors, respectively,--> to be either locally defined
+        or a reference to globally configured values.</t>
+
+        <t>The modules defined in this document optionally support 
+        <xref target="RFC6187"/> enabling X.509v3 certificate based
+        host keys and public keys.</t>
+
       </section>
 
       <section title="Terminology">
@@ -112,46 +124,54 @@
 
       <section title="The SSH Client Model" anchor="ssh-client-model">
 
-        <t>The SSH client model presented in this section contains one
-        YANG grouping, to just configure the SSH client, omitting, for
-        instance, any configuration for which IP address or port the
-        client should connect to.</t>
-
-        <t>This grouping references data nodes defined by the
-        keystore model <xref target="I-D.ietf-netconf-keystore"/>.  For
-        instance, a reference to the keystore model is made to indicate
-        which trusted CA certificate a client should use to authenticate
-        X.509v3 certificate based host keys <xref target="RFC6187"/>.</t>
-
         <section title="Tree Diagram">
-          <t>The following tree diagram <xref target="I-D.ietf-netmod-yang-tree-diagrams"/>
-          provides an overview of the data model for the "ietf-ssh-client" module.</t>
-          <t>
+          <t>This section provides two tree diagrams <xref target="RFC8340"/> for
+          the "ietf-ssh-client" module, the first with used groupings expanded and the
+          second with used groupings not expanded.</t> 
+          <t>The following tree diagram has used groupings expanded:
             <figure>
               <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree.txt)
 ]]></artwork>
             </figure>
           </t>
+          <t>The following tree diagram does not have the groupings expanded:
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree-no-expand.txt)
+]]></artwork>
+            </figure>
+          </t>
         </section>
 
         <section title="Example Usage">
-          <t>This section shows how it would appear if the 
-          ssh-client-grouping were populated with some data.
-          This example is consistent with the examples presented in
-          Section 2.2 of <xref target="I-D.ietf-netconf-keystore"/>.</t>
-          <t>
+          <t>This section presents two examples showing the ssh-client-grouping
+          populated with some data.  These examples are effectively the same
+          except the first configures the client identity using a local key
+          while the second uses a key configured in a keystore.  Both examples
+          are consistent with the examples presented in Section 3 of
+          <xref target="I-D.ietf-netconf-trust-anchors"/> and Section 3.2
+          of <xref target="I-D.ietf-netconf-keystore"/>.</t>
+          <t>The following example configures the client identity using a local key:
             <figure>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ex-ssh-client.xml,68)
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-local.xml)
+]]></artwork>
+            </figure>
+          </t>
+          <t>The following example configures the client identity using a key from the keystore:
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-keystore.xml)
 ]]></artwork>
             </figure>
           </t>
         </section>
 
         <section title="YANG Module" anchor="ssh-client-yang-module">
-          <t>This YANG module has normative references to <xref target="RFC6991"/>
-          and <xref target="I-D.ietf-netconf-keystore"/>.</t>
+          <t>This YANG module has normative references to <xref target="RFC6536"/>,
+          <xref target="I-D.ietf-netconf-trust-anchors"/>, and
+          <xref target="I-D.ietf-netconf-keystore"/>.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -167,45 +187,54 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
 
       <section title="The SSH Server Model" anchor="ssh-server-model">
 
-        <t>The SSH server model presented in this section contains one
-        YANG grouping, for just the SSH-level configuration, omitting,
-        for instance, configuration for which ports to open to listen
-        for connections on.</t>
-
-        <t>This grouping references data nodes defined by the
-        keystore model <xref target="I-D.ietf-netconf-keystore"/>.
-        For instance, a reference to the keystore model is made to indicate
-        which host key a server should present.</t>
-
         <section title="Tree Diagram">
-          <t>The following tree diagram <xref target="I-D.ietf-netmod-yang-tree-diagrams"/>
-          provides an overview of the data model for the "ietf-ssh-server" module.</t>
-          <t>
+          <t>This section provides two tree diagrams <xref target="RFC8340"/> for
+          the "ietf-ssh-server" module, the first with used groupings expanded and the
+          second with used groupings not expanded.</t> 
+          <t>The following tree diagram has used groupings expanded:
             <figure>
               <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree.txt)
 ]]></artwork>
             </figure>
           </t>
+          <t>The following tree diagram does not have the used groupings expanded:
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree-no-expand.txt)
+]]></artwork>
+            </figure>
+          </t>
         </section>
 
         <section title="Example Usage">
-          <t>This section shows how it would appear if the 
-          ssh-server-grouping were populated with some data.
-          This example is consistent with the examples presented in
-          Section 2.2 of <xref target="I-D.ietf-netconf-keystore"/>.</t>
-          <t>
+          <t>This section presents two examples showing the ssh-server-grouping
+          populated with some data.  These examples are effectively the same
+          except the first configures the server identity using a local key
+          while the second uses a key configured in a keystore.  Both examples
+          are consistent with the examples presented in Section 3 of
+          <xref target="I-D.ietf-netconf-trust-anchors"/> and Section 3.2
+          of <xref target="I-D.ietf-netconf-keystore"/>.</t>
+          <t>The following example configures the server identity using a local key:
             <figure>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ex-ssh-server.xml,68)
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-local.xml)
+]]></artwork>
+            </figure>
+          </t>
+          <t>The following example configures the server identity using a key from the keystore:
+            <figure>
+              <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-keystore.xml)
 ]]></artwork>
             </figure>
           </t>
         </section>
 
         <section title="YANG Module" anchor="ssh-server-yang-module">
-          <t>This YANG module has normative references to <xref target="RFC4253"/>,
-          <xref target="RFC6991"/>, and <xref target="I-D.ietf-netconf-keystore"/>.</t>
+          <t>This YANG module has normative references to <xref target="I-D.ietf-netconf-trust-anchors"/>
+          and <xref target="I-D.ietf-netconf-keystore"/> and informative references to
+          <xref target="RFC4253"/> and <xref target="RFC7317"/>.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -240,7 +269,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         alternatives that are widely supported.</t>
 
         <section title="Tree Diagram">
-          <t>The following tree diagram <xref target="I-D.ietf-netmod-yang-tree-diagrams"/>
+          <t>The following tree diagram <xref target="RFC8340"/>
           provides an overview of the data model for the "ietf-ssh-common" module.</t>
           <t>
             <figure>
@@ -252,8 +281,8 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree.txt)
         </section>
 
         <section title="Example Usage">
-          <t>This section shows how it would appear if the
-          transport-params-grouping were populated with some data.</t>
+          <t>This following example illustrates how the transport-params-grouping
+          appears when populated with some data.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -264,8 +293,9 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
         </section>
 
         <section title="YANG Module" anchor="ssh-common-yang-module">
-          <t>This YANG module has normative references to <xref target="RFC4344"/>,
-          <xref target="RFC4419"/>, <xref target="RFC5656"/>, and <xref target="RFC6668"/>.</t>
+          <t>This YANG module has normative references to <xref target="RFC4253"/>,
+          <xref target="RFC4344"/>, <xref target="RFC4419"/>, <xref target="RFC5656"/>,
+          <xref target="RFC6187"/>, and <xref target="RFC6668"/>.</t>
           <t>
             <figure>
               <artwork><![CDATA[
@@ -317,8 +347,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
             <t hangText="   /client-auth/password:">This node in the 'ietf-ssh-client' module
               is additionally sensitive to read operations such that, in normal use cases, it 
               should never be returned to a client.  The only time this node should be returned
-              is to support backup/restore type workflows.  This being the case, this node is
-              marked with the NACM value 'default-deny-all'.</t>
+              is to support backup/restore type workflows.  However, no NACM annotations are
+              applied as the data SHOULD be writable by users other than a designated
+              'recovery session'.</t>
           </list>
         </t>
 
@@ -403,9 +434,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         <?rfc include="reference.RFC.6187.xml"?>
         <?rfc include="reference.RFC.6536.xml"?>
         <?rfc include="reference.RFC.6668.xml"?>
-        <?rfc include="reference.RFC.6991.xml"?>
         <?rfc include="reference.RFC.7950.xml"?>
         <?rfc include="reference.RFC.8174.xml"?>
+        <?rfc include="reference.I-D.ietf-netconf-trust-anchors"?>
         <?rfc include="reference.I-D.ietf-netconf-keystore"?>
       </references>
 
@@ -426,9 +457,10 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         <?rfc include="reference.RFC.4254.xml"?>
         <?rfc include="reference.RFC.6241.xml"?>
         <?rfc include="reference.RFC.6242.xml"?>
+        <?rfc include="reference.RFC.7317.xml"?>
         <?rfc include="reference.RFC.8040.xml"?>
         <?rfc include="reference.RFC.8071.xml"?>
-        <?rfc include="reference.I-D.ietf-netmod-yang-tree-diagrams"?>
+        <?rfc include="reference.RFC.8340.xml"?>
 
         <reference anchor='OPENSSH' target="http://www.openssh.com">
           <front>
@@ -498,6 +530,15 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           <t>
             <list style="symbols">
               <t>Merged changes from co-author.</t>
+            </list>
+          </t>
+        </section>
+        <section title="05 to 06">
+          <t>
+            <list style="symbols">
+              <t>Updated to use trust anchors from trust-anchors draft (was keystore draft)</t>
+              <t>Now uses new keystore grouping enabling asymmetric key to be either locally 
+                 defined or a reference to the keystore.</t>
             </list>
           </t>
         </section>
