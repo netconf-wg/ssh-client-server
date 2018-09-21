@@ -77,19 +77,24 @@ module ietf-ssh-client {
       "A reusable grouping for configuring a SSH client without
        any consideration for how an underlying TCP session is
        established.";
+    uses client-identity-grouping;
+    uses server-auth-grouping;
+    uses transport-params-grouping;
+  }
 
+  grouping client-identity-grouping {
+    description
+      "A reusable grouping for configuring a SSH client identity.";
     container client-identity {
       description
         "The credentials used by the client to authenticate to
          the SSH server.";
-
       leaf username {
         type string;
         description
           "The username of this user.  This will be the username
            used, for instance, to log into an SSH server.";
       }
-
       choice auth-type {
         mandatory true;
         description
@@ -120,13 +125,19 @@ module ietf-ssh-client {
         }
       } // end auth-type
     } // end client-identity
+  } // end client-identity-grouping
 
+  grouping server-auth-grouping {
+    description
+      "A reusable grouping for configuring SSH server
+       authentication.";
     container server-auth {
       must 'pinned-ssh-host-keys or pinned-ca-certs or ' 
            + 'pinned-server-certs';
       description
         "Trusted server identities.";
       leaf pinned-ssh-host-keys {
+        if-feature "ta:ssh-host-keys";
         type ta:pinned-host-keys-ref;
         description
           "A reference to a list of SSH host keys used by the
@@ -136,9 +147,9 @@ module ietf-ssh-client {
         reference
           "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
-
       leaf pinned-ca-certs {
         if-feature sshcmn:ssh-x509-certs;
+        if-feature "ta:x509-certificates";
         type ta:pinned-certificates-ref;
         description
           "A reference to a list of certificate authority (CA)
@@ -152,6 +163,7 @@ module ietf-ssh-client {
 
       leaf pinned-server-certs {
         if-feature sshcmn:ssh-x509-certs;
+        if-feature "ta:x509-certificates";
         type ta:pinned-certificates-ref;
         description
           "A reference to a list of server certificates used by
@@ -162,14 +174,18 @@ module ietf-ssh-client {
           "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
     } // end server-auth
+  } // end server-auth-grouping
 
+  grouping transport-params-grouping {
+    description
+      "A reusable grouping for configuring a SSH transport
+       parameters.";
     container transport-params {
       if-feature ssh-client-transport-params-config;
       description
         "Configurable parameters of the SSH transport layer.";
       uses sshcmn:transport-params-grouping;
     }
-
-  } // end ssh-client-grouping
+  } // end transport-params-grouping
 
 }

@@ -125,17 +125,9 @@
       <section title="The SSH Client Model" anchor="ssh-client-model">
 
         <section title="Tree Diagram">
-          <t>This section provides two tree diagrams <xref target="RFC8340"/> for
-          the "ietf-ssh-client" module, the first with used groupings expanded and the
-          second with used groupings not expanded.</t> 
-          <t>The following tree diagram has used groupings expanded:
-            <figure>
-              <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree.txt)
-]]></artwork>
-            </figure>
-          </t>
-          <t>The following tree diagram does not have the groupings expanded:
+          <t>This section provides a tree diagram <xref target="RFC8340"/> for
+          the "ietf-ssh-client" module that does not have groupings expanded.</t> 
+          <t>
             <figure>
               <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree-no-expand.txt)
@@ -169,7 +161,7 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-keystore.xml)
         </section>
 
         <section title="YANG Module" anchor="ssh-client-yang-module">
-          <t>This YANG module has normative references to <xref target="RFC6536"/>,
+          <t>This YANG module has normative references to 
           <xref target="I-D.ietf-netconf-trust-anchors"/>, and
           <xref target="I-D.ietf-netconf-keystore"/>.</t>
           <t>
@@ -188,17 +180,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
       <section title="The SSH Server Model" anchor="ssh-server-model">
 
         <section title="Tree Diagram">
-          <t>This section provides two tree diagrams <xref target="RFC8340"/> for
-          the "ietf-ssh-server" module, the first with used groupings expanded and the
-          second with used groupings not expanded.</t> 
-          <t>The following tree diagram has used groupings expanded:
-            <figure>
-              <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree.txt)
-]]></artwork>
-            </figure>
-          </t>
-          <t>The following tree diagram does not have the used groupings expanded:
+          <t>This section provides a tree diagram <xref target="RFC8340"/> for
+          the "ietf-ssh-server" module that does not have groupings expanded.</t> 
+          <t>
             <figure>
               <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree-no-expand.txt)
@@ -315,7 +299,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         RESTCONF <xref target="RFC8040"/>.  Both of these protocols have mandatory-to-implement
         secure transport layers (e.g., SSH, TLS) with mutual authentication.</t>
 
-        <t>The NETCONF access control model (NACM) <xref target="RFC6536"/> provides the means
+        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/> provides the means
         to restrict access for particular users to a pre-configured subset of all available
         protocol operations and content.</t>
 
@@ -335,7 +319,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
               removal of references to keys, certificates, trusted anchors, etc., can
               dramatically alter the implemented security policy.  However, no NACM
               annotations are applied as the data SHOULD be editable by users other than
-              a designated 'recovery session'.</t>
+              a designated 'recovery session'.</t> <!-- KENT, FIXME -->
           </list>
         </t>
 
@@ -349,7 +333,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
               should never be returned to a client.  The only time this node should be returned
               is to support backup/restore type workflows.  However, no NACM annotations are
               applied as the data SHOULD be writable by users other than a designated
-              'recovery session'.</t>
+              'recovery session'.</t> <!-- KENT, FIXME -->
           </list>
         </t>
 
@@ -364,10 +348,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
       <section title="IANA Considerations">
         <section title="The IETF XML Registry">
-          <t>This document registers three URIs in the IETF XML 
-          registry <xref target="RFC3688"/>.  Following the format in 
-          <xref target="RFC3688"/>, the following registrations are
-          requested:</t>
+          <t>This document registers three URIs in the "ns" subregistry of the
+          IETF XML Registry <xref target="RFC3688"/>.  Following the format in 
+          <xref target="RFC3688"/>, the following registrations are requested:</t>
           <t>
             <figure>
                 <artwork><![CDATA[
@@ -388,8 +371,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         </section>
         <section title="The YANG Module Names Registry">
           <t>This document registers three YANG modules in the
-          YANG Module Names registry <xref target="RFC7950"/>.
-          Following the format in <xref target="RFC7950"/>, the
+          YANG Module Names registry <xref target="RFC6020"/>.
+          Following the format in <xref target="RFC6020"/>, the
           the following registrations are requested:</t>
           <t>
             <figure>
@@ -414,15 +397,6 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         </section>
       </section>
 
-      <section title="Acknowledgements">
-        <t>The authors would like to thank for following for
-        lively discussions on list and in the halls (ordered
-        by last name): Andy Bierman, Martin Bjorklund, Benoit Claise,
-        Mehmet Ersue, Balázs Kovács, David Lamparter, Alan Luchuk, Ladislav Lhotka,
-        Radek Krejci, Tom Petch, Juergen Schoenwaelder, Phil Shafer, 
-        Sean Turner, Michal Vaško, and Bert Wijnen.</t>
-     </section>
-
     </middle>
 
     <back>
@@ -431,11 +405,12 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
         <?rfc include="reference.RFC.4344.xml"?>
         <?rfc include="reference.RFC.4419.xml"?>
         <?rfc include="reference.RFC.5656.xml"?>
+        <?rfc include="reference.RFC.6020.xml"?>
         <?rfc include="reference.RFC.6187.xml"?>
-        <?rfc include="reference.RFC.6536.xml"?>
         <?rfc include="reference.RFC.6668.xml"?>
         <?rfc include="reference.RFC.7950.xml"?>
         <?rfc include="reference.RFC.8174.xml"?>
+        <?rfc include="reference.RFC.8341.xml"?>
         <?rfc include="reference.I-D.ietf-netconf-trust-anchors"?>
         <?rfc include="reference.I-D.ietf-netconf-keystore"?>
       </references>
@@ -542,7 +517,26 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
             </list>
           </t>
         </section>
+        <section title="06 to 07">
+          <t>
+            <list style="symbols">
+              <t>factored the ssh-[client|server]-groupings into more reusable groupings.</t>
+              <t>added if-feature statements for the new "ssh-host-keys" and
+                 "x509-certificates" features defined in draft-ietf-netconf-trust-anchors.</t>
+            </list>
+          </t>
+        </section>
       </section>
+
+      <section title="Acknowledgements" numbered="no">
+        <t>The authors would like to thank for following for
+        lively discussions on list and in the halls (ordered
+        by last name): Andy Bierman, Martin Bjorklund, Benoit Claise,
+        Mehmet Ersue, Balázs Kovács, David Lamparter, Alan Luchuk, Ladislav Lhotka,
+        Radek Krejci, Tom Petch, Juergen Schoenwaelder, Phil Shafer, 
+        Sean Turner, Michal Vaško, and Bert Wijnen.</t>
+     </section>
+
     </back>
 </rfc>
 
