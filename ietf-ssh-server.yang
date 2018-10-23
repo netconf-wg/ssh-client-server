@@ -122,7 +122,7 @@ module ietf-ssh-server {
           container certificate {
             if-feature sshcmn:ssh-x509-certs;
             uses
-              ks:local-or-keystore-end-entity-certificate-grouping;
+              ks:local-or-keystore-end-entity-cert-with-key-grouping;
             description
               "A locally-defined or referenced end-entity
                certificate to be used for the SSH server's

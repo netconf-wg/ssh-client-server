@@ -392,11 +392,16 @@ module ietf-ssh-common {
         ordered-by user;
         description
           "Acceptable host key algorithms in order of descending
-           preference.
+           preference.  The configured host key algorithms should
+           be compatible with the algorithm used by the configured
+           private key.  Please see Section 5 of RFC XXXX for
+           valid combinations.
 
            If this leaf-list is not configured (has zero elements)
            the acceptable host key algorithms are implementation-
            defined.";
+        reference
+          "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
       }
     }
     container key-exchange {
