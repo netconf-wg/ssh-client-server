@@ -12,7 +12,7 @@ module ietf-ssh-common {
     WG List:  <mailto:netconf@ietf.org>
 
     Author:   Kent Watsen
-              <mailto:kwatsen@juniper.net>
+              <mailto:kent+ietf@watsen.net>
 
     Author:   Gary Wu
               <mailto:garywu@cisco.com>";
@@ -21,7 +21,14 @@ module ietf-ssh-common {
    "This module defines a common features, identities, and
     groupings for Secure Shell (SSH).
 
-    Copyright (c) 2018 IETF Trust and the persons identified as
+    The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
+    'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED',
+    'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document
+    are to be interpreted as described in BCP 14 [RFC2119]
+    [RFC8174] when, and only when, they appear in all
+    capitals, as shown here.
+
+    Copyright (c) 2019 IETF Trust and the persons identified as
     authors of the code. All rights reserved.
 
     Redistribution and use in source and binary forms, with or

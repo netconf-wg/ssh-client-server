@@ -19,15 +19,15 @@
     <title abbrev="Groupings for SSH Clients and Servers">YANG Groupings for
     SSH Clients and SSH Servers</title>
 
-    <author fullname="Kent Watsen" initials="K.W." surname="Watsen">
-      <organization>Juniper Networks</organization>
+    <author fullname="Kent Watsen" initials="K." surname="Watsen">
+      <organization>Watsen Networks</organization>
 
       <address>
-        <email>kwatsen@juniper.net</email>
+        <email>kent+ietf@watsen.net</email>
       </address>
     </author>
 
-    <author fullname="Gary Wu" initials="G.W." surname="Wu">
+    <author fullname="Gary Wu" initials="G." surname="Wu">
       <organization>Cisco Systems</organization>
 
       <address>
@@ -35,7 +35,7 @@
       </address>
     </author>
 
-    <author fullname="Liang Xia" initials="L.X." surname="Xia">
+    <author fullname="Liang Xia" initials="L." surname="Xia">
       <organization>Huawei</organization>
 
       <address>
