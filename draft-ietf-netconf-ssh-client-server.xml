@@ -689,6 +689,14 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+
+      <section title="10 to 11">
+        <t>
+          <list style="symbols">
+            <t>Reformatted lines causing folding to occur.</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section numbered="no" title="Acknowledgements">

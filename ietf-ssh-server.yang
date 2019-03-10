@@ -129,7 +129,8 @@ module ietf-ssh-server {
           }
           container certificate {
             if-feature "sshcmn:ssh-x509-certs";
-            uses ks:local-or-keystore-end-entity-cert-with-key-grouping;
+            uses
+              ks:local-or-keystore-end-entity-cert-with-key-grouping;
             description
               "A locally-defined or referenced end-entity
                certificate to be used for the SSH server's
@@ -206,8 +207,9 @@ module ietf-ssh-server {
       if-feature "ssh-server-keepalives";
       description
         "Configures the keep-alive policy, to proactively test the
-         aliveness of the SSL client.  An unresponsive SSL client is
-         dropped after approximately max-wait * max-attempts seconds.";
+         aliveness of the SSL client.  An unresponsive SSL client
+         is dropped after approximately max-wait * max-attempts
+         seconds.";
       leaf max-wait {
         type uint16 {
           range "1..max";
