@@ -1,7 +1,7 @@
 module ietf-ssh-server {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-server";
-  prefix "sshs";
+  prefix sshs;
 
   import ietf-ssh-common {
     prefix sshcmn;
@@ -24,43 +24,43 @@ module ietf-ssh-server {
   }
 
   organization
-   "IETF NETCONF (Network Configuration) Working Group";
+    "IETF NETCONF (Network Configuration) Working Group";
 
   contact
-   "WG Web:   <http://datatracker.ietf.org/wg/netconf/>
-    WG List:  <mailto:netconf@ietf.org>
-    Author:   Kent Watsen <mailto:kent+ietf@watsen.net>
-    Author:   Gary Wu <mailto:garywu@cisco.com>";
+    "WG Web:   <http://datatracker.ietf.org/wg/netconf/>
+     WG List:  <mailto:netconf@ietf.org>
+     Author:   Kent Watsen <mailto:kent+ietf@watsen.net>
+     Author:   Gary Wu <mailto:garywu@cisco.com>";
 
   description
-   "This module defines reusable groupings for SSH servers that
-    can be used as a basis for specific SSH server instances.
+    "This module defines reusable groupings for SSH servers that
+     can be used as a basis for specific SSH server instances.
 
-    The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
-    'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED',
-    'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document
-    are to be interpreted as described in BCP 14 [RFC2119]
-    [RFC8174] when, and only when, they appear in all
-    capitals, as shown here.
+     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
+     'SHALL NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED',
+     'NOT RECOMMENDED', 'MAY', and 'OPTIONAL' in this document
+     are to be interpreted as described in BCP 14 [RFC2119]
+     [RFC8174] when, and only when, they appear in all
+     capitals, as shown here.
 
-    Copyright (c) 2019 IETF Trust and the persons identified as
-    authors of the code. All rights reserved.
+     Copyright (c) 2019 IETF Trust and the persons identified as
+     authors of the code. All rights reserved.
 
-    Redistribution and use in source and binary forms, with or
-    without modification, is permitted pursuant to, and subject
-    to the license terms contained in, the Simplified BSD
-    License set forth in Section 4.c of the IETF Trust's
-    Legal Provisions Relating to IETF Documents
-    (http://trustee.ietf.org/license-info).
+     Redistribution and use in source and binary forms, with or
+     without modification, is permitted pursuant to, and subject
+     to the license terms contained in, the Simplified BSD
+     License set forth in Section 4.c of the IETF Trust's
+     Legal Provisions Relating to IETF Documents
+     (http://trustee.ietf.org/license-info).
 
-    This version of this YANG module is part of RFC XXXX; see
-    the RFC itself for full legal notices.";
+     This version of this YANG module is part of RFC XXXX; see
+     the RFC itself for full legal notices.";
 
-  revision "YYYY-MM-DD" {
+  revision YYYY-MM-DD {
     description
-     "Initial version";
+      "Initial version";
     reference
-     "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
+      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   // Features
@@ -73,17 +73,16 @@ module ietf-ssh-server {
 
   feature ssh-server-keepalives {
     description
-      "Per socket SSH keepalive parameters are configurable for 
+      "Per socket SSH keepalive parameters are configurable for
        SSH servers on the server implementing this feature.";
   }
-
 
   // Groupings
 
   grouping ssh-server-grouping {
     description
       "A reusable grouping for configuring a SSH server without
-       any consideration for how underlying TCP sessions are 
+       any consideration for how underlying TCP sessions are
        established.";
     uses server-identity-grouping;
     uses client-auth-grouping;
@@ -99,7 +98,7 @@ module ietf-ssh-server {
         "The list of host-keys the SSH server will present when
          establishing a SSH connection.";
       list host-key {
-        key name;
+        key "name";
         min-elements 1;
         ordered-by user;
         description
@@ -129,9 +128,8 @@ module ietf-ssh-server {
                          Keystore Mechanism";
           }
           container certificate {
-            if-feature sshcmn:ssh-x509-certs;
-            uses
-              ks:local-or-keystore-end-entity-cert-with-key-grouping;
+            if-feature "sshcmn:ssh-x509-certs";
+            uses ks:local-or-keystore-end-entity-cert-with-key-grouping;
             description
               "A locally-defined or referenced end-entity
                certificate to be used for the SSH server's
@@ -142,16 +140,15 @@ module ietf-ssh-server {
           }
         }
       }
-    } // server-identity
-  } // server-identity-grouping
-
+    }
+  }
 
   grouping client-auth-grouping {
     description
       "A reusable grouping for configuring a SSH client
        authentication.";
     container ssh-client-cert-auth {
-      if-feature sshcmn:ssh-x509-certs;
+      if-feature "sshcmn:ssh-x509-certs";
       description
         "A reference to a list of pinned certificate authority (CA)
          certificates and a reference to a list of pinned client
@@ -167,7 +164,7 @@ module ietf-ssh-server {
         if-feature "ta:x509-certificates";
         type ta:pinned-certificates-ref;
         description
-          "A reference to a list of certificate authority (CA) 
+          "A reference to a list of certificate authority (CA)
            certificates used by the SSH server to authenticate
            SSH client certificates.  A client certificate is
            authenticated if it has a valid chain of trust to
@@ -179,7 +176,7 @@ module ietf-ssh-server {
         if-feature "ta:x509-certificates";
         type ta:pinned-certificates-ref;
         description
-          "A reference to a list of client certificates used by 
+          "A reference to a list of client certificates used by
            the SSH server to authenticate SSH client certificates.
            A clients certificate is authenticated if it is an
            exact match to a configured pinned client certificate.";
@@ -187,21 +184,19 @@ module ietf-ssh-server {
           "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
     }
-  } // client-auth-grouping
-
+  }
 
   grouping transport-params-grouping {
     description
       "A reusable grouping for configuring a SSH transport
        parameters.";
     container ssh-transport-params {
-      if-feature ssh-server-transport-params-config;
+      if-feature "ssh-server-transport-params-config";
       description
         "Configurable parameters of the SSH transport layer.";
       uses sshcmn:transport-params-grouping;
     }
-  } // transport-params-grouping
-
+  }
 
   grouping keepalives-grouping {
     description
@@ -217,22 +212,21 @@ module ietf-ssh-server {
         type uint16 {
           range "1..max";
         }
-        units seconds;
-        default 30;
+        units "seconds";
+        default "30";
         description
-         "Sets the amount of time in seconds after which if no data
-          has been received from the SSL client, a SSL-level message
-          will be sent to test the aliveness of the SSL client.";
+          "Sets the amount of time in seconds after which if no data
+           has been received from the SSL client, a SSL-level message
+           will be sent to test the aliveness of the SSL client.";
       }
       leaf max-attempts {
         type uint8;
-        default 3;
+        default "3";
         description
-         "Sets the maximum number of sequential keep-alive messages
-         that can fail to obtain a response from the SSL client
-         before assuming the SSL client is no longer alive.";
+          "Sets the maximum number of sequential keep-alive messages
+           that can fail to obtain a response from the SSL client
+           before assuming the SSL client is no longer alive.";
       }
     }
-  } // keepalives-grouping
-
+  }
 }

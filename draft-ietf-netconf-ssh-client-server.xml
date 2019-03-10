@@ -681,6 +681,14 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+
+      <section title="09 to 10">
+        <t>
+          <list style="symbols">
+            <t>Reformatted the YANG module</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section numbered="no" title="Acknowledgements">
