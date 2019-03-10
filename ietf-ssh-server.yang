@@ -1,6 +1,5 @@
 module ietf-ssh-server {
   yang-version 1.1;
-
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-server";
   prefix "sshs";
 
@@ -30,16 +29,11 @@ module ietf-ssh-server {
   contact
    "WG Web:   <http://datatracker.ietf.org/wg/netconf/>
     WG List:  <mailto:netconf@ietf.org>
-
-    Author:   Kent Watsen
-              <mailto:kent+ietf@watsen.net>
-
-    Author:   Gary Wu
-              <mailto:garywu@cisco.com>";
-
+    Author:   Kent Watsen <mailto:kent+ietf@watsen.net>
+    Author:   Gary Wu <mailto:garywu@cisco.com>";
 
   description
-   "This module defines a reusable grouping for a SSH server that
+   "This module defines reusable groupings for SSH servers that
     can be used as a basis for specific SSH server instances.
 
     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
@@ -69,7 +63,7 @@ module ietf-ssh-server {
      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
-  // features
+  // Features
 
   feature ssh-server-transport-params-config {
     description
@@ -77,7 +71,14 @@ module ietf-ssh-server {
        server.";
   }
 
-  // groupings
+  feature ssh-server-keepalives {
+    description
+      "Per socket SSH keepalive parameters are configurable for 
+       SSH servers on the server implementing this feature.";
+  }
+
+
+  // Groupings
 
   grouping ssh-server-grouping {
     description
@@ -87,12 +88,13 @@ module ietf-ssh-server {
     uses server-identity-grouping;
     uses client-auth-grouping;
     uses transport-params-grouping;
+    uses keepalives-grouping;
   }
 
   grouping server-identity-grouping {
     description
       "A reusable grouping for configuring an SSH server identity.";
-    container server-identity {
+    container ssh-server-identity {
       description
         "The list of host-keys the SSH server will present when
          establishing a SSH connection.";
@@ -140,14 +142,15 @@ module ietf-ssh-server {
           }
         }
       }
-    } // end server-identity
-  } // end server-identity-grouping
+    } // server-identity
+  } // server-identity-grouping
+
 
   grouping client-auth-grouping {
     description
       "A reusable grouping for configuring a SSH client
        authentication.";
-    container client-cert-auth {
+    container ssh-client-cert-auth {
       if-feature sshcmn:ssh-x509-certs;
       description
         "A reference to a list of pinned certificate authority (CA)
@@ -184,18 +187,52 @@ module ietf-ssh-server {
           "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
     }
-  } // end client-auth-grouping
+  } // client-auth-grouping
+
 
   grouping transport-params-grouping {
     description
       "A reusable grouping for configuring a SSH transport
        parameters.";
-    container transport-params {
+    container ssh-transport-params {
       if-feature ssh-server-transport-params-config;
       description
         "Configurable parameters of the SSH transport layer.";
       uses sshcmn:transport-params-grouping;
     }
-  } // end transport-params-grouping
+  } // transport-params-grouping
+
+
+  grouping keepalives-grouping {
+    description
+      "A reusable grouping for configuring SSH server keepalive
+       parameters.";
+    container ssh-keepalives {
+      if-feature "ssh-server-keepalives";
+      description
+        "Configures the keep-alive policy, to proactively test the
+         aliveness of the SSL client.  An unresponsive SSL client is
+         dropped after approximately max-wait * max-attempts seconds.";
+      leaf max-wait {
+        type uint16 {
+          range "1..max";
+        }
+        units seconds;
+        default 30;
+        description
+         "Sets the amount of time in seconds after which if no data
+          has been received from the SSL client, a SSL-level message
+          will be sent to test the aliveness of the SSL client.";
+      }
+      leaf max-attempts {
+        type uint8;
+        default 3;
+        description
+         "Sets the maximum number of sequential keep-alive messages
+         that can fail to obtain a response from the SSL client
+         before assuming the SSL client is no longer alive.";
+      }
+    }
+  } // keepalives-grouping
 
 }

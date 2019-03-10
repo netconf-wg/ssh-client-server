@@ -1,6 +1,5 @@
 module ietf-ssh-client {
   yang-version 1.1;
-
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-client";
   prefix "sshc";
 
@@ -30,16 +29,11 @@ module ietf-ssh-client {
   contact
    "WG Web:   <http://datatracker.ietf.org/wg/netconf/>
     WG List:  <mailto:netconf@ietf.org>
-
-    Author:   Kent Watsen
-              <mailto:kent+ietf@watsen.net>
-
-    Author:   Gary Wu
-              <mailto:garywu@cisco.com>";
-
+    Author:   Kent Watsen <mailto:kent+ietf@watsen.net>
+    Author:   Gary Wu <mailto:garywu@cisco.com>";
 
   description
-   "This module defines a reusable grouping for a SSH client that
+   "This module defines reusable groupings for SSH clients that
     can be used as a basis for specific SSH client instances.
 
     The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL',
@@ -69,7 +63,7 @@ module ietf-ssh-client {
      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
-  // features
+  // Features
 
   feature ssh-client-transport-params-config {
     description
@@ -77,7 +71,13 @@ module ietf-ssh-client {
        client.";
   }
 
-  // groupings
+  feature ssh-client-keepalives {
+    description
+      "Per socket SSH keepalive parameters are configurable for
+       SSH clients on the server implementing this feature.";
+  }
+
+  // Groupings
 
   grouping ssh-client-grouping {
     description
@@ -87,12 +87,13 @@ module ietf-ssh-client {
     uses client-identity-grouping;
     uses server-auth-grouping;
     uses transport-params-grouping;
+    uses keepalives-grouping;
   }
 
   grouping client-identity-grouping {
     description
       "A reusable grouping for configuring a SSH client identity.";
-    container client-identity {
+    container ssh-client-identity {
       description
         "The credentials used by the client to authenticate to
          the SSH server.";
@@ -130,15 +131,15 @@ module ietf-ssh-client {
             "RFC ZZZZ
               YANG Data Model for a Centralized Keystore Mechanism";
         }
-      } // end auth-type
-    } // end client-identity
-  } // end client-identity-grouping
+      } // auth-type
+    } // client-identity
+  } // client-identity-grouping
 
   grouping server-auth-grouping {
     description
       "A reusable grouping for configuring SSH server
        authentication.";
-    container server-auth {
+    container ssh-server-auth {
       must 'pinned-ssh-host-keys or pinned-ca-certs or ' 
            + 'pinned-server-certs';
       description
@@ -180,19 +181,51 @@ module ietf-ssh-client {
         reference
           "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
-    } // end server-auth
-  } // end server-auth-grouping
+    } // server-auth
+  } // server-auth-grouping
 
   grouping transport-params-grouping {
     description
       "A reusable grouping for configuring a SSH transport
        parameters.";
-    container transport-params {
+    container ssh-transport-params {
       if-feature ssh-client-transport-params-config;
       description
         "Configurable parameters of the SSH transport layer.";
       uses sshcmn:transport-params-grouping;
     }
-  } // end transport-params-grouping
+  } // transport-params-grouping
+
+  grouping keepalives-grouping {
+    description
+      "A reusable grouping for configuring SSH client keepalive
+       parameters.";
+    container ssh-keepalives {
+      if-feature "ssh-client-keepalives";
+      description
+        "Configures the keep-alive policy, to proactively test the
+         aliveness of the SSH server.  An unresponsive TLS server is
+         dropped after approximately max-wait * max-attempts seconds.";
+      leaf max-wait {
+        type uint16 {
+          range "1..max";
+        }
+        units seconds;
+        default 30;
+        description
+         "Sets the amount of time in seconds after which if no data
+          has been received from the SSH server, a TLS-level message
+          will be sent to test the aliveness of the SSH server.";
+      }
+      leaf max-attempts {
+        type uint8;
+        default 3;
+        description
+         "Sets the maximum number of sequential keep-alive messages
+         that can fail to obtain a response from the SSH server
+         before assuming the SSH server is no longer alive.";
+      }
+    }
+  } // keepalives-grouping
 
 }

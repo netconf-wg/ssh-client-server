@@ -2,7 +2,7 @@
             xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
 
   <!-- which host-keys will this SSH server present -->
-  <server-identity>
+  <ssh-server-identity>
     <host-key>
       <name>deployment-specific-certificate</name>
       <public-key>
@@ -13,15 +13,15 @@
         </local-definition>
       </public-key>
     </host-key>
-  </server-identity>
+  </ssh-server-identity>
 
   <!-- which client-certs will this SSH server trust -->
-  <client-cert-auth>
+  <ssh-client-cert-auth>
     <pinned-ca-certs>explicitly-trusted-client-ca-certs</pinned-ca-certs>
     <pinned-client-certs>explicitly-trusted-client-certs</pinned-client-certs>
-  </client-cert-auth>
+  </ssh-client-cert-auth>
 
-  <transport-params>
+  <ssh-transport-params>
     <host-key>
       <host-key-alg>algs:ssh-rsa</host-key-alg>
     </host-key>
@@ -42,6 +42,6 @@
       <mac-alg>algs:hmac-sha2-256</mac-alg>
       <mac-alg>algs:hmac-sha2-512</mac-alg>
     </mac>
-  </transport-params>
+  </ssh-transport-params>
 
 </ssh-server>

@@ -674,7 +674,10 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       <section title="08 to 09">
         <t>
           <list style="symbols">
-            <t>Updated examples to reflect update to groupings defined in the keystore draft.</t>
+            <t>Updated examples to reflect update to groupings defined in the keystore -09 draft.</t>
+            <t>Add SSH keepalives features and groupings.</t>
+            <t>Prefixed top-level SSH grouping nodes with 'ssh-' and support mashups.</t>
+            <t>Updated copyright date, boilerplate template, affiliation, and folding algorithm.</t>
           </list>
         </t>
       </section>

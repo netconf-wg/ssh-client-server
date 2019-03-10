@@ -3,7 +3,7 @@
    xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
 
   <!-- how this client will authenticate itself to the server -->
-  <client-identity>
+  <ssh-client-identity>
     <username>foobar</username>
     <public-key>
       <local-definition>
@@ -12,14 +12,14 @@
         <public-key>base64encodedvalue==</public-key>
       </local-definition>
     </public-key>
-  </client-identity>
+  </ssh-client-identity>
 
   <!-- which host-keys will this client trust -->
-  <server-auth>
+  <ssh-server-auth>
     <pinned-ssh-host-keys>explicitly-trusted-ssh-host-keys</pinned-ssh-host-keys>
-  </server-auth>
+  </ssh-server-auth>
 
-  <transport-params>
+  <ssh-transport-params>
     <host-key>
       <host-key-alg>algs:ssh-rsa</host-key-alg>
     </host-key>
@@ -40,6 +40,11 @@
       <mac-alg>algs:hmac-sha2-256</mac-alg>
       <mac-alg>algs:hmac-sha2-512</mac-alg>
     </mac>
-  </transport-params>
+  </ssh-transport-params>
+  
+  <ssh-keepalives>
+    <max-wait>30</max-wait>
+    <max-attempts>3</max-attempts>
+  </ssh-keepalives>
   
 </ssh-client>
