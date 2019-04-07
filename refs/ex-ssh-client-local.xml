@@ -1,50 +1,52 @@
 <ssh-client
-   xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-client"
-   xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
+  xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-client"
+  xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
+  <ssh-client-parameters>
 
-  <!-- how this client will authenticate itself to the server -->
-  <ssh-client-identity>
-    <username>foobar</username>
-    <public-key>
-      <local-definition>
-        <algorithm xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types">ct:rsa2048</algorithm>
-        <private-key>base64encodedvalue==</private-key>
-        <public-key>base64encodedvalue==</public-key>
-      </local-definition>
-    </public-key>
-  </ssh-client-identity>
-
-  <!-- which host-keys will this client trust -->
-  <ssh-server-auth>
-    <pinned-ssh-host-keys>explicitly-trusted-ssh-host-keys</pinned-ssh-host-keys>
-  </ssh-server-auth>
-
-  <ssh-transport-params>
-    <host-key>
-      <host-key-alg>algs:ssh-rsa</host-key-alg>
-    </host-key>
-    <key-exchange>
-      <key-exchange-alg>
-        algs:diffie-hellman-group-exchange-sha256
-      </key-exchange-alg>
-    </key-exchange>
-    <encryption>
-      <encryption-alg>algs:aes256-ctr</encryption-alg>
-      <encryption-alg>algs:aes192-ctr</encryption-alg>
-      <encryption-alg>algs:aes128-ctr</encryption-alg>
-      <encryption-alg>algs:aes256-cbc</encryption-alg>
-      <encryption-alg>algs:aes192-cbc</encryption-alg>
-      <encryption-alg>algs:aes128-cbc</encryption-alg>
-    </encryption>
-    <mac>
-      <mac-alg>algs:hmac-sha2-256</mac-alg>
-      <mac-alg>algs:hmac-sha2-512</mac-alg>
-    </mac>
-  </ssh-transport-params>
+    <!-- how this client will authenticate itself to the server -->
+    <client-identity>
+      <username>foobar</username>
+      <public-key>
+        <local-definition>
+          <algorithm xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types">ct:rsa2048</algorithm>
+          <private-key>base64encodedvalue==</private-key>
+          <public-key>base64encodedvalue==</public-key>
+        </local-definition>
+      </public-key>
+    </client-identity>
   
-  <ssh-keepalives>
-    <max-wait>30</max-wait>
-    <max-attempts>3</max-attempts>
-  </ssh-keepalives>
+    <!-- which host-keys will this client trust -->
+    <server-authentication>
+      <pinned-ssh-host-keys>explicitly-trusted-ssh-host-keys</pinned-ssh-host-keys>
+    </server-authentication>
   
+    <transport-params>
+      <host-key>
+        <host-key-alg>algs:ssh-rsa</host-key-alg>
+      </host-key>
+      <key-exchange>
+        <key-exchange-alg>
+          algs:diffie-hellman-group-exchange-sha256
+        </key-exchange-alg>
+      </key-exchange>
+      <encryption>
+        <encryption-alg>algs:aes256-ctr</encryption-alg>
+        <encryption-alg>algs:aes192-ctr</encryption-alg>
+        <encryption-alg>algs:aes128-ctr</encryption-alg>
+        <encryption-alg>algs:aes256-cbc</encryption-alg>
+        <encryption-alg>algs:aes192-cbc</encryption-alg>
+        <encryption-alg>algs:aes128-cbc</encryption-alg>
+      </encryption>
+      <mac>
+        <mac-alg>algs:hmac-sha2-256</mac-alg>
+        <mac-alg>algs:hmac-sha2-512</mac-alg>
+      </mac>
+    </transport-params>
+    
+    <keepalives>
+      <max-wait>30</max-wait>
+      <max-attempts>3</max-attempts>
+    </keepalives>
+
+  </ssh-client-parameters>
 </ssh-client>

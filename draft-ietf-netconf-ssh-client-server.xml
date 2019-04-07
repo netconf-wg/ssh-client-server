@@ -396,7 +396,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       pre-configured subset of all available protocol operations and
       content.</t>
 
-      <t>Since the modules defined in this document define only groupings,
+      <t>Since the modules in this document only define groupings,
       these considerations are primarily for the designers of other modules
       that use these groupings.</t>
 
@@ -406,42 +406,59 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       network environments. Write operations (e.g., edit-config) to these data
       nodes without proper protection can have a negative effect on network
       operations. These are the subtrees and data nodes and their
-      sensitivity/vulnerability: <list hangIndent="6" style="hanging">
-          <t hangText="   /:">The entire data tree defined by all the modules
-          defined in this draft are sensitive to write operations. For
-          instance, the addition or removal of references to keys,
-          certificates, trusted anchors, etc., can dramatically alter the
-          implemented security policy. However, no NACM annotations are
-          applied as the data SHOULD be editable by users other than a
-          designated 'recovery session'.</t>
-
-          <!-- KENT, FIXME -->
-        </list></t>
+      sensitivity/vulnerability:
+        <list hangIndent="6" style="hanging">
+          <t hangText="   *:">The entire subtree defined by the grouping
+            statement in both the "ietf-ssh-client" and "ietf-ssh-server"
+            modules is sensitive to write operations. For instance, the
+            addition or removal of references to keys, certificates,
+            trusted anchors, etc., or even the modification of transport
+            or keepalive parameters can dramatically alter the implemented
+            security policy.  For this reason, this node is protected the
+            NACM extension "default-deny-write".</t>
+        </list>
+      </t>
 
       <t>Some of the readable data nodes in the YANG modules may be considered
       sensitive or vulnerable in some network environments. It is thus
       important to control read access (e.g., via get, get-config, or
       notification) to these data nodes. These are the subtrees and data nodes
-      and their sensitivity/vulnerability: <list hangIndent="6"
-          style="hanging">
-          <t hangText="   /client-auth/password:">This node in the
-          'ietf-ssh-client' module is additionally sensitive to read
-          operations such that, in normal use cases, it should never be
-          returned to a client. The only time this node should be returned is
-          to support backup/restore type workflows. However, no NACM
-          annotations are applied as the data SHOULD be writable by users
-          other than a designated 'recovery session'.</t>
+      and their sensitivity/vulnerability:
+        <list hangIndent="6" style="hanging">
+          <t hangText="   /ssh-client-parameters/client-identity/:">This
+          subtree in the "ietf-ssh-client" module contains nodes that are
+          additionally sensitive to read operations such that, in normal use
+          cases, they should never be returned to a client.  Some of these
+          nodes (i.e., public-key/local-definition/private-key and
+          certificate/local-definition/private-key) are already protected
+          by the NACM extension "default-deny-all" set in the "grouping"
+          statements defined in <xref target="I-D.ietf-netconf-crypto-types"/>.
+          However, since the "password" node is defined in this module, the
+          NACM extension "default-deny-all" has been applied it here.</t>
+          <t hangText="   /ssh-server-parameters/server-identity/:">This
+          subtree in the "ietf-ssh-server" module contains nodes that are
+          additionally sensitive to read operations such that, in normal use
+          cases, they should never be returned to a client.  All of these
+          nodes (i.e., host-key/public-key/local-definition/private-key and
+          host-key/certificate/local-definition/private-key) are already
+          protected by the NACM extension "default-deny-all" set in the "grouping"
+          statements defined in <xref target="I-D.ietf-netconf-crypto-types"/>.</t>
+        </list>
+      </t>
 
-          <!-- KENT, FIXME -->
-        </list></t>
-
-      <t>Some of the RPC operations in this YANG module may be considered
-      sensitive or vulnerable in some network environments. It is thus
-      important to control access to these operations. These are the
-      operations and their sensitivity/vulnerability: <list hangIndent="6"
-          style="hanging">
-          <t hangText="   NONE"/>
-        </list></t>
+      <t>Some of the operations in this YANG module may be considered
+        sensitive or vulnerable in some network environments. It is
+        thus important to control access to these operations. These
+        are the operations and their sensitivity/vulnerability:
+        <list style="hanging" hangIndent="6">
+          <t hangText="   *:">The groupings defined in this document
+            include "action" statements that come from groupings defined
+            in <xref target="I-D.ietf-netconf-crypto-types"/>.  Please
+            consult that document for the security considerations of
+            the "action" statements defined by the "grouping"
+            statements defined in this document.</t>
+        </list>
+      </t>
     </section>
 
     <section title="IANA Considerations">
@@ -498,29 +515,17 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
   <back>
     <references title="Normative References">
       <?rfc include="reference.RFC.2119.xml"?>
-
       <?rfc include="reference.RFC.4344.xml"?>
-
       <?rfc include="reference.RFC.4419.xml"?>
-
       <?rfc include="reference.RFC.5656.xml"?>
-
       <?rfc include="reference.RFC.6020.xml"?>
-
       <?rfc include="reference.RFC.6187.xml"?>
-
       <?rfc include="reference.RFC.6668.xml"?>
-
       <?rfc include="reference.RFC.7950.xml"?>
-
       <?rfc include="reference.RFC.8174.xml"?>
-
       <?rfc include="reference.RFC.8341.xml"?>
-
       <?rfc include="reference.I-D.ietf-netconf-trust-anchors"?>
-
       <?rfc include="reference.I-D.ietf-netconf-keystore"?>
-
       <?rfc include="reference.I-D.ietf-netconf-crypto-types"?>
     </references>
 
@@ -533,33 +538,20 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </front>
           <seriesInfo name="FIPS PUB" value="180-4"/>
         </reference>-->
-
       <?rfc include="reference.RFC.3688.xml"?>
-
       <?rfc include="reference.RFC.4252.xml"?>
-
       <?rfc include="reference.RFC.4253.xml"?>
-
       <?rfc include="reference.RFC.4254.xml"?>
-
       <?rfc include="reference.RFC.6241.xml"?>
-
       <?rfc include="reference.RFC.6242.xml"?>
-
       <?rfc include="reference.RFC.7317.xml"?>
-
       <?rfc include="reference.RFC.8040.xml"?>
-
       <?rfc include="reference.RFC.8071.xml"?>
-
       <?rfc include="reference.RFC.8340.xml"?>
-
       <reference anchor="OPENSSH" target="http://www.openssh.com">
         <front>
           <title>OpenSSH</title>
-
           <author fullname="The OpenBSD Project"/>
-
           <date year="2016"/>
         </front>
       </reference>
@@ -567,100 +559,90 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
     <section title="Change Log">
       <section title="00 to 01">
-        <t><list style="symbols">
+        <t>
+          <list style="symbols">
             <t>Noted that '0.0.0.0' and '::' might have special meanings.</t>
-
             <t>Renamed "keychain" to "keystore".</t>
-          </list></t>
+          </list>
+        </t>
       </section>
-
       <section title="01 to 02">
-        <t><list style="symbols">
+        <t>
+          <list style="symbols">
             <t>Removed the groupings 'listening-ssh-client-grouping' and
             'listening-ssh-server-grouping'. Now modules only contain the
             transport-independent groupings.</t>
-
             <t>Simplified the "client-auth" part in the ietf-ssh-client
             module. It now inlines what it used to point to keystore for.</t>
-
             <t>Added cipher suites for various algorithms into new
             'ietf-ssh-common' module.</t>
-          </list></t>
+          </list>
+        </t>
       </section>
-
       <section title="02 to 03">
-        <t><list style="symbols">
+        <t>
+          <list style="symbols">
             <t>Removed 'RESTRICTED' enum from 'password' leaf type.</t>
-
             <t>Added a 'must' statement to container 'server-auth' asserting
             that at least one of the various auth mechanisms must be
             specified.</t>
-
             <t>Fixed description statement for leaf 'trusted-ca-certs'.</t>
-          </list></t>
+          </list>
+        </t>
       </section>
-
       <section title="03 to 04">
-        <t><list style="symbols">
+        <t>
+          <list style="symbols">
             <t>Change title to "YANG Groupings for SSH Clients and SSH
             Servers"</t>
-
             <t>Added reference to RFC 6668</t>
-
             <t>Added RFC 8174 to Requirements Language Section.</t>
-
             <t>Enhanced description statement for ietf-ssh-server's
             "trusted-ca-certs" leaf.</t>
-
             <t>Added mandatory true to ietf-ssh-client's "client-auth"
             'choice' statement.</t>
-
             <t>Changed the YANG prefix for module ietf-ssh-common from
             'sshcom' to 'sshcmn'.</t>
-
             <t>Removed the compression algorithms as they are not commonly
             configurable in vendors' implementations.</t>
-
             <t>Updating descriptions in transport-params-grouping and the
             servers's usage of it.</t>
-
             <t>Now tree diagrams reference ietf-netmod-yang-tree-diagrams</t>
-
             <t>Updated YANG to use typedefs around leafrefs to common keystore
             paths</t>
-
             <t>Now inlines key and certificates (no longer a leafref to
             keystore)</t>
-          </list></t>
+          </list>
+        </t>
       </section>
-
       <section title="04 to 05">
-        <t><list style="symbols">
+        <t>
+          <list style="symbols">
             <t>Merged changes from co-author.</t>
-          </list></t>
+          </list>
+        </t>
       </section>
-
       <section title="05 to 06">
-        <t><list style="symbols">
+        <t>
+          <list style="symbols">
             <t>Updated to use trust anchors from trust-anchors draft (was
             keystore draft)</t>
-
             <t>Now uses new keystore grouping enabling asymmetric key to be
             either locally defined or a reference to the keystore.</t>
-          </list></t>
+          </list>
+        </t>
       </section>
-
       <section title="06 to 07">
-        <t><list style="symbols">
+        <t>
+          <list style="symbols">
             <t>factored the ssh-[client|server]-groupings into more reusable
             groupings.</t>
-
             <t>added if-feature statements for the new "ssh-host-keys" and
             "x509-certificates" features defined in
             draft-ietf-netconf-trust-anchors.</t>
-          </list></t>
+          </list>
+        </t>
       </section>
-
       <section title="07 to 08">
         <t>
           <list style="symbols">
@@ -670,7 +652,6 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
-
       <section title="08 to 09">
         <t>
           <list style="symbols">
@@ -681,7 +662,6 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
-
       <section title="09 to 10">
         <t>
           <list style="symbols">
@@ -689,11 +669,24 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
-
       <section title="10 to 11">
         <t>
           <list style="symbols">
             <t>Reformatted lines causing folding to occur.</t>
+          </list>
+        </t>
+      </section>
+      <section title="11 to 12">
+        <t>
+          <list style="symbols">
+            <t>Collapsed all the inner groupings into the top-level grouping.</t>
+            <t>Added a top-level "demux container" inside the top-level grouping.</t>
+            <t>Added NACM statements and updated the Security Considerations section.</t>
+            <t>Added "presence" statements on the "keepalive" containers, as was
+              needed to address a validation error that appeared after adding the
+              "must" statements into the NETCONF/RESTCONF client/server modules.</t>
+            <t>Updated the boilerplate text in module-level "description" statement
+              to match copyeditor convention.</t>
           </list>
         </t>
       </section>
