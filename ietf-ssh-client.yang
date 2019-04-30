@@ -90,138 +90,143 @@ module ietf-ssh-client {
     description
       "A reusable grouping for configuring a SSH client without
        any consideration for how an underlying TCP session is
-       established.";
+       established.
+              
+       Note that this grouping uses fairly typical descendent
+       node names such that a stack of 'uses' statements will
+       have name conflicts.  It is intended that the consuming
+       data model will resolve the issue (e.g., by wrapping
+       the 'uses' statement in a container called 
+       'ssh-client-parameters').  This model purposely does
+       not do this itself so as to provide maximum flexibility
+       to consuming models.";
 
-    container ssh-client-parameters {
+    container client-identity {
       nacm:default-deny-write;
-
       description
-        "A container to hold SSH client configuration.";
-
-      container client-identity {
+        "The credentials used by the client to authenticate to
+         the SSH server.";
+      leaf username {
+        type string;
         description
-          "The credentials used by the client to authenticate to
-           the SSH server.";
-        leaf username {
+          "The username of this user.  This will be the username
+           used, for instance, to log into an SSH server.";
+      }
+      choice auth-type {
+        mandatory true;
+        description
+          "The authentication type.";
+        leaf password {
+          nacm:default-deny-all;
           type string;
           description
-            "The username of this user.  This will be the username
-             used, for instance, to log into an SSH server.";
+            "A password to be used for client authentication.";
         }
-        choice auth-type {
-          mandatory true;
+        container public-key {
+          uses ks:local-or-keystore-asymmetric-key-grouping;
           description
-            "The authentication type.";
-          leaf password {
-            nacm:default-deny-all;
-            type string;
-            description
-              "A password to be used for client authentication.";
-          }
-          container public-key {
-            uses ks:local-or-keystore-asymmetric-key-grouping;
-            description
-              "A locally-defined or referenced asymmetric key
-               pair to be used for client authentication.";
-            reference
-              "RFC ZZZZ: YANG Data Model for a Centralized
-                         Keystore Mechanism";
-          }
-          container certificate {
-            if-feature "sshcmn:ssh-x509-certs";
-            uses
-              ks:local-or-keystore-end-entity-cert-with-key-grouping;
-            description
-              "A locally-defined or referenced certificate
-               to be used for client authentication.";
-            reference
-              "RFC ZZZZ: YANG Data Model for a Centralized
-                         Keystore Mechanism";
-          }
-        }
-      } // container client-identity
-
-      container server-authentication {
-        must 'pinned-ssh-host-keys or pinned-ca-certs or '
-           + 'pinned-server-certs';
-        description
-          "Trusted server identities.";
-        leaf pinned-ssh-host-keys {
-          if-feature "ta:ssh-host-keys";
-          type ta:pinned-host-keys-ref;
-          description
-            "A reference to a list of SSH host keys used by the
-             SSH client to authenticate SSH server host keys.
-             A server host key is authenticated if it is an
-             exact match to a configured SSH host key.";
+            "A locally-defined or referenced asymmetric key
+             pair to be used for client authentication.";
           reference
-            "RFC YYYY: YANG Data Model for Global Trust Anchors";
+            "RFC ZZZZ: YANG Data Model for a Centralized
+                       Keystore Mechanism";
         }
-        leaf pinned-ca-certs {
+        container certificate {
           if-feature "sshcmn:ssh-x509-certs";
-          if-feature "ta:x509-certificates";
-          type ta:pinned-certificates-ref;
+          uses
+            ks:local-or-keystore-end-entity-cert-with-key-grouping;
           description
-            "A reference to a list of certificate authority (CA)
-             certificates used by the SSH client to authenticate
-             SSH server certificates.  A server certificate is
-             authenticated if it has a valid chain of trust to
-             a configured CA certificate.";
+            "A locally-defined or referenced certificate
+             to be used for client authentication.";
           reference
-            "RFC YYYY: YANG Data Model for Global Trust Anchors";
+            "RFC ZZZZ: YANG Data Model for a Centralized
+                       Keystore Mechanism";
         }
-  
-        leaf pinned-server-certs {
-          if-feature "sshcmn:ssh-x509-certs";
-          if-feature "ta:x509-certificates";
-          type ta:pinned-certificates-ref;
-          description
-            "A reference to a list of server certificates used by
-             the SSH client to authenticate SSH server certificates.
-             A server certificate is authenticated if it is an
-             exact match to a configured server certificate.";
-          reference
-            "RFC YYYY: YANG Data Model for Global Trust Anchors";
-        }
-      } // container server-authentication
+      }
+    } // container client-identity
 
-      container transport-params {
-        if-feature "ssh-client-transport-params-config";
+    container server-authentication {
+      nacm:default-deny-write;
+      must 'pinned-ssh-host-keys or pinned-ca-certs or '
+         + 'pinned-server-certs';
+      description
+        "Trusted server identities.";
+      leaf pinned-ssh-host-keys {
+        if-feature "ta:ssh-host-keys";
+        type ta:pinned-host-keys-ref;
         description
-          "Configurable parameters of the SSH transport layer.";
-        uses sshcmn:transport-params-grouping;
-      } // container transport-parameters
+          "A reference to a list of SSH host keys used by the
+           SSH client to authenticate SSH server host keys.
+           A server host key is authenticated if it is an
+           exact match to a configured SSH host key.";
+        reference
+          "RFC YYYY: YANG Data Model for Global Trust Anchors";
+      }
+      leaf pinned-ca-certs {
+        if-feature "sshcmn:ssh-x509-certs";
+        if-feature "ta:x509-certificates";
+        type ta:pinned-certificates-ref;
+        description
+          "A reference to a list of certificate authority (CA)
+           certificates used by the SSH client to authenticate
+           SSH server certificates.  A server certificate is
+           authenticated if it has a valid chain of trust to
+           a configured CA certificate.";
+        reference
+          "RFC YYYY: YANG Data Model for Global Trust Anchors";
+      }
+      leaf pinned-server-certs {
+        if-feature "sshcmn:ssh-x509-certs";
+        if-feature "ta:x509-certificates";
+        type ta:pinned-certificates-ref;
+        description
+          "A reference to a list of server certificates used by
+           the SSH client to authenticate SSH server certificates.
+           A server certificate is authenticated if it is an
+           exact match to a configured server certificate.";
+        reference
+          "RFC YYYY: YANG Data Model for Global Trust Anchors";
+      }
+    } // container server-authentication
 
-      container keepalives {
-        if-feature "ssh-client-keepalives";
-        presence "Indicates that keepalives are enabled.";
+    container transport-params {
+      nacm:default-deny-write;
+      if-feature "ssh-client-transport-params-config";
+      description
+        "Configurable parameters of the SSH transport layer.";
+      uses sshcmn:transport-params-grouping;
+    } // container transport-parameters
+
+    container keepalives {
+      nacm:default-deny-write;
+      if-feature "ssh-client-keepalives";
+      presence "Indicates that keepalives are enabled.";
+      description
+        "Configures the keep-alive policy, to proactively test
+         the aliveness of the SSH server.  An unresponsive TLS
+         server is dropped after approximately max-wait * 
+         max-attempts seconds.";
+      leaf max-wait {
+        type uint16 {
+          range "1..max";
+        }
+        units "seconds";
+        default "30";
         description
-          "Configures the keep-alive policy, to proactively test
-           the aliveness of the SSH server.  An unresponsive TLS
-           server is dropped after approximately max-wait * 
-           max-attempts seconds.";
-        leaf max-wait {
-          type uint16 {
-            range "1..max";
-          }
-          units "seconds";
-          default "30";
-          description
-            "Sets the amount of time in seconds after which if
-             no data has been received from the SSH server, a
-             TLS-level message will be sent to test the
-             aliveness of the SSH server.";
-        }
-        leaf max-attempts {
-          type uint8;
-          default "3";
-          description
-            "Sets the maximum number of sequential keep-alive
-             messages that can fail to obtain a response from
-             the SSH server before assuming the SSH server is
-             no longer alive.";
-        }
-      } // container keepalives
-    } // container ssh-client-parameters
+          "Sets the amount of time in seconds after which if
+           no data has been received from the SSH server, a
+           TLS-level message will be sent to test the
+           aliveness of the SSH server.";
+      }
+      leaf max-attempts {
+        type uint8;
+        default "3";
+        description
+          "Sets the maximum number of sequential keep-alive
+           messages that can fail to obtain a response from
+           the SSH server before assuming the SSH server is
+           no longer alive.";
+      }
+    } // container keepalives
   } // grouping ssh-client-grouping
 }

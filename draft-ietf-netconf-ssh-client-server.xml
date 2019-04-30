@@ -158,7 +158,7 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree-no-expand.txt)
         populated with some data. These examples are effectively the same
         except the first configures the client identity using a local key
         while the second uses a key configured in a keystore. Both examples
-        are consistent with the examples presented in Section 3 of <xref
+        are consistent with the examples presented in Section 2 of <xref
         target="I-D.ietf-netconf-trust-anchors"/> and Section 3.2 of <xref
         target="I-D.ietf-netconf-keystore"/>.</t>
 
@@ -210,7 +210,7 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree-no-expand.txt)
         populated with some data. These examples are effectively the same
         except the first configures the server identity using a local key
         while the second uses a key configured in a keystore. Both examples
-        are consistent with the examples presented in Section 3 of <xref
+        are consistent with the examples presented in Section 2 of <xref
         target="I-D.ietf-netconf-trust-anchors"/> and Section 3.2 of <xref
         target="I-D.ietf-netconf-keystore"/>.</t>
 
@@ -408,14 +408,14 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       operations. These are the subtrees and data nodes and their
       sensitivity/vulnerability:
         <list hangIndent="6" style="hanging">
-          <t hangText="   *:">The entire subtree defined by the grouping
+          <t hangText="   *:">All of the nodes defined by the grouping
             statement in both the "ietf-ssh-client" and "ietf-ssh-server"
-            modules is sensitive to write operations. For instance, the
+            modules are sensitive to write operations. For instance, the
             addition or removal of references to keys, certificates,
             trusted anchors, etc., or even the modification of transport
             or keepalive parameters can dramatically alter the implemented
-            security policy.  For this reason, this node is protected the
-            NACM extension "default-deny-write".</t>
+            security policy.  For this reason, all the nodes are protected
+            the NACM extension "default-deny-write".</t>
         </list>
       </t>
 
@@ -425,24 +425,22 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       notification) to these data nodes. These are the subtrees and data nodes
       and their sensitivity/vulnerability:
         <list hangIndent="6" style="hanging">
-          <t hangText="   /ssh-client-parameters/client-identity/:">This
+          <t hangText="   ssh-client-grouping/client-identity/:">This
           subtree in the "ietf-ssh-client" module contains nodes that are
           additionally sensitive to read operations such that, in normal use
-          cases, they should never be returned to a client.  Some of these
-          nodes (i.e., public-key/local-definition/private-key and
-          certificate/local-definition/private-key) are already protected
-          by the NACM extension "default-deny-all" set in the "grouping"
-          statements defined in <xref target="I-D.ietf-netconf-crypto-types"/>.
-          However, since the "password" node is defined in this module, the
-          NACM extension "default-deny-all" has been applied it here.</t>
-          <t hangText="   /ssh-server-parameters/server-identity/:">This
+          cases, they should never be returned to a client.  Specifically,
+          the descendent nodes 'password', 'public-key/local-definition/private-key'
+          and 'certificate/local-definition/private-key'.  For this reason,
+          all of these node are protected by the NACM extension
+          "default-deny-all".</t>
+          <t hangText="   ssh-server-grouping/server-identity/:">This
           subtree in the "ietf-ssh-server" module contains nodes that are
           additionally sensitive to read operations such that, in normal use
-          cases, they should never be returned to a client.  All of these
-          nodes (i.e., host-key/public-key/local-definition/private-key and
-          host-key/certificate/local-definition/private-key) are already
-          protected by the NACM extension "default-deny-all" set in the "grouping"
-          statements defined in <xref target="I-D.ietf-netconf-crypto-types"/>.</t>
+          cases, they should never be returned to a client.  Specifically,
+          the descendent nodes 'host-key/public-key/local-definition/private-key' and
+          'host-key/certificate/local-definition/private-key'.  For this
+          reason, both of these node are protected by the NACM extension
+          "default-deny-all".</t>
         </list>
       </t>
 
@@ -687,6 +685,20 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
               "must" statements into the NETCONF/RESTCONF client/server modules.</t>
             <t>Updated the boilerplate text in module-level "description" statement
               to match copyeditor convention.</t>
+          </list>
+        </t>
+      </section>
+      <section title="12 to 13">
+        <t>
+          <list style="symbols">
+            <t>Removed the "demux containers", floating the
+              nacm:default-deny-write to each descendent node, and
+              adding a note to model designers regarding the potential
+              need to add their own demux containers.</t>
+            <t>Fixed a couple references (section 2 --> section 3)</t>
+            <t>In the server model, replaced &lt;client-cert-auth&gt;
+              with &lt;client-authentication&gt; and introduced 
+              'local-or-external' choice.</t>
           </list>
         </t>
       </section>
