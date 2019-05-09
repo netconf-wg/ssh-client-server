@@ -10,17 +10,16 @@ module ietf-ssh-client {
       "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
-  import ietf-trust-anchors {
-    prefix ta;
+  import ietf-truststore {
+    prefix ts;
     reference
-      "RFC YYYY: YANG Data Model for Global Trust Anchors";
+      "RFC YYYY: A YANG Data Model for a Truststore";
   }
 
   import ietf-keystore {
     prefix ks;
     reference
-      "RFC ZZZZ:
-         YANG Data Model for a Centralized Keystore Mechanism";
+      "RFC ZZZZ: A YANG Data Model for a Keystore";
   }
 
   import ietf-netconf-acm {
@@ -147,13 +146,12 @@ module ietf-ssh-client {
 
     container server-authentication {
       nacm:default-deny-write;
-      must 'pinned-ssh-host-keys or pinned-ca-certs or '
-         + 'pinned-server-certs';
+      must 'ssh-host-keys or ca-certs or server-certs';
       description
         "Trusted server identities.";
-      leaf pinned-ssh-host-keys {
-        if-feature "ta:ssh-host-keys";
-        type ta:pinned-host-keys-ref;
+      leaf ssh-host-keys {
+        if-feature "ts:ssh-host-keys";
+        type ts:host-keys-ref;
         description
           "A reference to a list of SSH host keys used by the
            SSH client to authenticate SSH server host keys.
@@ -162,10 +160,10 @@ module ietf-ssh-client {
         reference
           "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
-      leaf pinned-ca-certs {
+      leaf ca-certs {
         if-feature "sshcmn:ssh-x509-certs";
-        if-feature "ta:x509-certificates";
-        type ta:pinned-certificates-ref;
+        if-feature "ts:x509-certificates";
+        type ts:certificates-ref;
         description
           "A reference to a list of certificate authority (CA)
            certificates used by the SSH client to authenticate
@@ -175,10 +173,10 @@ module ietf-ssh-client {
         reference
           "RFC YYYY: YANG Data Model for Global Trust Anchors";
       }
-      leaf pinned-server-certs {
+      leaf server-certs {
         if-feature "sshcmn:ssh-x509-certs";
-        if-feature "ta:x509-certificates";
-        type ta:pinned-certificates-ref;
+        if-feature "ts:x509-certificates";
+        type ts:certificates-ref;
         description
           "A reference to a list of server certificates used by
            the SSH client to authenticate SSH server certificates.

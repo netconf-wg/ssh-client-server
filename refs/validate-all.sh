@@ -22,30 +22,30 @@ yanglint -p ../ ../ietf-ssh-common\@*.yang
 echo "Testing ex-ssh-common.xml..."
 name=`ls -1 ../ietf-ssh-common\@*.yang | sed 's/\.\.\///'`
 sed 's/^}/container transport-params { uses transport-params-grouping; }}/' ../ietf-ssh-common\@*.yang > $name
-yanglint -s ../ietf-crypto-types\@*.yang ../ietf-trust-anchors\@*.yang ../ietf-keystore\@*.yang $name ex-ssh-common.xml
+yanglint -s ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang $name ex-ssh-common.xml
 rm $name
 
 echo "Testing ex-ssh-client-local.xml..."
 name=`ls -1 ../ietf-ssh-client\@*.yang | sed 's/\.\.\///'`
 sed 's/^}/container ssh-client { uses ssh-client-grouping; }}/' ../ietf-ssh-client\@*.yang > $name
-yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-trust-anchors\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-client-local.xml ../../trust-anchors/refs/ex-trust-anchors.xml ../../keystore/refs/ex-keystore.xml
+yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-client-local.xml ../../trust-anchors/refs/ex-truststore.xml ../../keystore/refs/ex-keystore.xml
 rm $name
 
 echo "Testing ex-ssh-client-keystore.xml..."
 name=`ls -1 ../ietf-ssh-client\@*.yang | sed 's/\.\.\///'`
 sed 's/^}/container ssh-client { uses ssh-client-grouping; }}/' ../ietf-ssh-client\@*.yang > $name
-yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-trust-anchors\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-client-keystore.xml ../../trust-anchors/refs/ex-trust-anchors.xml ../../keystore/refs/ex-keystore.xml
+yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-client-keystore.xml ../../trust-anchors/refs/ex-truststore.xml ../../keystore/refs/ex-keystore.xml
 rm $name
 
 echo "Testing ex-ssh-server-local.xml..."
 name=`ls -1 ../ietf-ssh-server\@*.yang | sed 's/\.\.\///'`
 sed 's/^}/container ssh-server { uses ssh-server-grouping; }}/' ../ietf-ssh-server\@*.yang > $name
-yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-trust-anchors\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-server-local.xml ../../trust-anchors/refs/ex-trust-anchors.xml ../../keystore/refs/ex-keystore.xml
+yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-server-local.xml ../../trust-anchors/refs/ex-truststore.xml ../../keystore/refs/ex-keystore.xml
 rm $name
 
 echo "Testing ex-ssh-server-keystore.xml..."
 name=`ls -1 ../ietf-ssh-server\@*.yang | sed 's/\.\.\///'`
 sed 's/^}/container ssh-server { uses ssh-server-grouping; }}/' ../ietf-ssh-server\@*.yang > $name
-yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-trust-anchors\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-server-keystore.xml ../../trust-anchors/refs/ex-trust-anchors.xml ../../keystore/refs/ex-keystore.xml
+yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-server-keystore.xml ../../trust-anchors/refs/ex-truststore.xml ../../keystore/refs/ex-keystore.xml
 rm $name
 

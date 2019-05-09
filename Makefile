@@ -50,7 +50,7 @@ endif
 $(next).xml: $(draft).xml ietf-ssh-client.yang ietf-ssh-server.yang ietf-ssh-common.yang 
 	sed -e"s/$(basename $<)-latest/$(basename $@)/" -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" $< > $@
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ../crypto-types/ietf-crypto-types.yang > ietf-crypto-types\@$(shell date +%Y-%m-%d).yang
-	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ../trust-anchors/ietf-trust-anchors.yang > ietf-trust-anchors\@$(shell date +%Y-%m-%d).yang
+	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ../trust-anchors/ietf-truststore.yang > ietf-truststore\@$(shell date +%Y-%m-%d).yang
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ../keystore/ietf-keystore.yang > ietf-keystore\@$(shell date +%Y-%m-%d).yang
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ietf-ssh-client.yang > ietf-ssh-client\@$(shell date +%Y-%m-%d).yang
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ietf-ssh-server.yang > ietf-ssh-server\@$(shell date +%Y-%m-%d).yang

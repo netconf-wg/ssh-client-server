@@ -702,6 +702,14 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+      <section title="13 to 14">
+        <t>
+          <list style="symbols">
+            <t>Updated to reflect changes in trust-anchors drafts
+              (e.g., s/trust-anchors/truststore/g + s/pinned.//)</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section numbered="no" title="Acknowledgements">
