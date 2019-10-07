@@ -182,13 +182,15 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-keystore.xml)
         target="I-D.ietf-netconf-trust-anchors"/>, and <xref
         target="I-D.ietf-netconf-keystore"/>.</t>
 
-        <t><figure>
+        <t>
+          <figure>
+            <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-client@YYYY-MM-DD.yang"</preamble>
             <artwork><![CDATA[
-<CODE BEGINS> file "ietf-ssh-client@YYYY-MM-DD.yang"
 INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang,71)
-<CODE ENDS>
 ]]></artwork>
-          </figure></t>
+            <postamble>&lt;CODE ENDS&gt;</postamble>
+          </figure>
+        </t>
       </section>
     </section>
 
@@ -235,13 +237,15 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-keystore.xml)
         target="I-D.ietf-netconf-keystore"/> and informative references to
         <xref target="RFC4253"/> and <xref target="RFC7317"/>.</t>
 
-        <t><figure>
+        <t>
+          <figure>
+            <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-server@YYYY-MM-DD.yang"</preamble>
             <artwork><![CDATA[
-<CODE BEGINS> file "ietf-ssh-server@YYYY-MM-DD.yang"
 INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
-<CODE ENDS>
 ]]></artwork>
-          </figure></t>
+            <postamble>&lt;CODE ENDS&gt;</postamble>
+          </figure>
+        </t>
       </section>
     </section>
 
@@ -374,13 +378,15 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
         target="RFC4419"/>, <xref target="RFC5656"/>, <xref
         target="RFC6187"/>, and <xref target="RFC6668"/>.</t>
 
-        <t><figure>
+        <t>
+          <figure>
+            <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-common@YYYY-MM-DD.yang"</preamble>
             <artwork><![CDATA[
-<CODE BEGINS> file "ietf-ssh-common@YYYY-MM-DD.yang"
 INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
-<CODE ENDS>
 ]]></artwork>
-          </figure></t>
+            <postamble>&lt;CODE ENDS&gt;</postamble>
+          </figure>
+        </t>
       </section>
     </section>
 
@@ -707,6 +713,18 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           <list style="symbols">
             <t>Updated to reflect changes in trust-anchors drafts
               (e.g., s/trust-anchors/truststore/g + s/pinned.//)</t>
+          </list>
+        </t>
+      </section>
+      <section title="14 to 15">
+        <t>
+          <list style="symbols">
+            <t>Updated examples to reflect ietf-crypto-types change
+              (e.g., identities --&gt; enumerations)</t>
+            <t>Updated "server-authentication" and "client-authentication" nodes from
+              being a leaf of type "ts:host-keys-ref" or "ts:certificates-ref" to a
+              container that uses "ts:local-or-truststore-host-keys-grouping" or 
+              "ts:local-or-truststore-certs-grouping".</t>
           </list>
         </t>
       </section>
