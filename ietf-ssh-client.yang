@@ -114,7 +114,8 @@ module ietf-ssh-client {
       choice auth-type {
         mandatory true;
         description
-          "The authentication type.";
+          "The authentication type.  What happens when more than
+           one decendent is configured is undefined.  FIXME.";
         leaf password {
           nacm:default-deny-all;
           type string;
