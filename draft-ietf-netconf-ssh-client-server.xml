@@ -728,6 +728,15 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+      <section title="15 to 16">
+        <t>
+          <list style="symbols">
+            <t>Removed unnecessary if-feature statements in the -client and -server modules.</t>
+            <t>Cleaned up some description statements in the -client and -server modules.</t>
+            <t>Fixed a canonical ordering issue in ietf-ssh-common detected by new pyang.</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section numbered="no" title="Acknowledgements">

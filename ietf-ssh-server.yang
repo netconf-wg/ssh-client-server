@@ -227,17 +227,16 @@ module ietf-ssh-server {
         }
       }
 
-
       choice local-or-external {
         mandatory true;
         description
-          "Indicates if the client credentials are configured
-           locally or externally.
+          "Indicates if the credentials needed to authenticate the
+           clients are configured locally or externally.
 
-           Configuring certificates externally enables applications
+           Configuring credentials externally enables applications
            to place client authentication with client definitions,
-           rather then in a data model principally concerned with
-           configuring the transport.";
+           rather then in a part of a data model principally
+           concerned with configuring the SSH transport.";
         case local {
           if-feature "local-client-auth-supported";
           description
@@ -261,52 +260,52 @@ module ietf-ssh-server {
                   "The password for this entry.";
               }
               container host-keys {  // FIXME: plural too much?
-                if-feature "ts:ssh-host-keys";
                 presence
                   "Indicates that the server can authenticate this
                    user using the configured SSH host keys.";
                 description
-                  "A list of public SSH host keys for this user.  A
-                   host key is authenticated if it is an exact match
-                   to a configured host key.";
+                  "A set of SSH host keys used by the SSH server to
+                   authenticate this user.  A user is authenticated
+                   if its host key is an exact match to a configured
+                   host key.";
                 reference
                   "RFC 4253: The Secure Shell (SSH) Transport Layer";
                 uses ts:local-or-truststore-host-keys-grouping;
               }
-              container ca-certs {  // FIXME: plural too much?
-                if-feature "sshcmn:ssh-x509-certs";
-                if-feature "ts:x509-certificates";
-                presence
-                  "Indicates that the server can authenticate
-                   this user using the configured trust anchor
-                   certificates.";
-                description
-                  "A list of certificate authority (CA) certificates
-                   for this user.  A client certificate is
-                   authenticated if it has a valid chain of trust
-                   to a configured CA certificate.";
-                reference
-                  "RFC YYYY:
-                    YANG Data Model for Global Trust Anchors";
-                uses ts:local-or-truststore-certs-grouping;
-              }
-              container client-certs {   // FIXME: plural too much?
-                if-feature "sshcmn:ssh-x509-certs";
-                if-feature "ts:x509-certificates";
-                presence
-                  "Indicates that the server can authenticate this
-                   user using the configured client certificates.";
-                description
-                  "A list of client certificates for this user. A
-                   client certificate is authenticated if it is an
-                   exact match to a configured client certificate.";
-                reference
-                  "RFC YYYY:
-                    YANG Data Model for Global Trust Anchors";
-                uses ts:local-or-truststore-certs-grouping;
-              }
-            } // list user
-          } // container users
+            }
+          }
+          container ca-certs {  // FIXME: plural too much?
+            if-feature "sshcmn:ssh-x509-certs";
+            presence
+              "Indicates that the server can authenticate
+               this user using the configured trust anchor
+               certificates.";
+            description
+              "A set of certificate authority (CA) certificates
+               used by the SSH server to authenticate this user.
+               A user is authenticated if its certificate has
+               a valid chain of trust to a configured CA
+               certificate.";
+            reference
+              "RFC YYYY:
+                YANG Data Model for Global Trust Anchors";
+            uses ts:local-or-truststore-certs-grouping;
+          }
+          container client-certs {   // FIXME: plural too much?
+            if-feature "sshcmn:ssh-x509-certs";
+            presence
+              "Indicates that the server can authenticate this
+               user using the configured client certificates.";
+            description
+              "A set of end-entity certificates used by the SSH
+               server to authenticate this user.  A user is
+               authenticated if its certificate is an exact
+               match to a configured user certificate.";
+            reference
+              "RFC YYYY:
+                YANG Data Model for Global Trust Anchors";
+            uses ts:local-or-truststore-certs-grouping;
+          }
         } // case local
         case external {
           if-feature "external-client-auth-supported";

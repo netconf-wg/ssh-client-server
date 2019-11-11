@@ -114,8 +114,8 @@ module ietf-ssh-common {
   }
 
   identity ecdsa-sha2-nistp256 {
-    base public-key-alg-base;
     if-feature "ssh-ecc and ssh-sha2";
+    base public-key-alg-base;
     description
       "Elliptic Curve Digital Signature Algorithm (ECDSA) using the
        nistp256 curve and the SHA2 family of hashing algorithms.";
@@ -125,8 +125,8 @@ module ietf-ssh-common {
   }
 
   identity ecdsa-sha2-nistp384 {
-    base public-key-alg-base;
     if-feature "ssh-ecc and ssh-sha2";
+    base public-key-alg-base;
     description
       "Elliptic Curve Digital Signature Algorithm (ECDSA) using the
        nistp384 curve and the SHA2 family of hashing algorithms.";
@@ -136,8 +136,8 @@ module ietf-ssh-common {
   }
 
   identity ecdsa-sha2-nistp521 {
-    base public-key-alg-base;
     if-feature "ssh-ecc and ssh-sha2";
+    base public-key-alg-base;
     description
       "Elliptic Curve Digital Signature Algorithm (ECDSA) using the
        nistp521 curve and the SHA2 family of hashing algorithms.";
@@ -147,8 +147,8 @@ module ietf-ssh-common {
   }
 
   identity x509v3-ssh-rsa {
-    base public-key-alg-base;
     if-feature "ssh-x509-certs";
+    base public-key-alg-base;
     description
       "RSASSA-PKCS1-v1_5 signature scheme using a public key stored
        in an X.509v3 certificate and using SHA-1 as the hashing
@@ -159,8 +159,8 @@ module ietf-ssh-common {
   }
 
   identity x509v3-rsa2048-sha256 {
-    base public-key-alg-base;
     if-feature "ssh-x509-certs and ssh-sha2";
+    base public-key-alg-base;
     description
       "RSASSA-PKCS1-v1_5 signature scheme using a public key stored
        in an X.509v3 certificate and using SHA-256 as the hashing
@@ -172,8 +172,8 @@ module ietf-ssh-common {
   }
 
   identity x509v3-ecdsa-sha2-nistp256 {
-    base public-key-alg-base;
     if-feature "ssh-ecc and ssh-x509-certs and ssh-sha2";
+    base public-key-alg-base;
     description
       "Elliptic Curve Digital Signature Algorithm (ECDSA)
        using the nistp256 curve with a public key stored in
@@ -185,8 +185,8 @@ module ietf-ssh-common {
   }
 
   identity x509v3-ecdsa-sha2-nistp384 {
-    base public-key-alg-base;
     if-feature "ssh-ecc and ssh-x509-certs and ssh-sha2";
+    base public-key-alg-base;
     description
       "Elliptic Curve Digital Signature Algorithm (ECDSA)
        using the nistp384 curve with a public key stored in
@@ -198,8 +198,8 @@ module ietf-ssh-common {
   }
 
   identity x509v3-ecdsa-sha2-nistp521 {
-    base public-key-alg-base;
     if-feature "ssh-ecc and ssh-x509-certs and ssh-sha2";
+    base public-key-alg-base;
     description
       "Elliptic Curve Digital Signature Algorithm (ECDSA)
        using the nistp521 curve with a public key stored in
@@ -225,8 +225,8 @@ module ietf-ssh-common {
   }
 
   identity diffie-hellman-group-exchange-sha1 {
-    base key-exchange-alg-base;
     if-feature "ssh-dh-group-exchange";
+    base key-exchange-alg-base;
     description
       "Diffie-Hellman Group and Key Exchange with SHA-1 as HASH.";
     reference
@@ -235,8 +235,8 @@ module ietf-ssh-common {
   }
 
   identity diffie-hellman-group-exchange-sha256 {
-    base key-exchange-alg-base;
     if-feature "ssh-dh-group-exchange and ssh-sha2";
+    base key-exchange-alg-base;
     description
       "Diffie-Hellman Group and Key Exchange with SHA-256 as HASH.";
     reference
@@ -245,8 +245,8 @@ module ietf-ssh-common {
   }
 
   identity ecdh-sha2-nistp256 {
-    base key-exchange-alg-base;
     if-feature "ssh-ecc and ssh-sha2";
+    base key-exchange-alg-base;
     description
       "Elliptic Curve Diffie-Hellman (ECDH) key exchange using the
        nistp256 curve and the SHA2 family of hashing algorithms.";
@@ -256,8 +256,8 @@ module ietf-ssh-common {
   }
 
   identity ecdh-sha2-nistp384 {
-    base key-exchange-alg-base;
     if-feature "ssh-ecc and ssh-sha2";
+    base key-exchange-alg-base;
     description
       "Elliptic Curve Diffie-Hellman (ECDH) key exchange using the
        nistp384 curve and the SHA2 family of hashing algorithms.";
@@ -267,8 +267,8 @@ module ietf-ssh-common {
   }
 
   identity ecdh-sha2-nistp521 {
-    base key-exchange-alg-base;
     if-feature "ssh-ecc and ssh-sha2";
+    base key-exchange-alg-base;
     description
       "Elliptic Curve Diffie-Hellman (ECDH) key exchange using the
        nistp521 curve and the SHA2 family of hashing algorithms.";
@@ -315,8 +315,8 @@ module ietf-ssh-common {
   }
 
   identity aes128-ctr {
-    base encryption-alg-base;
     if-feature "ssh-ctr";
+    base encryption-alg-base;
     description
       "AES in SDCTR mode, with 128-bit key.";
     reference
@@ -325,8 +325,8 @@ module ietf-ssh-common {
   }
 
   identity aes192-ctr {
-    base encryption-alg-base;
     if-feature "ssh-ctr";
+    base encryption-alg-base;
     description
       "AES in SDCTR mode, with 192-bit key.";
     reference
@@ -335,8 +335,8 @@ module ietf-ssh-common {
   }
 
   identity aes256-ctr {
-    base encryption-alg-base;
     if-feature "ssh-ctr";
+    base encryption-alg-base;
     description
       "AES in SDCTR mode, with 256-bit key.";
     reference
@@ -359,8 +359,8 @@ module ietf-ssh-common {
   }
 
   identity hmac-sha2-256 {
-    base mac-alg-base;
     if-feature "ssh-sha2";
+    base mac-alg-base;
     description
       "HMAC-SHA2-256";
     reference
@@ -369,8 +369,8 @@ module ietf-ssh-common {
   }
 
   identity hmac-sha2-512 {
-    base mac-alg-base;
     if-feature "ssh-sha2";
+    base mac-alg-base;
     description
       "HMAC-SHA2-512";
     reference

@@ -149,9 +149,9 @@ module ietf-ssh-client {
       nacm:default-deny-write;
       must 'ssh-host-keys or ca-certs or server-certs';
       description
-        "Trusted server identities.";
+        "Trusted server identities.  Any combination of trusted
+         server identities is additive and unordered.";
       container ssh-host-keys {
-        if-feature "ts:ssh-host-keys";
         presence
           "Indicates that the client can authenticate servers
            using the configured SSH host keys.";
@@ -166,30 +166,28 @@ module ietf-ssh-client {
       }
       container ca-certs {
         if-feature "sshcmn:ssh-x509-certs";
-        if-feature "ts:x509-certificates";
         presence
           "Indicates that the client can authenticate servers
            using the configured trust anchor certificates.";
         description
-          "A list of certificate authority (CA) certificates used by
-           the SSH client to authenticate SSH server certificates.
-           A server certificate is authenticated if it has a valid
-           chain of trust to a configured CA certificate.";
+          "A set of certificate authority (CA) certificates used by
+           the SSH client to authenticate SSH servers.  A server
+           is authenticated if its certificate  has a valid chain
+           of trust to a configured CA certificate.";
          reference
            "RFC YYYY: YANG Data Model for Global Trust Anchors";
         uses ts:local-or-truststore-certs-grouping;
       }
       container server-certs {
         if-feature "sshcmn:ssh-x509-certs";
-        if-feature "ts:x509-certificates";
         presence
           "Indicates that the client can authenticate servers
            using the configured server certificates.";
         description
-          "A list of server certificates used by the SSH client
-           to authenticate SSH server certificates.  A server
-           certificate is authenticated if it is an exact match
-           to a configured server certificate.";
+          "A set of end-entity certificates used by the SSH client
+           to authenticate SSH servers.  A server is authenticated
+           if its certificate is an exact match to a configured
+           server certificate.";
          reference
            "RFC YYYY: YANG Data Model for Global Trust Anchors";
         uses ts:local-or-truststore-certs-grouping;
