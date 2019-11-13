@@ -93,7 +93,11 @@ module ietf-ssh-server {
     description
       "Indicates that the configuration for how to authenticate
        clients can be configured herein, as opposed to in an
-       application specific location.";
+       application specific location.  That is, to support the
+       consuming data models that prefer to place client
+       authentication with client definitions, rather then
+       in a data model principally concerned with configuring
+       the transport.";
   }
 
   feature external-client-auth-supported {
