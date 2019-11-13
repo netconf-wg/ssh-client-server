@@ -149,8 +149,8 @@ module ietf-ssh-client {
       nacm:default-deny-write;
       must 'ssh-host-keys or ca-certs or server-certs';
       description
-        "Trusted server identities.  Any combination of trusted
-         server identities is additive and unordered.";
+        "Specifies how the SSH client can authenticate SSH servers.
+         Any combination of credentials is additive and unordered.";
       container ssh-host-keys {
         presence
           "Indicates that the client can authenticate servers

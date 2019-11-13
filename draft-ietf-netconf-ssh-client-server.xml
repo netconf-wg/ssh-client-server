@@ -737,6 +737,14 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+      <section title="16 to 17">
+        <t>
+          <list style="symbols">
+            <t>Removed choice local-or-external by removing the 'external' case and flattening
+              the 'local' case and adding a "client-auth-config-supported" feature.</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section numbered="no" title="Acknowledgements">
