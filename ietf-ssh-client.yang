@@ -10,16 +10,22 @@ module ietf-ssh-client {
       "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
+  import ietf-crypto-types {
+    prefix ct;
+    reference
+      "RFC AAAA: Common YANG Data Types for Cryptography";
+  }
+
   import ietf-truststore {
     prefix ts;
     reference
-      "RFC YYYY: A YANG Data Model for a Truststore";
+      "RFC BBBB: A YANG Data Model for a Truststore";
   }
 
   import ietf-keystore {
     prefix ks;
     reference
-      "RFC ZZZZ: A YANG Data Model for a Keystore";
+      "RFC CCCC: A YANG Data Model for a Keystore";
   }
 
   import ietf-netconf-acm {
@@ -123,7 +129,14 @@ module ietf-ssh-client {
             "A password to be used for client authentication.";
         }
         container public-key {
-          uses ks:local-or-keystore-asymmetric-key-grouping;
+          uses ks:local-or-keystore-asymmetric-key-grouping {
+            refine "local-or-keystore/local/local-definition" {
+              must 'public-key-format = "ct:ssh-public-key-format"';
+            }
+            // FIXME: also need a must expression to ensure the
+            //        *referenced* key's public-key-format is
+            //        "ct:ssh-public-key-format"
+          }
           description
             "A locally-defined or referenced asymmetric key
              pair to be used for client authentication.";

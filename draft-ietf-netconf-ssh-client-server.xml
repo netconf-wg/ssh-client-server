@@ -742,6 +742,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           <list style="symbols">
             <t>Removed choice local-or-external by removing the 'external' case and flattening
               the 'local' case and adding a "client-auth-config-supported" feature.</t>
+            <t>Updated examples to include the "*-key-format" nodes.</t>
+            <t>Augmented-in "must" expressions ensuring that locally-defined public-key-format
+              are "ct:ssh-public-key-format" (must expr for ref'ed keys are TBD).</t>
           </list>
         </t>
       </section>

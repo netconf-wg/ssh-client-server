@@ -10,16 +10,22 @@ module ietf-ssh-server {
       "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
+  import ietf-crypto-types {
+    prefix ct;
+    reference
+      "RFC AAAA: Common YANG Data Types for Cryptography";
+  }
+
   import ietf-truststore {
     prefix ts;
     reference
-      "RFC YYYY: A YANG Data Model for a Truststore";
+      "RFC BBBB: A YANG Data Model for a Truststore";
   }
 
   import ietf-keystore {
     prefix ks;
     reference
-      "RFC ZZZZ: A YANG Data Model for a Keystore";
+      "RFC CCCC: A YANG Data Model for a Keystore";
   }
 
   import iana-crypt-hash {
@@ -150,7 +156,15 @@ module ietf-ssh-server {
           description
             "The type of host key being specified";
           container public-key {
-            uses ks:local-or-keystore-asymmetric-key-grouping;
+            uses ks:local-or-keystore-asymmetric-key-grouping {
+              refine "local-or-keystore/local/local-definition" {
+                must
+                  'public-key-format = "ct:ssh-public-key-format"';
+              }
+              // FIXME: also need a must expression to ensure the
+              //        *referenced* key's public-key-format is
+              //        "ct:ssh-public-key-format"
+            }
             description
               "A locally-defined or referenced asymmetric key pair
                to be used for the SSH server's host key.";
@@ -162,6 +176,7 @@ module ietf-ssh-server {
             if-feature "sshcmn:ssh-x509-certs";
             uses
             ks:local-or-keystore-end-entity-cert-with-key-grouping;
+            must "public-key-format = ct:ssh-public-key-format";
             description
               "A locally-defined or referenced end-entity
                certificate to be used for the SSH server's
@@ -267,12 +282,13 @@ module ietf-ssh-server {
         if-feature "client-auth-config-supported";
         if-feature "sshcmn:ssh-x509-certs";
         presence
-          "Indicates that the SSH server can authenticate SSH clients
-           using configured certificate authority (CA) certificates.";
+          "Indicates that the SSH server can authenticate SSH
+           clients using configured certificate authority (CA)
+           certificates.";
         description
           "A set of certificate authority (CA) certificates used by
-           the SSH server to authenticate SSH client certificates. A
-           client certificate is authenticated if it has a valid
+           the SSH server to authenticate SSH client certificates.
+           A client certificate is authenticated if it has a valid
            chain of trust to a configured CA certificate.";
         reference
           "RFC YYYY:
@@ -283,13 +299,14 @@ module ietf-ssh-server {
         if-feature "client-auth-config-supported";
         if-feature "sshcmn:ssh-x509-certs";
         presence
-          "Indicates that the SSH server can authenticate SSH clients
-           using configured client certificates.";
+          "Indicates that the SSH server can authenticate SSH
+           clients using configured client certificates.";
         description
-          "A set of client certificates (i.e., end entity certificates)
-           used by the SSH server to authenticate certificates presented
-           by the SSH client. A client certificate is authenticated if
-           it is an exact match to a configured client certificate.";
+          "A set of client certificates (i.e., end entity
+           certificates) used by the SSH server to authenticate
+           the certificates presented by SSH clients.  A client
+           certificate is authenticated if it is an exact match
+           to a configured client certificate.";
         reference
           "RFC YYYY:
             YANG Data Model for Global Trust Anchors";

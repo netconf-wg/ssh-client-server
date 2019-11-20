@@ -1,5 +1,6 @@
 <ssh-client
   xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-client"
+  xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types"
   xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
 
   <!-- how this client will authenticate itself to the server -->
@@ -8,8 +9,10 @@
     <public-key>
       <local-definition>
         <algorithm>rsa2048</algorithm>
-        <private-key>base64encodedvalue==</private-key>
+        <public-key-format>ct:ssh-public-key-format</public-key-format>
         <public-key>base64encodedvalue==</public-key>
+        <private-key-format>ct:rsa-private-key-format</private-key-format>
+        <private-key>base64encodedvalue==</private-key>
       </local-definition>
     </public-key>
   </client-identity>
