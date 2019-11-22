@@ -748,6 +748,13 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+      <section title="17 to 18">
+        <t>
+          <list style="symbols">
+            <t>...</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section numbered="no" title="Acknowledgements">

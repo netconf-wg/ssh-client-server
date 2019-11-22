@@ -132,7 +132,6 @@ module ietf-ssh-client {
           uses ks:local-or-keystore-asymmetric-key-grouping {
             refine "local-or-keystore/local/local-definition" {
               must 'public-key-format = "ct:ssh-public-key-format"';
-              if-feature "ks:local-definitions-supported";
             }
             // FIXME: also need a must expression to ensure the
             //        *referenced* key's public-key-format is
