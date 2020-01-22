@@ -106,12 +106,6 @@ module ietf-ssh-server {
        the transport.";
   }
 
-  feature external-client-auth-supported {
-    description
-      "Indicates that the SSH server supports external configuration
-       of client credentials.";
-  }
-
   // Groupings
 
   grouping ssh-server-grouping {
