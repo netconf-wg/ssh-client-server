@@ -30,14 +30,17 @@
         <name>mary</name>
         <password>$0$secret</password>
         <public-keys>
+          <!-- FIXME: shouldn't this be an example of a 'local' definition? -->
           <truststore-reference>explicitly-trusted-ssh-host-keys</truststore-reference>
         </public-keys>
       </user>
     </users>
     <ca-certs>
+      <!-- FIXME: shouldn't this be an example of a 'local' definition? -->
       <truststore-reference>explicitly-trusted-client-ca-certs</truststore-reference>
     </ca-certs>
     <client-certs>
+      <!-- FIXME: shouldn't this be an example of a 'local' definition? -->
       <truststore-reference>explicitly-trusted-client-certs</truststore-reference>
     </client-certs>
   </client-authentication>
