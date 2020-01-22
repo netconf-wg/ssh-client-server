@@ -233,15 +233,6 @@ module ietf-ssh-server {
             "RFC 4252: The Secure Shell (SSH) Authentication
                        Protocol.";
         }
-        leaf-list other {
-          type string;
-          description
-            "Indicates a supported method name not defined by
-             RFC 4253.";
-          reference
-            "RFC 4252: The Secure Shell (SSH) Authentication
-                       Protocol.";
-        }
       }
 
       container users {
