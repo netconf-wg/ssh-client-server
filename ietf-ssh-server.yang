@@ -106,6 +106,24 @@ module ietf-ssh-server {
        the transport.";
   }
 
+  feature client-auth-password {
+    description
+      "Indicates that the 'password' authentication type
+       is supported.";
+  }
+
+  feature client-auth-hostbased {
+    description
+      "Indicates that the 'hostbased' authentication type
+       is supported.";
+  }
+
+  feature client-auth-none {
+    description
+      "Indicates that the 'none' authentication type is
+       supported.";
+  }
+
   // Groupings
 
   grouping ssh-server-grouping {
@@ -204,6 +222,7 @@ module ietf-ssh-server {
                        Authentication.";
         }
         leaf passsword {
+          if-feature client-auth-password;
           type empty;
           description
             "Indicates that the 'password' method is supported.";
@@ -212,6 +231,7 @@ module ietf-ssh-server {
                        Protocol.";
         }
         leaf hostbased {
+          if-feature client-auth-hostbased;
           type empty;
           description
             "Indicates that the 'hostbased' method is supported.";
@@ -220,6 +240,7 @@ module ietf-ssh-server {
                        Protocol.";
         }
         leaf none {
+          if-feature client-auth-none;
           type empty;
           description
             "Indicates that the 'none' method is supported.";
@@ -243,23 +264,54 @@ module ietf-ssh-server {
             description
              "The user name string identifying this entry.";
           }
-          leaf password {
-            type ianach:crypt-hash;
-            description
-              "The password for this entry.";
-          }
-          container host-keys {  // FIXME: plural too much?
+
+          container public-keys {
             presence
               "Indicates that the server can authenticate this
-               user using the configured SSH host keys.";
+               user using any of the configured SSH host keys.";
             description
-              "A set of SSH host keys used by the SSH server to
-               authenticate this user.  A user is authenticated
-               if its host key is an exact match to a configured
-               host key.";
+              "A set of SSH public keys may be used by the SSH
+               server to authenticate this user.  A user is
+               authenticated if its public key is an exact
+               match to a configured public key.";
             reference
-              "RFC 4253: The Secure Shell (SSH) Transport Layer";
+              "RFC YYYY: A YANG Data Model for a Truststore";
             uses ts:local-or-truststore-host-keys-grouping;
+          }
+
+          leaf password {
+            if-feature client-auth-password;
+            type ianach:crypt-hash;
+            description
+              "The password for this user.";
+          }
+
+          container hostbased {
+            if-feature client-auth-hostbased;
+            presence
+              "Indicates that the server can authenticate this
+               user's 'host' using any of the configured SSH
+               host keys.";
+            description
+              "A set of SSH host keys may be used by the SSH
+               server to authenticate this user's host.  A
+               user's host is authenticated if its host key
+               is an exact match to a configured host key.";
+            reference
+              "RFC 4253: The Secure Shell (SSH) Transport Layer
+               RFC YYYY: A YANG Data Model for a Truststore";
+            uses ts:local-or-truststore-host-keys-grouping;
+              "RFC 4253: The Secure Shell (SSH) Transport Layer";
+          }
+
+          leaf none {
+            if-feature client-auth-none;
+            type empty;
+            description
+              "Indicates that the 'none' method is supported.";
+            reference
+              "RFC 4252: The Secure Shell (SSH) Authentication
+                         Protocol.";
           }
         }
       }
@@ -293,8 +345,7 @@ module ietf-ssh-server {
            certificate is authenticated if it is an exact match
            to a configured client certificate.";
         reference
-          "RFC YYYY:
-            YANG Data Model for Global Trust Anchors";
+          "RFC YYYY: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-certs-grouping;
       }
     } // container client-authentication
