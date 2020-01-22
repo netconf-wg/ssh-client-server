@@ -301,7 +301,6 @@ module ietf-ssh-server {
               "RFC 4253: The Secure Shell (SSH) Transport Layer
                RFC YYYY: A YANG Data Model for a Truststore";
             uses ts:local-or-truststore-host-keys-grouping;
-              "RFC 4253: The Secure Shell (SSH) Transport Layer";
           }
 
           leaf none {

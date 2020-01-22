@@ -3,7 +3,7 @@
   xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types"
   xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
 
-  <!-- which host-keys will this SSH server present -->
+  <!-- the host-key this SSH server will present -->
   <server-identity>
     <host-key>
       <name>deployment-specific-certificate</name>
@@ -20,7 +20,7 @@
     </host-key>
   </server-identity>
 
-  <!-- which client credentials will this SSH server trust -->
+  <!-- the client credentials this SSH server will trust -->
   <client-authentication>
     <supported-authentication-methods>
       <publickey/>
@@ -29,9 +29,9 @@
       <user>
         <name>mary</name>
         <password>$0$secret</password>
-        <host-keys>
+        <public-keys>
           <truststore-reference>explicitly-trusted-ssh-host-keys</truststore-reference>
-        </host-keys>
+        </public-keys>
       </user>
     </users>
     <ca-certs>
