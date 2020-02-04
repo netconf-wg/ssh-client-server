@@ -756,7 +756,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
             <t>Added features client-auth-password, client-auth-hostbased, and client-auth-none.</t>
             <t>Renamed 'host-key' to 'public-key' for when refering to 'publickey' based auth.</t>
             <t>Added new feature-protected 'hostbased' and 'none' to the 'user' node's config.</t>
-            <t>FIXME: all this in ietf-ssh-server, does ietf-ssh-client need to be updated also?</t>
+            <t>FIXME: all the above in ietf-ssh-server, does ietf-ssh-client need to be updated also???</t>
+            <t>Updated examples to reflect new "bag" addition to truststore.</t>
           </list>
         </t>
       </section>
