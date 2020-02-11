@@ -161,9 +161,6 @@ module ietf-ssh-server {
                 must
                   'public-key-format = "ct:ssh-public-key-format"';
               }
-              // FIXME: also need a must expression to ensure the
-              //        *referenced* key's public-key-format is
-              //        "ct:ssh-public-key-format"
             }
             description
               "A locally-defined or referenced asymmetric key pair
@@ -229,15 +226,6 @@ module ietf-ssh-server {
           type empty;
           description
             "Indicates that the 'none' method is supported.";
-          reference
-            "RFC 4252: The Secure Shell (SSH) Authentication
-                       Protocol.";
-        }
-        leaf-list other {
-          type string;
-          description
-            "Indicates a supported method name not defined by
-             RFC 4253.";
           reference
             "RFC 4252: The Secure Shell (SSH) Authentication
                        Protocol.";
@@ -352,6 +340,6 @@ module ietf-ssh-server {
            the SSL client before assuming the SSL client is
            no longer alive.";
       }
-    } // container keepalives
-  } // grouping server-identity-grouping
+    }
+  } // grouping ssh-server-grouping
 }
