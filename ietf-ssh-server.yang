@@ -144,7 +144,7 @@ module ietf-ssh-server {
     container server-identity {
       nacm:default-deny-write;
       description
-        "The list of host-keys the SSH server will present when
+        "The list of host keys the SSH server will present when
          establishing a SSH connection.";
       list host-key {
         key "name";
@@ -161,7 +161,7 @@ module ietf-ssh-server {
         leaf name {
           type string;
           description
-            "An arbitrary name for this host-key";
+            "An arbitrary name for this host key";
         }
         choice host-key-type {
           mandatory true;
@@ -173,9 +173,6 @@ module ietf-ssh-server {
                 must
                   'public-key-format = "ct:ssh-public-key-format"';
               }
-              // FIXME: also need a must expression to ensure the
-              //        *referenced* key's public-key-format is
-              //        "ct:ssh-public-key-format"
             }
             description
               "A locally-defined or referenced asymmetric key pair
@@ -268,7 +265,7 @@ module ietf-ssh-server {
           container public-keys {
             presence
               "Indicates that the server can authenticate this
-               user using any of the configured SSH host keys.";
+               user using any of the configured SSH public keys.";
             description
               "A set of SSH public keys may be used by the SSH
                server to authenticate this user.  A user is
@@ -276,7 +273,7 @@ module ietf-ssh-server {
                match to a configured public key.";
             reference
               "RFC YYYY: A YANG Data Model for a Truststore";
-            uses ts:local-or-truststore-host-keys-grouping;
+            uses ts:local-or-truststore-ssh-public-keys-grouping;
           }
 
           leaf password {
@@ -300,7 +297,7 @@ module ietf-ssh-server {
             reference
               "RFC 4253: The Secure Shell (SSH) Transport Layer
                RFC YYYY: A YANG Data Model for a Truststore";
-            uses ts:local-or-truststore-host-keys-grouping;
+            uses ts:local-or-truststore-ssh-public-keys-grouping;
           }
 
           leaf none {

@@ -758,6 +758,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
             <t>Added new feature-protected 'hostbased' and 'none' to the 'user' node's config.</t>
             <t>FIXME: all the above in ietf-ssh-server, does ietf-ssh-client need to be updated also???</t>
             <t>Updated examples to reflect new "bag" addition to truststore.</t>
+            <t>replaced use of "ts:local-or-truststore-host-keys-grouping" with use
+              of "ts:local-or-truststore-ssh-public-keys-grouping"</t>
           </list>
         </t>
       </section>

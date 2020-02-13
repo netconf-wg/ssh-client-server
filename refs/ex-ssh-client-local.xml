@@ -17,13 +17,22 @@
     </public-key>
   </client-identity>
 
-  <!-- which host-keys will this client trust -->
+  <!-- which host keys will this client trust -->
   <server-authentication>
     <ssh-host-keys>
       <local-definition>
-        <host-key>base64encodedvalue==</host-key>
-        <host-key>base64encodedvalue==</host-key>
-        <host-key>base64encodedvalue==</host-key>
+      <ssh-public-key>
+        <name>corp-fw1</name>
+        <algorithm>secp256r1</algorithm>
+        <public-key-format>ct:ssh-public-key-format</public-key-format>
+        <public-key>base64encodedvalue==</public-key>
+      </ssh-public-key>
+      <ssh-public-key>
+        <name>corp-fw2</name>
+        <algorithm>secp256r1</algorithm>
+        <public-key-format>ct:ssh-public-key-format</public-key-format>
+        <public-key>base64encodedvalue==</public-key>
+      </ssh-public-key>
       </local-definition>
     </ssh-host-keys>
   </server-authentication>

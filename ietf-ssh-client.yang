@@ -133,9 +133,6 @@ module ietf-ssh-client {
             refine "local-or-keystore/local/local-definition" {
               must 'public-key-format = "ct:ssh-public-key-format"';
             }
-            // FIXME: also need a must expression to ensure the
-            //        *referenced* key's public-key-format is
-            //        "ct:ssh-public-key-format"
           }
           description
             "A locally-defined or referenced asymmetric key
@@ -175,7 +172,7 @@ module ietf-ssh-client {
            configured SSH host key.";
          reference
            "RFC YYYY: YANG Data Model for Global Trust Anchors";
-        uses ts:local-or-truststore-host-keys-grouping;
+        uses ts:local-or-truststore-ssh-public-keys-grouping;
       }
       container ca-certs {
         if-feature "sshcmn:ssh-x509-certs";
