@@ -384,6 +384,6 @@ module ietf-ssh-server {
            the SSL client before assuming the SSL client is
            no longer alive.";
       }
-    } // container keepalives
-  } // grouping server-identity-grouping
+    }
+  } // grouping ssh-server-grouping
 }
