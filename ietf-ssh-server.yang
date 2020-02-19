@@ -3,11 +3,16 @@ module ietf-ssh-server {
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-server";
   prefix sshs;
 
-  import ietf-ssh-common {
-    prefix sshcmn;
-    revision-date YYYY-MM-DD; // stable grouping definitions
+  import iana-crypt-hash {
+    prefix ianach;
     reference
-      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
+      "RFC 7317: A YANG Data Model for System Management";
+  }
+
+  import ietf-netconf-acm {
+    prefix nacm;
+    reference
+      "RFC 8341: Network Configuration Access Control Model";
   }
 
   import ietf-crypto-types {
@@ -28,16 +33,11 @@ module ietf-ssh-server {
       "RFC CCCC: A YANG Data Model for a Keystore";
   }
 
-  import iana-crypt-hash {
-    prefix ianach;
+  import ietf-ssh-common {
+    prefix sshcmn;
+    revision-date YYYY-MM-DD; // stable grouping definitions
     reference
-      "RFC 7317: A YANG Data Model for System Management";
-  }
-
-  import ietf-netconf-acm {
-    prefix nacm;
-    reference
-      "RFC 8341: Network Configuration Access Control Model";
+      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   organization
@@ -168,11 +168,14 @@ module ietf-ssh-server {
           description
             "The type of host key being specified";
           container public-key {
-            uses ks:local-or-keystore-asymmetric-key-grouping {
+            uses ks:local-or-keystore-asymmetric-key-grouping { // FIXME: add 'must' ensure refed keystore key has correct key-format
               refine "local-or-keystore/local/local-definition" {
                 must
                   'public-key-format = "ct:ssh-public-key-format"';
               }
+//YANGLINT_TEST              refine "local-or-keystore/keystore/keystore-reference" {
+//YANGLINT_TEST                must 'deref(.)/../public-key-format = "ct:ssh-public-key-format"';
+//YANGLINT_TEST              }
             }
             description
               "A locally-defined or referenced asymmetric key pair
@@ -184,8 +187,8 @@ module ietf-ssh-server {
           container certificate {
             if-feature "sshcmn:ssh-x509-certs";
             uses
-            ks:local-or-keystore-end-entity-cert-with-key-grouping;
-            must "public-key-format = ct:ssh-public-key-format";
+            ks:local-or-keystore-end-entity-cert-with-key-grouping; // FIXME: add 'must' ensure refed keystore key has correct key-format
+            //must "public-key-format = ct:ssh-public-key-format";  // FIXME: why not refine local-definition like above?
             description
               "A locally-defined or referenced end-entity
                certificate to be used for the SSH server's
@@ -273,7 +276,7 @@ module ietf-ssh-server {
                match to a configured public key.";
             reference
               "RFC YYYY: A YANG Data Model for a Truststore";
-            uses ts:local-or-truststore-ssh-public-keys-grouping;
+            uses ts:local-or-truststore-ssh-public-keys-grouping; // FIXME: ensure key-format is correct (for both local and refed cases)
           }
 
           leaf password {
@@ -297,7 +300,7 @@ module ietf-ssh-server {
             reference
               "RFC 4253: The Secure Shell (SSH) Transport Layer
                RFC YYYY: A YANG Data Model for a Truststore";
-            uses ts:local-or-truststore-ssh-public-keys-grouping;
+            uses ts:local-or-truststore-ssh-public-keys-grouping; // FIXME: ensure key-format is correct (for both local and refed cases)
           }
 
           leaf none {
@@ -326,7 +329,7 @@ module ietf-ssh-server {
         reference
           "RFC YYYY:
             YANG Data Model for Global Trust Anchors";
-        uses ts:local-or-truststore-certs-grouping;
+        uses ts:local-or-truststore-certs-grouping; // FIXME: ensure key-format is correct (for both local and refed cases)
       }
       container client-certs {   // FIXME: plural too much?
         if-feature "client-auth-config-supported";
@@ -342,7 +345,7 @@ module ietf-ssh-server {
            to a configured client certificate.";
         reference
           "RFC YYYY: A YANG Data Model for a Truststore";
-        uses ts:local-or-truststore-certs-grouping;
+        uses ts:local-or-truststore-certs-grouping; // FIXME: ensure key-format is correct (for both local and refed cases)
       }
     } // container client-authentication
 

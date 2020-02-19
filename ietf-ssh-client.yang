@@ -3,11 +3,10 @@ module ietf-ssh-client {
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-client";
   prefix sshc;
 
-  import ietf-ssh-common {
-    prefix sshcmn;
-    revision-date YYYY-MM-DD; // stable grouping definitions
+  import ietf-netconf-acm {
+    prefix nacm;
     reference
-      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
+      "RFC 8341: Network Configuration Access Control Model";
   }
 
   import ietf-crypto-types {
@@ -28,10 +27,11 @@ module ietf-ssh-client {
       "RFC CCCC: A YANG Data Model for a Keystore";
   }
 
-  import ietf-netconf-acm {
-    prefix nacm;
+  import ietf-ssh-common {
+    prefix sshcmn;
+    revision-date YYYY-MM-DD; // stable grouping definitions
     reference
-      "RFC 8341: Network Configuration Access Control Model";
+      "RFC XXXX: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   organization
@@ -129,7 +129,7 @@ module ietf-ssh-client {
             "A password to be used for client authentication.";
         }
         container public-key {
-          uses ks:local-or-keystore-asymmetric-key-grouping {
+          uses ks:local-or-keystore-asymmetric-key-grouping { // FIXME: add 'must' ensure refed keystore key has correct key-format
             refine "local-or-keystore/local/local-definition" {
               must 'public-key-format = "ct:ssh-public-key-format"';
             }
@@ -144,7 +144,7 @@ module ietf-ssh-client {
         container certificate {
           if-feature "sshcmn:ssh-x509-certs";
           uses
-            ks:local-or-keystore-end-entity-cert-with-key-grouping;
+            ks:local-or-keystore-end-entity-cert-with-key-grouping; // FIXME: add 'must' ensure refed keystore key has correct key-format
           description
             "A locally-defined or referenced certificate
              to be used for client authentication.";
@@ -172,7 +172,7 @@ module ietf-ssh-client {
            configured SSH host key.";
          reference
            "RFC YYYY: YANG Data Model for Global Trust Anchors";
-        uses ts:local-or-truststore-ssh-public-keys-grouping;
+        uses ts:local-or-truststore-ssh-public-keys-grouping; // FIXME: ensure key-format is correct (for both local and refed cases)
       }
       container ca-certs {
         if-feature "sshcmn:ssh-x509-certs";
@@ -186,7 +186,7 @@ module ietf-ssh-client {
            of trust to a configured CA certificate.";
          reference
            "RFC YYYY: YANG Data Model for Global Trust Anchors";
-        uses ts:local-or-truststore-certs-grouping;
+        uses ts:local-or-truststore-certs-grouping; // FIXME: ensure key-format is correct (for both local and refed cases)
       }
       container server-certs {
         if-feature "sshcmn:ssh-x509-certs";
@@ -200,7 +200,7 @@ module ietf-ssh-client {
            server certificate.";
          reference
            "RFC YYYY: YANG Data Model for Global Trust Anchors";
-        uses ts:local-or-truststore-certs-grouping;
+        uses ts:local-or-truststore-certs-grouping; // FIXME: ensure key-format is correct (for both local and refed cases)
       }
     } // container server-authentication
 
