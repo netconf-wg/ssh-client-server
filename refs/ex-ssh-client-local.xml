@@ -20,21 +20,58 @@
   <!-- which host keys will this client trust -->
   <server-authentication>
     <ssh-host-keys>
-      <local-definition>
-      <ssh-public-key>
-        <name>corp-fw1</name>
-        <algorithm>secp256r1</algorithm>
-        <public-key-format>ct:ssh-public-key-format</public-key-format>
-        <public-key>base64encodedvalue==</public-key>
-      </ssh-public-key>
-      <ssh-public-key>
-        <name>corp-fw2</name>
-        <algorithm>secp256r1</algorithm>
-        <public-key-format>ct:ssh-public-key-format</public-key-format>
-        <public-key>base64encodedvalue==</public-key>
-      </ssh-public-key>
+      <local-definition> <!-- FIXME: float 'local-def' down to each? -->
+        <!--<ssh-public-key>-->
+        <public-key>
+          <name>corp-fw1</name>
+          <algorithm>secp256r1</algorithm>
+          <public-key-format>ct:ssh-public-key-format</public-key-format>
+          <public-key>base64encodedvalue==</public-key>
+          <!--
+        </ssh-public-key>
+        <ssh-public-key>
+        -->
+        </public-key>
+        <public-key>
+          <name>corp-fw2</name>
+          <algorithm>secp256r1</algorithm>
+          <public-key-format>ct:ssh-public-key-format</public-key-format>
+          <public-key>base64encodedvalue==</public-key>
+          <!--</ssh-public-key>-->
+        </public-key>
       </local-definition>
     </ssh-host-keys>
+    <ca-certs>
+      <local-definition>
+        <!-- FIXME: float 'local-def' down to each?
+        <certificate>
+          <name>Server Cert Issuer #1</name>
+          <cert>base64encodedvalue==</cert>
+        </certificate>
+        <certificate>
+          <name>Server Cert Issuer #2</name>
+          <cert>base64encodedvalue==</cert>
+        </certificate>
+        -->
+        <cert>base64encodedvalue==</cert>
+        <cert>base64encodedvalue==</cert>
+      </local-definition>
+    </ca-certs>
+    <server-certs>
+      <local-definition>
+        <!-- FIXME: float 'local-def' down to each?
+        <certificate>
+          <name>My Application #1</name>
+          <cert>base64encodedvalue==</cert>
+        </certificate>
+        <certificate>
+          <name>My Application #2</name>
+          <cert>base64encodedvalue==</cert>
+        </certificate> -->
+        <cert>base64encodedvalue==</cert>
+        <cert>base64encodedvalue==</cert>
+      </local-definition>
+    </server-certs>
   </server-authentication>
 
   <transport-params>

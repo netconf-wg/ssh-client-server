@@ -186,7 +186,7 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-keystore.xml)
           <figure>
             <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-client@YYYY-MM-DD.yang"</preamble>
             <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang,71)
+INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
 ]]></artwork>
             <postamble>&lt;CODE ENDS&gt;</postamble>
           </figure>
@@ -756,10 +756,12 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
             <t>Added features client-auth-password, client-auth-hostbased, and client-auth-none.</t>
             <t>Renamed 'host-key' to 'public-key' for when refering to 'publickey' based auth.</t>
             <t>Added new feature-protected 'hostbased' and 'none' to the 'user' node's config.</t>
-            <t>FIXME: all the above in ietf-ssh-server, does ietf-ssh-client need to be updated also???</t>
+            <t>Added new feature-protected 'hostbased' and 'none' to the 'client-identity' node's config.</t>
             <t>Updated examples to reflect new "bag" addition to truststore.</t>
-            <t>replaced use of "ts:local-or-truststore-host-keys-grouping" with use
-              of "ts:local-or-truststore-ssh-public-keys-grouping"</t>
+            <t>Refined truststore/keystore groupings to ensure the key formats "must" be particular values.</t>
+            <t>Switched to using truststore's new "public-key" bag (instead of separate "ssh-public-key"
+              and "raw-public-key" bags.</t>
+            <t>Updated client/server examples to cover ALL cases (local/ref x cert/raw-key/psk).</t>
           </list>
         </t>
       </section>
