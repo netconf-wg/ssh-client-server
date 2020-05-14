@@ -287,12 +287,20 @@ module ietf-ssh-client {
     container keepalives {
       nacm:default-deny-write;
       if-feature "ssh-client-keepalives";
-      presence "Indicates that keepalives are enabled.";
+      presence
+        "Indicates that the SSH client proactively tests the
+         aliveness of the remote SSH server.";
       description
         "Configures the keep-alive policy, to proactively test
          the aliveness of the SSH server.  An unresponsive TLS
          server is dropped after approximately max-wait * 
-         max-attempts seconds.";
+         max-attempts seconds.  Per Section 4 of RFC 4254,
+         the SSH client SHOULD send an SSH_MSG_GLOBAL_REQUEST
+         message with a purposely nonexistent 'request name'
+         value (e.g., keepalive@ietf.org) and the 'want reply'
+         value set to '1'.";
+      reference
+        "RFC 4254: The Secure Shell (SSH) Connection Protocol";
       leaf max-wait {
         type uint16 {
           range "1..max";

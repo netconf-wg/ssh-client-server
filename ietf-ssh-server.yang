@@ -232,7 +232,7 @@ module ietf-ssh-server {
              RFC 6187: X.509v3 Certificates for Secure Shell
                        Authentication.";
         }
-        leaf passsword {
+        leaf password {
           if-feature client-auth-password;
           type empty;
           description
@@ -395,12 +395,20 @@ module ietf-ssh-server {
     container keepalives {
       nacm:default-deny-write;
       if-feature "ssh-server-keepalives";
-      presence "Indicates that keepalives are enabled.";
+      presence
+        "Indicates that the SSH server proactively tests the
+         aliveness of the remote SSH client.";
       description
         "Configures the keep-alive policy, to proactively test
          the aliveness of the SSL client.  An unresponsive SSL
          client is dropped after approximately max-wait *
-         max-attempts seconds.";
+         max-attempts seconds.  Per Section 4 of RFC 4254,
+         the SSH server SHOULD send an SSH_MSG_GLOBAL_REQUEST
+         message with a purposely nonexistent 'request name'
+         value (e.g., keepalive@ietf.org) and the 'want reply'
+         value set to '1'.";  
+      reference
+        "RFC 4254: The Secure Shell (SSH) Connection Protocol";
       leaf max-wait {
         type uint16 {
           range "1..max";

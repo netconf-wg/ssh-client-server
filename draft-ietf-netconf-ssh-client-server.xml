@@ -765,6 +765,14 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+      <section title="18 to 19">
+        <t>
+          <list style="symbols">
+            <t>Updated the "keepalives" containers to address Michal Vasko's request to
+              align with RFC 8071.</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section numbered="no" title="Acknowledgements">

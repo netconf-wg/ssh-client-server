@@ -101,5 +101,10 @@
       <mac-alg>algs:hmac-sha2-512</mac-alg>
     </mac>
   </transport-params>
+  
+  <keepalives>
+    <max-wait>30</max-wait>
+    <max-attempts>3</max-attempts>
+  </keepalives>
 
 </ssh-server>
