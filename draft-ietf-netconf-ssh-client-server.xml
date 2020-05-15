@@ -17,7 +17,7 @@
      ipr="trust200902">
   <front>
     <title abbrev="Groupings for SSH Clients and Servers">YANG Groupings for
-    SSH Clients and SSH Servers</title>
+      SSH Clients and SSH Servers</title>
 
     <author fullname="Kent Watsen" initials="K." surname="Watsen">
       <organization>Watsen Networks</organization>
@@ -35,18 +35,8 @@
       </address>
     </author>
 
-    <author fullname="Liang Xia" initials="L." surname="Xia">
-      <organization>Huawei</organization>
-
-      <address>
-        <email>frank.xialiang@huawei.com</email>
-      </address>
-    </author>
-
     <date/>
-
     <area>Operations</area>
-
     <workgroup>NETCONF Working Group</workgroup>
 
     <abstract>
@@ -770,6 +760,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           <list style="symbols">
             <t>Updated the "keepalives" containers to address Michal Vasko's request to
               align with RFC 8071.</t>
+            <t>Removed 'algorithm' node from examples.</t>
           </list>
         </t>
       </section>
@@ -777,11 +768,23 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
     <section numbered="no" title="Acknowledgements">
       <t>The authors would like to thank for following for lively discussions
-      on list and in the halls (ordered by last name): Andy Bierman, Martin
-      Bjorklund, Benoit Claise, Mehmet Ersue, Balázs Kovács, David Lamparter,
-      Alan Luchuk, Ladislav Lhotka, Radek Krejci, Tom Petch, Juergen
-      Schoenwaelder, Phil Shafer, Sean Turner, Michal Vaško, and Bert
-      Wijnen.</t>
+        on list and in the halls (ordered by last name):
+        Andy Bierman,
+        Martin Bjorklund,
+        Benoit Claise,
+        Mehmet Ersue,
+        Balázs Kovács,
+        Radek Krejci,
+        David Lamparter,
+        Ladislav Lhotka,
+        Alan Luchuk,
+        Tom Petch,
+        Juergen Schoenwaelder,
+        Phil Shafer,
+        Sean Turner,
+        Michal Vaško,
+        Bert Wijnen,
+        and Liang Xia.</t>
     </section>
   </back>
 </rfc>

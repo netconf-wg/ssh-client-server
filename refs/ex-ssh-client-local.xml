@@ -8,7 +8,6 @@
     <username>foobar</username>
     <public-key>
       <local-definition>
-        <algorithm>rsa2048</algorithm>
         <public-key-format>ct:ssh-public-key-format</public-key-format>
         <public-key>base64encodedvalue==</public-key>
         <private-key-format>ct:rsa-private-key-format</private-key-format>
@@ -24,7 +23,6 @@
         <!--<ssh-public-key>-->
         <public-key>
           <name>corp-fw1</name>
-          <algorithm>secp256r1</algorithm>
           <public-key-format>ct:ssh-public-key-format</public-key-format>
           <public-key>base64encodedvalue==</public-key>
           <!--
@@ -34,7 +32,6 @@
         </public-key>
         <public-key>
           <name>corp-fw2</name>
-          <algorithm>secp256r1</algorithm>
           <public-key-format>ct:ssh-public-key-format</public-key-format>
           <public-key>base64encodedvalue==</public-key>
           <!--</ssh-public-key>-->

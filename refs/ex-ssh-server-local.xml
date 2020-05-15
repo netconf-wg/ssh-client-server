@@ -9,7 +9,6 @@
       <name>my-pubkey-based-host-key</name>
       <public-key>
         <local-definition>
-          <algorithm>rsa2048</algorithm>
           <public-key-format>ct:ssh-public-key-format</public-key-format>
           <public-key>base64encodedvalue==</public-key>
           <private-key-format>ct:rsa-private-key-format</private-key-format>
@@ -21,7 +20,6 @@
       <name>my-cert-based-host-key</name>
       <certificate>
         <local-definition>
-          <algorithm>rsa2048</algorithm>
           <public-key-format>ct:ssh-public-key-format</public-key-format>
           <public-key>base64encodedvalue==</public-key>
           <private-key-format>ct:rsa-private-key-format</private-key-format>
@@ -46,7 +44,6 @@
             <!--<ssh-public-key>-->
             <public-key>
               <name>User A</name>
-              <algorithm>secp256r1</algorithm>
               <public-key-format>ct:ssh-public-key-format</public-key-format>
               <public-key>base64encodedvalue==</public-key>
               <!--</ssh-public-key>
@@ -54,7 +51,6 @@
             </public-key>
             <public-key>
               <name>User B</name>
-              <algorithm>secp256r1</algorithm>
               <public-key-format>ct:ssh-public-key-format</public-key-format>
               <public-key>base64encodedvalue==</public-key>
             </public-key>
