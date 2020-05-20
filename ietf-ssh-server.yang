@@ -106,6 +106,19 @@ module ietf-ssh-server {
        the transport.";
   }
 
+  feature client-auth-publickey {
+    description
+      "Indicates that the 'publickey' authentication type
+       is supported.
+       
+       The 'publickey' authentication type is required by
+       RFC 4252, but common implementations enable it to
+       be disabled.";
+    reference
+      "RFC 4252:
+        The Secure Shell (SSH) Authentication Protocol";
+  }
+
   feature client-auth-password {
     description
       "Indicates that the 'password' authentication type
@@ -172,8 +185,7 @@ module ietf-ssh-server {
               "A locally-defined or referenced asymmetric key pair
                to be used for the SSH server's host key.";
             reference
-              "RFC ZZZZ: YANG Data Model for a Centralized
-                         Keystore Mechanism";
+              "RFC CCCC: A YANG Data Model for a Keystore";
             uses ks:local-or-keystore-asymmetric-key-grouping {
               refine "local-or-keystore/local/local-definition" {
                 must
@@ -193,19 +205,19 @@ module ietf-ssh-server {
                certificate to be used for the SSH server's
                host key.";
             reference
-              "RFC ZZZZ: YANG Data Model for a Centralized
-                         Keystore Mechanism";
+              "RFC CCCC: A YANG Data Model for a Keystore";
             uses
             ks:local-or-keystore-end-entity-cert-with-key-grouping { 
               refine "local-or-keystore/local/local-definition" {
                 must
-                  'public-key-format = "ct:ssh-public-key-format"';
-              } // FIXME: subject-public-key-info-format?
+                  'public-key-format'
+                  + ' = "ct:subject-public-key-info-format"';
+              }
               refine "local-or-keystore/keystore/keystore-reference"
                      + "/asymmetric-key" {
                 must 'deref(.)/../ks:public-key-format'
-                     + ' = "ct:ssh-public-key-format"';
-              } // FIXME: subject-public-key-info-format?
+                     + ' = "ct:subject-public-key-info-format"';
+              }
             }
           }
         }
@@ -269,15 +281,13 @@ module ietf-ssh-server {
           key name;
           description
             "The list of local users configured on this device.";
-
           leaf name {
             type string;
             description
              "The user name string identifying this entry.";
           }
-
           container public-keys {
-            // FIXME: no if-feature because required okay?
+            if-feature client-auth-publickey;
             presence
               "Indicates that the server can authenticate this
                user using any of the configured SSH public keys.";
@@ -287,7 +297,7 @@ module ietf-ssh-server {
                authenticated if its public key is an exact
                match to a configured public key.";
             reference
-              "RFC YYYY: A YANG Data Model for a Truststore";
+              "RFC BBBB: A YANG Data Model for a Truststore";
             uses ts:local-or-truststore-public-keys-grouping {
               refine "local-or-truststore/local/local-definition"
                      + "/public-key" {
@@ -301,7 +311,6 @@ module ietf-ssh-server {
               }
             }
           }
-
           leaf password {
             if-feature client-auth-password;
             type ianach:crypt-hash;
@@ -322,7 +331,7 @@ module ietf-ssh-server {
                is an exact match to a configured host key.";
             reference
               "RFC 4253: The Secure Shell (SSH) Transport Layer
-               RFC YYYY: A YANG Data Model for a Truststore";
+               RFC BBBB: A YANG Data Model for a Truststore";
             uses ts:local-or-truststore-public-keys-grouping {
               refine "local-or-truststore/local/local-definition"
                      + "/public-key" {
@@ -360,27 +369,24 @@ module ietf-ssh-server {
            A client certificate is authenticated if it has a valid
            chain of trust to a configured CA certificate.";
         reference
-          "RFC YYYY:
-            YANG Data Model for Global Trust Anchors";
+          "RFC BBBB: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-certs-grouping;
-          // Note: TS certs don't have a key-format...no test needed
       }
-      container client-certs {   // FIXME: plural too much?
+      container ee-certs {
         if-feature "client-auth-config-supported";
         if-feature "sshcmn:ssh-x509-certs";
         presence
           "Indicates that the SSH server can authenticate SSH
-           clients using configured client certificates.";
+           clients using configured end-entity certificates.";
         description
           "A set of client certificates (i.e., end entity
            certificates) used by the SSH server to authenticate
            the certificates presented by SSH clients.  A client
            certificate is authenticated if it is an exact match
-           to a configured client certificate.";
+           to a configured end-entity certificate.";
         reference
-          "RFC YYYY: A YANG Data Model for a Truststore";
+          "RFC BBBB: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-certs-grouping;
-          // Note: TS certs don't have a key-format...no test needed
       }
     } // container client-authentication
 

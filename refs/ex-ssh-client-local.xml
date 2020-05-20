@@ -54,7 +54,7 @@
         <cert>base64encodedvalue==</cert>
       </local-definition>
     </ca-certs>
-    <server-certs>
+    <ee-certs>
       <local-definition>
         <!-- FIXME: float 'local-def' down to each?
         <certificate>
@@ -68,7 +68,7 @@
         <cert>base64encodedvalue==</cert>
         <cert>base64encodedvalue==</cert>
       </local-definition>
-    </server-certs>
+    </ee-certs>
   </server-authentication>
 
   <transport-params>

@@ -95,6 +95,16 @@ module ietf-ssh-client {
        is supported for client identification.";
   }
 
+  feature client-identity-publickey {
+    description
+      "Indicates that the 'publickey' authentication type
+       is supported for client identification.
+      
+       The 'publickey' authentication type is required by
+       RFC 4252, but common implementations enable it to
+       be disabled.";
+  }
+
   feature client-identity-hostbased {
     description
       "Indicates that the 'hostbased' authentication type
@@ -127,89 +137,89 @@ module ietf-ssh-client {
     container client-identity {
       nacm:default-deny-write;
       description
-        "The credentials used by the client to authenticate to
-         the SSH server.";
+        "The credentials that the client may use, pending
+         the SSH server's requirements, by the SSH client
+         to authenticate to the SSH server.";
       leaf username {
         type string;
         description
           "The username of this user.  This will be the username
            used, for instance, to log into an SSH server.";
       }
-      choice auth-type {
-        mandatory true;
+      container public-key {
+        if-feature client-identity-publickey;
+        presence
+          "Indicates that publickey-based authentication
+           is configured";
         description
-          "The authentication type.  What happens when more than
-           one decendent is configured is undefined.  FIXME.";
-        container public-key {
-          // FIXME: no if-feature because required okay?
-          description
-            "A locally-defined or referenced asymmetric key
-             pair to be used for client identification.";
-          reference
-            "RFC ZZZZ: YANG Data Model for a Centralized
-                       Keystore Mechanism";
-          uses ks:local-or-keystore-asymmetric-key-grouping {
-            refine "local-or-keystore/local/local-definition" {
-              must 'public-key-format = "ct:ssh-public-key-format"';
-            }
-            refine "local-or-keystore/keystore/keystore-reference" {
-              must 'deref(.)/../ks:public-key-format'
-                   + ' = "ct:ssh-public-key-format"';
-            }
+          "A locally-defined or referenced asymmetric key
+           pair to be used for client identification.";
+        reference
+          "RFC CCCC: A YANG Data Model for a Keystore";
+        uses ks:local-or-keystore-asymmetric-key-grouping {
+          refine "local-or-keystore/local/local-definition" {
+            must 'public-key-format = "ct:ssh-public-key-format"';
+          }
+          refine "local-or-keystore/keystore/keystore-reference" {
+            must 'deref(.)/../ks:public-key-format'
+                 + ' = "ct:ssh-public-key-format"';
           }
         }
-        leaf password {
-          if-feature client-identity-password;
-          nacm:default-deny-all;
-          type string;
-          description
-            "A password to be used for client identification.";
-        }
-        container hostbased {
-          if-feature client-identity-hostbased;
-          description
-            "A locally-defined or referenced asymmetric key
-             pair to be used for host identification.";
-          reference
-            "RFC ZZZZ: YANG Data Model for a Centralized
-                       Keystore Mechanism";
-          uses ks:local-or-keystore-asymmetric-key-grouping {
-            refine "local-or-keystore/local/local-definition" {
-              must 'public-key-format = "ct:ssh-public-key-format"';
-            }
-            refine "local-or-keystore/keystore/keystore-reference" {
-              must 'deref(.)/../ks:public-key-format'
-                   + ' = "ct:ssh-public-key-format"';
-            }
+      }
+      leaf password {
+        if-feature client-identity-password;
+        nacm:default-deny-all;
+        type string;
+        description
+          "A password to be used for client identification.";
+      }
+      container hostbased {
+        if-feature client-identity-hostbased;
+        presence
+          "Indicates that hostbased authentication is configured";
+        description
+          "A locally-defined or referenced asymmetric key
+           pair to be used for host identification.";
+        reference
+          "RFC CCCC: A YANG Data Model for a Keystore";
+        uses ks:local-or-keystore-asymmetric-key-grouping {
+          refine "local-or-keystore/local/local-definition" {
+            must 'public-key-format = "ct:ssh-public-key-format"';
+          }
+          refine "local-or-keystore/keystore/keystore-reference" {
+            must 'deref(.)/../ks:public-key-format'
+                 + ' = "ct:ssh-public-key-format"';
           }
         }
-        leaf none {
-          if-feature client-identity-none;
-          type empty;
-          description
-            "Indicates that 'none' algorithm is used for client
-             identification.";
-        }
-
-        container certificate {
-          if-feature "sshcmn:ssh-x509-certs";
-          description
-            "A locally-defined or referenced certificate
-             to be used for client identification.";
-          reference
-            "RFC ZZZZ: YANG Data Model for a Centralized
-                       Keystore Mechanism";
-          uses
-          ks:local-or-keystore-end-entity-cert-with-key-grouping {
-            refine "local-or-keystore/local/local-definition" {
-              must
-                'public-key-format = "ct:ssh-public-key-format"';
-            } // FIXME: subject-public-key-info-format?
-            refine "local-or-keystore/keystore/keystore-reference"
-                   + "/asymmetric-key" {
-              must 'deref(.)/../ks:public-key-format'
-                   + ' = "ct:ssh-public-key-format"';
-            } // FIXME: subject-public-key-info-format?
+      }
+      leaf none {
+        if-feature client-identity-none;
+        type empty;
+        description
+          "Indicates that 'none' algorithm is used for client
+           identification.";
+      }
+      container certificate {
+        if-feature "sshcmn:ssh-x509-certs";
+        presence
+          "Indicates that certificate-based authentication
+           is configured";
+        description
+          "A locally-defined or referenced certificate
+           to be used for client identification.";
+        reference
+          "RFC CCCC: A YANG Data Model for a Keystore";
+        uses
+        ks:local-or-keystore-end-entity-cert-with-key-grouping {
+          refine "local-or-keystore/local/local-definition" {
+            must
+              'public-key-format'
+              + ' = "ct:subject-public-key-info-format"';
+          }
+          refine "local-or-keystore/keystore/keystore-reference"
+                 + "/asymmetric-key" {
+            must 'deref(.)/../ks:public-key-format'
+                 + ' = "ct:subject-public-key-info-format"';
           }
         }
       }
@@ -217,7 +227,7 @@ module ietf-ssh-client {
 
     container server-authentication {
       nacm:default-deny-write;
-      must 'ssh-host-keys or ca-certs or server-certs';
+      must 'ssh-host-keys or ca-certs or ee-certs';
       description
         "Specifies how the SSH client can authenticate SSH servers.
          Any combination of credentials is additive and unordered.";
@@ -231,7 +241,7 @@ module ietf-ssh-client {
            is authenticated if it is an exact match to a
            configured SSH host key.";
         reference
-           "RFC YYYY: YANG Data Model for Global Trust Anchors";
+           "RFC BBBB: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-public-keys-grouping {
           refine
             "local-or-truststore/local/local-definition/public-key" {
@@ -255,24 +265,22 @@ module ietf-ssh-client {
            is authenticated if its certificate  has a valid chain
            of trust to a configured CA certificate.";
          reference
-           "RFC YYYY: YANG Data Model for Global Trust Anchors";
+           "RFC BBBB: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-certs-grouping;
-          // Note: TS certs don't have a key-format...no test needed
       }
-      container server-certs { // FIXME: rename to "ee-certs"?
+      container ee-certs {
         if-feature "sshcmn:ssh-x509-certs";
         presence
           "Indicates that the client can authenticate servers
-           using the configured server certificates.";
+           using the configured end-entity certificates.";
         description
           "A set of end-entity certificates used by the SSH client
            to authenticate SSH servers.  A server is authenticated
            if its certificate is an exact match to a configured
-           server certificate.";
+           end-entity certificate.";
          reference
-           "RFC YYYY: YANG Data Model for Global Trust Anchors";
+           "RFC BBBB: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-certs-grouping;
-          // Note: TS certs don't have a key-format...no test needed
       }
     } // container server-authentication
 

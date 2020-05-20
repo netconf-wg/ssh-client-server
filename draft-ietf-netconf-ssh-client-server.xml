@@ -64,8 +64,10 @@
       <t>The following Appendix section is to be removed prior to publication:
         <list style="symbols">
           <t>Appendix A. Change Log</t>
-        </list></t>
+        </list>
+      </t>
     </note>
+INSERT_TEXT_FROM_FILE(../client-server-overview-snippet.xml,158)
   </front>
 
   <middle>
@@ -661,6 +663,11 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
               align with RFC 8071.</t>
             <t>Removed algorithm-mapping tables from the "SSH Common Model" section</t>
             <t>Removed 'algorithm' node from examples.</t>
+            <t>Added feature "client-identity-publickey"</t>
+            <t>Removed "choice auth-type", as auth-types aren't exclusive.</t>
+            <t>Renamed both "client-certs" and "server-certs" to "ee-certs"</t>
+            <t>Switch "must" to assert the public-key-format is "subject-public-key-info-format" when certificates are used.</t>
+            <t>Added a "Note to Reviewers" note to first page.</t>
           </list>
         </t>
       </section>
