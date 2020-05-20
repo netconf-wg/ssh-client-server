@@ -126,8 +126,8 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree-no-expand.txt)
       </section>
 
       <section title="Example Usage">
-        <t>This section presents two examples showing the ssh-client-grouping
-        populated with some data. These examples are effectively the same
+        <t>This section presents two examples showing the "ssh-client-grouping"
+        grouping populated with some data. These examples are effectively the same
         except the first configures the client identity using a local key
         while the second uses a key configured in a keystore. Both examples
         are consistent with the examples presented in Section 2 of <xref
@@ -180,8 +180,8 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree-no-expand.txt)
       </section>
 
       <section title="Example Usage">
-        <t>This section presents two examples showing the ssh-server-grouping
-        populated with some data. These examples are effectively the same
+        <t>This section presents two examples showing the "ssh-server-grouping"
+        grouping populated with some data. These examples are effectively the same
         except the first configures the server identity using a local key
         while the second uses a key configured in a keystore. Both examples
         are consistent with the examples presented in Section 2 of <xref
@@ -224,7 +224,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
     <section anchor="ssh-common-model" title="The SSH Common Model">
       <t>The SSH common model presented in this section contains identities
       and groupings common to both SSH clients and SSH servers. The
-      transport-params-grouping can be used to configure the list of SSH
+      "transport-params-grouping" grouping can be used to configure the list of SSH
       transport algorithms permitted by the SSH client or SSH server. The
       lists of algorithms are ordered such that, if multiple algorithms are
       permitted by the client, the algorithm that appears first in its list
@@ -254,7 +254,7 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree.txt)
 
       <section title="Example Usage">
         <t>This following example illustrates how the
-        transport-params-grouping appears when populated with some data.</t>
+        "transport-params-grouping' grouping appears when populated with some data.</t>
 
         <t><figure>
             <artwork><![CDATA[
