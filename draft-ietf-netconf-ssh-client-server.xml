@@ -671,6 +671,14 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+      <section title="19 to 20">
+        <t>
+          <list style="symbols">
+            <t>Added a "must 'public-key or password or hostbased or none or certificate'"
+              statement to the "user" node in ietf-ssh-client</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section numbered="no" title="Acknowledgements">
