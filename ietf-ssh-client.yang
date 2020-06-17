@@ -136,12 +136,12 @@ module ietf-ssh-client {
 
     container client-identity {
       nacm:default-deny-write;
+      must
+        'public-key or password or hostbased or none or certificate';
       description
         "The credentials that the client may use, pending
          the SSH server's requirements, by the SSH client
          to authenticate to the SSH server.";
-      must
-        'public-key or password or hostbased or none or certificate';
       leaf username {
         type string;
         description
