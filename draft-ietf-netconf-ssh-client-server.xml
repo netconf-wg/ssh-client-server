@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+
 <?rfc toc="yes"?>
 <?rfc symrefs="yes"?>
 <?rfc sortrefs="yes" ?>
@@ -13,7 +14,11 @@
 <?rfc-ext allow-markup-in-artwork="yes" ?>
 <?rfc-ext include-index="no" ?>
 <!--<?rfc strict="no"?> -->
-<rfc category="std" docName="draft-ietf-netconf-ssh-client-server-latest"
+
+<rfc xmlns:xi="http://www.w3.org/2001/XInclude"
+     category="std"
+     consensus="true"
+     docName="draft-ietf-netconf-ssh-client-server-latest"
      ipr="trust200902">
   <front>
     <title abbrev="Groupings for SSH Clients and Servers">YANG Groupings for
@@ -63,11 +68,10 @@
       </t>
       <t>The following Appendix section is to be removed prior to publication:
         <list style="symbols">
-          <t>Appendix A. Change Log</t>
+          <t><xref target="change-log"/>.  Change Log</t>
         </list>
       </t>
     </note>
-INSERT_TEXT_FROM_FILE(../client-server-overview-snippet.xml,148)
   </front>
 
   <middle>
@@ -102,27 +106,256 @@ INSERT_TEXT_FROM_FILE(../client-server-overview-snippet.xml,148)
       <t>The modules defined in this document optionally support <xref
       target="RFC6187"/> enabling X.509v3 certificate based host keys and
       public keys.</t>
+
+INSERT_TEXT_FROM_FILE(../common-intro-snippet.xml,150)
+
+      <section title="Adherence to the NMDA">
+        <t>This document in compliant with the Network Management Datastore
+          Architecture (NMDA) <xref target="RFC8342"/>.  For instance, as
+          described in <xref target="I-D.ietf-netconf-trust-anchors"/> and
+          <xref target="I-D.ietf-netconf-keystore"/>, trust anchors and keys
+          installed during manufacturing are expected to appear
+          in &lt;operational&gt;.</t>
+      </section>
     </section>
 
-    <section title="Terminology">
-      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-      "OPTIONAL" in this document are to be interpreted as described in BCP 14
-      <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when,
-      they appear in all capitals, as shown here.</t>
-    </section>
+    <section anchor="ssh-common-model" title="The &quot;ietf-ssh-common&quot; Module">
+      <t>The SSH common model presented in this section contains identities
+      and groupings common to both SSH clients and SSH servers. The
+      "transport-params-grouping" grouping can be used to configure the list of SSH
+      transport algorithms permitted by the SSH client or SSH server. The
+      lists of algorithms are ordered such that, if multiple algorithms are
+      permitted by the client, the algorithm that appears first in its list
+      that is also permitted by the server is used for the SSH transport layer
+      connection. The ability to restrict the algorithms allowed is
+      provided in this grouping for SSH clients and SSH servers that are
+      capable of doing so and may serve to make SSH clients and SSH servers
+      compliant with security policies.</t>
 
-    <section anchor="ssh-client-model" title="The SSH Client Model">
-      <section title="Tree Diagram">
-        <t>This section provides a tree diagram <xref target="RFC8340"/> for
-        the "ietf-ssh-client" module that does not have groupings
-        expanded.</t>
+      <t>Features are defined for algorithms that are OPTIONAL or are not
+      widely supported by popular implementations. Note that the list of
+      algorithms is not exhaustive. As well, some algorithms that are REQUIRED
+      by <xref target="RFC4253"/> are missing, notably "ssh-dss" and
+      "diffie-hellman-group1-sha1" due to their weak security and there being
+      alternatives that are widely supported.</t>
+
+      <section title="Data Model Overview">
+
+        <section title="Features" anchor="common-features" toc="exclude">
+          <t>The following diagram lists all the "feature" statements
+            defined in the "ietf-ssh-common" module:</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+Features:
+  +-- ssh-ecc
+  +-- ssh-x509-certs
+  +-- ssh-dh-group-exchange
+  +-- ssh-ctr
+  +-- ssh-sha2
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+
+        <section title="Identities" anchor="identities" toc="exclude">
+          <t>The following diagram illustrates the relationship amongst the
+            "identity" statements defined in the "ietf-ssh-common" module:</t>
+          <t>
+            <figure>
+             <artwork><![CDATA[
+Identities:               
+  +-- public-key-alg-base
+  |  +-- ssh-dss
+  |  +-- ssh-rsa
+  |  +-- ecdsa-sha2-nistp256
+  |  +-- ecdsa-sha2-nistp384
+  |  +-- ecdsa-sha2-nistp521
+  |  +-- x509v3-ssh-rsa
+  |  +-- x509v3-rsa2048-sha256
+  |  +-- x509v3-ecdsa-sha2-nistp256
+  |  +-- x509v3-ecdsa-sha2-nistp384
+  |  +-- x509v3-ecdsa-sha2-nistp521
+  +-- key-exchange-alg-base
+  |  +-- diffie-hellman-group14-sha1
+  |  +-- diffie-hellman-group-exchange-sha1
+  |  +-- diffie-hellman-group-exchange-sha256
+  |  +-- ecdh-sha2-nistp256
+  |  +-- ecdh-sha2-nistp384
+  |  +-- ecdh-sha2-nistp521
+  +-- encryption-alg-base
+  |  +-- triple-des-cbc
+  |  +-- aes128-cbc
+  |  +-- aes192-cbc
+  |  +-- aes256-cbc
+  |  +-- aes128-ctr
+  |  +-- aes192-ctr
+  |  +-- aes256-ctr
+  +-- mac-alg-base
+     +-- hmac-sha1
+     +-- hmac-sha2-256
+     +-- hmac-sha2-512
+]]></artwork>
+            </figure>
+          </t>
+          <t>Comments:</t>
+          <ul spacing="compact">
+            <li>The diagram shows that there are four base identities.</li>
+            <li>These identities are used by this module to define algorithms for
+              public-key, key-exchange, encryption, and MACs.</li>
+            <li>These base identities are "abstract", in the object orientied
+              programming sense, in that they only define a "class" of algorithms, 
+              rather than a specific algorithm.</li>
+          </ul>
+        </section>
+          
+        <section title="Groupings" toc="exclude">
+          <t>The following diagram lists all the "grouping" statements
+            defined in the "ietf-ssh-common" module:</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+Groupings:
+  +-- transport-params-grouping
+]]></artwork>
+            </figure>
+          </t>
+          <t>Each of these groupings are presented in the following subsections.</t>
+
+          <section title="The &quot;transport-params-grouping&quot; Grouping" anchor="transport-params-grouping">
+            <t>The following tree diagram <xref target="RFC8340"/> illustrates the
+              "transport-params-grouping" grouping:</t>
+            <t>
+              <figure>
+               <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/tree-transport-params-grouping.no-expand.txt)
+]]></artwork>
+              </figure>
+            </t>
+            <t>Comments:</t>
+            <ul>
+              <li>This grouping is used by both the "ssh-client-grouping" and the
+                "ssh-server-grouping" groupings defined in <xref target="ssh-client-grouping"/>
+                and <xref target="ssh-server-grouping"/>, respectively.</li>
+              <li>This grouping enables client and server configurations to
+                specify the algorithms that are to be used when establishing
+                SSH sessions.</li>
+              <li>Each list is "ordered-by user".</li>
+            </ul>
+          </section>
+        </section>
+
+        <section title="Protocol-accessible Nodes" toc="exclude">
+          <t>The "ietf-ssh-common" module does not contain any protocol-accessible nodes,
+            but the module needs to be "implemented", as described in <relref
+            section="5.6.5" target="RFC7950"/>, in order for the identities in
+            <xref target="identities"/> to be defined.</t>
+        </section>
+
+      </section>
+
+      <section title="Example Usage">
+        <t>This following example illustrates how the
+        "transport-params-grouping' grouping appears when populated with some data.</t>
 
         <t><figure>
             <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree-no-expand.txt)
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
 ]]></artwork>
           </figure></t>
+      </section>
+
+      <section anchor="ssh-common-yang-module" title="YANG Module">
+        <t>This YANG module has normative references to <xref
+        target="RFC4253"/>, <xref target="RFC4344"/>, <xref
+        target="RFC4419"/>, <xref target="RFC5656"/>, <xref
+        target="RFC6187"/>, and <xref target="RFC6668"/>.</t>
+
+
+        <t>
+          <figure>
+            <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-common@YYYY-MM-DD.yang"</preamble>
+            <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
+]]></artwork>
+            <postamble>&lt;CODE ENDS&gt;</postamble>
+          </figure>
+        </t>
+      </section>
+    </section>
+
+    <section anchor="ssh-client-model" title="The &quot;ietf-ssh-client&quot; Module">
+      <section title="Data Model Overview">
+
+        <section title="Features" anchor="client-features" toc="exclude">
+          <t>The following diagram lists all the "feature" statements
+            defined in the "ietf-ssh-client" module:</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+Features:
+  +-- ssh-client-transport-params-config
+  +-- ssh-client-keepalives
+  +-- client-identity-password
+  +-- client-identity-publickey
+  +-- client-identity-hostbased
+  +-- client-identity-none
+]]></artwork>
+            </figure>
+          </t>
+        </section>
+
+        <section title="Groupings" toc="exclude">
+          <t>The following diagram lists all the "grouping" statements
+            defined in the "ietf-ssh-client" module:</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+Groupings:
+  +-- ssh-client-grouping
+]]></artwork>
+            </figure>
+          </t>
+          <t>Each of these groupings are presented in the following subsections.</t>
+
+          <section title="The &quot;ssh-client-grouping&quot; Grouping" anchor="ssh-client-grouping">
+            <t>The following tree diagram <xref target="RFC8340"/> illustrates the
+              "ssh-client-grouping" grouping:</t>
+            <t>
+              <figure>
+               <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/tree-ssh-client-grouping.no-expand.txt)
+]]></artwork>
+              </figure>
+            </t>
+            <t>Comments:</t>
+            <ul>
+              <li>The "client-identity" node configures a "username" and credentials,
+                each enabled by a "feature" statement defined in <xref target="client-features"/>.</li>
+              <li>The "server-authentication" node configures trust anchors for
+                authenticating the SSH server, with each option enabled by a "feature" statement.</li>
+              <li>The "transport-params" node, which must be enabled by a feature, configures
+                parameters for the SSH sessions established by this configuration.</li>
+              <li>The "keepalives" node, which must be enabled by a feature, configures
+                a "presence" container for testing the aliveness of the SSH server.  The
+                aliveness-test occurs at the SSH protocol layer.</li>
+              <li>For the referenced grouping statement(s):
+                <ul spacing="compact">
+                  <li>The "local-or-keystore-asymmetric-key-grouping" grouping is
+                    discussed in <relref section="2.1.3.4" target="I-D.ietf-netconf-keystore"/>.</li>
+                  <li>The "local-or-keystore-end-entity-cert-with-key-grouping" grouping is
+                    discussed in <relref section="2.1.3.6" target="I-D.ietf-netconf-keystore"/>.</li>
+                  <li>The "local-or-truststore-public-keys-grouping" grouping is
+                    discussed in <relref section="2.1.3.2" target="I-D.ietf-netconf-trust-anchors"/>.</li>
+                  <li>The "local-or-truststore-certs-grouping" grouping is
+                    discussed in <relref section="2.1.3.1" target="I-D.ietf-netconf-trust-anchors"/>.</li>
+                  <li>The "transport-params-grouping" grouping is discussed in
+                  <xref target="transport-params-grouping"/> in this document.</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
       </section>
 
       <section title="Example Usage">
@@ -134,19 +367,24 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-client-tree-no-expand.txt)
         target="I-D.ietf-netconf-trust-anchors"/> and Section 3.2 of <xref
         target="I-D.ietf-netconf-keystore"/>.</t>
 
-        <t>The following example configures the client identity using a local
-        key: <figure>
+        <t>The following configuration example uses local-definitions for the
+          client identity and server authentication:
+          <figure>
             <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-local.xml)
 ]]></artwork>
-          </figure></t>
+          </figure>
+        </t>
 
-        <t>The following example configures the client identity using a key
-        from the keystore: <figure>
+        <t>The following configuration example uses keystore-references for the
+          client identity and truststore-references for server authentication:
+          from the keystore:
+          <figure>
             <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-keystore.xml)
 ]]></artwork>
-          </figure></t>
+          </figure>
+        </t>
       </section>
 
       <section anchor="ssh-client-yang-module" title="YANG Module">
@@ -166,17 +404,78 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
       </section>
     </section>
 
-    <section anchor="ssh-server-model" title="The SSH Server Model">
-      <section title="Tree Diagram">
-        <t>This section provides a tree diagram <xref target="RFC8340"/> for
-        the "ietf-ssh-server" module that does not have groupings
-        expanded.</t>
-
-        <t><figure>
-            <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree-no-expand.txt)
+    <section anchor="ssh-server-model" title="The &quot;ietf-ssh-server&quot; Module">
+      <section title="Data Model Overview">
+        <section title="Features" anchor="server-features" toc="exclude">
+          <t>The following diagram lists all the "feature" statements
+            defined in the "ietf-ssh-server" module:</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+Features:
+  +-- ssh-server-transport-params-config
+  +-- ssh-server-keepalives
+  +-- client-auth-config-supported
+  +-- client-auth-publickey
+  +-- client-auth-password
+  +-- client-auth-hostbased
+  +-- client-auth-none
 ]]></artwork>
-          </figure></t>
+            </figure>
+          </t>
+        </section>
+
+        <section title="Groupings" toc="exclude">
+          <t>The following diagram lists all the "grouping" statements
+            defined in the "ietf-ssh-server" module:</t>
+          <t>
+            <figure>
+              <artwork><![CDATA[
+Groupings:
+  +-- ssh-server-grouping
+]]></artwork>
+            </figure>
+          </t>
+          <t>Each of these groupings are presented in the following subsections.</t>
+
+          <section title="The &quot;ssh-server-grouping&quot; Grouping" anchor="ssh-server-grouping">
+            <t>The following tree diagram <xref target="RFC8340"/> illustrates the
+              "ssh-server-grouping" grouping:</t>
+            <t>
+              <figure>
+               <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/tree-ssh-server-grouping.no-expand.txt)
+]]></artwork>
+              </figure>
+            </t>
+            <t>Comments:</t>
+            <ul>
+              <li>The "server-identity" node configures identity credentials.  The
+                ability to use a certificate is enabled by a "feature".</li>
+              <li>The "client-authentication" node configures trust anchors for
+                authenticating the SSH client, with each option enabled by a "feature" statement.</li>
+              <li>The "transport-params" node, which must be enabled by a feature, configures
+                parameters for the SSH sessions established by this configuration.</li>
+              <li>The "keepalives" node, which must be enabled by a feature, configures
+                a "presence" container for testing the aliveness of the SSH client.  The
+                aliveness-test occurs at the SSH protocol layer.</li>
+              <li>For the referenced grouping statement(s):
+                <ul spacing="compact">
+                  <li>The "local-or-keystore-asymmetric-key-grouping" grouping is
+                    discussed in <relref section="2.1.3.4" target="I-D.ietf-netconf-keystore"/>.</li>
+                  <li>The "local-or-keystore-end-entity-cert-with-key-grouping" grouping is
+                    discussed in <relref section="2.1.3.6" target="I-D.ietf-netconf-keystore"/>.</li>
+                  <li>The "local-or-truststore-public-keys-grouping" grouping is
+                    discussed in <relref section="2.1.3.2" target="I-D.ietf-netconf-trust-anchors"/>.</li>
+                  <li>The "local-or-truststore-certs-grouping" grouping is
+                    discussed in <relref section="2.1.3.1" target="I-D.ietf-netconf-trust-anchors"/>.</li>
+                  <li>The "transport-params-grouping" grouping is discussed in
+                  <xref target="transport-params-grouping"/> in this document.</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
       </section>
 
       <section title="Example Usage">
@@ -188,19 +487,24 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-server-tree-no-expand.txt)
         target="I-D.ietf-netconf-trust-anchors"/> and Section 3.2 of <xref
         target="I-D.ietf-netconf-keystore"/>.</t>
 
-        <t>The following example configures the server identity using a local
-        key: <figure>
+        <t>The following configuration example uses local-definitions for the
+          server identity and client authentication:
+          <figure>
             <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-local.xml)
 ]]></artwork>
-          </figure></t>
+          </figure>
+        </t>
 
-        <t>The following example configures the server identity using a key
-        from the keystore: <figure>
+        <t>The following configuration example uses keystore-references for the
+          server identity and truststore-references for client authentication:
+          from the keystore:
+          <figure>
             <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-keystore.xml)
 ]]></artwork>
-          </figure></t>
+          </figure>
+        </t>
       </section>
 
       <section anchor="ssh-server-yang-module" title="YANG Module">
@@ -221,139 +525,129 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
       </section>
     </section>
 
-    <section anchor="ssh-common-model" title="The SSH Common Model">
-      <t>The SSH common model presented in this section contains identities
-      and groupings common to both SSH clients and SSH servers. The
-      "transport-params-grouping" grouping can be used to configure the list of SSH
-      transport algorithms permitted by the SSH client or SSH server. The
-      lists of algorithms are ordered such that, if multiple algorithms are
-      permitted by the client, the algorithm that appears first in its list
-      that is also permitted by the server is used for the SSH transport layer
-      connection. The ability to restrict the algorithms allowed is
-      provided in this grouping for SSH clients and SSH servers that are
-      capable of doing so and may serve to make SSH clients and SSH servers
-      compliant with security policies.</t>
-
-      <t>Features are defined for algorithms that are OPTIONAL or are not
-      widely supported by popular implementations. Note that the list of
-      algorithms is not exhaustive. As well, some algorithms that are REQUIRED
-      by <xref target="RFC4253"/> are missing, notably "ssh-dss" and
-      "diffie-hellman-group1-sha1" due to their weak security and there being
-      alternatives that are widely supported.</t>
-
-      <section title="Tree Diagram">
-        <t>The following tree diagram <xref target="RFC8340"/> provides an
-        overview of the data model for the "ietf-ssh-common" module.</t>
-
-        <t><figure>
-            <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree.txt)
-]]></artwork>
-          </figure></t>
-      </section>
-
-      <section title="Example Usage">
-        <t>This following example illustrates how the
-        "transport-params-grouping' grouping appears when populated with some data.</t>
-
-        <t><figure>
-            <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
-]]></artwork>
-          </figure></t>
-      </section>
-
-      <section anchor="ssh-common-yang-module" title="YANG Module">
-        <t>This YANG module has normative references to <xref
-        target="RFC4253"/>, <xref target="RFC4344"/>, <xref
-        target="RFC4419"/>, <xref target="RFC5656"/>, <xref
-        target="RFC6187"/>, and <xref target="RFC6668"/>.</t>
-
-        <t>
-          <figure>
-            <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-common@YYYY-MM-DD.yang"</preamble>
-            <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
-]]></artwork>
-            <postamble>&lt;CODE ENDS&gt;</postamble>
-          </figure>
-        </t>
-      </section>
-    </section>
-
     <section title="Security Considerations">
-      <t>The YANG modules defined in this document are designed to be accessed
-      via YANG based management protocols, such as NETCONF <xref
-      target="RFC6241"/> and RESTCONF <xref target="RFC8040"/>. Both of these
-      protocols have mandatory-to-implement secure transport layers (e.g.,
-      SSH, TLS) with mutual authentication.</t>
 
-      <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
-      provides the means to restrict access for particular users to a
-      pre-configured subset of all available protocol operations and
-      content.</t>
+      <section title="The &quot;ietf-ssh-common&quot; YANG Module">
+        <t>The "ietf-ssh-common" YANG module defines "grouping" statements
+          that are designed to be accessed via YANG based management
+          protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
+          <xref target="RFC8040"/>.  Both of these protocols have
+          mandatory-to-implement secure transport layers (e.g., SSH, TLS)
+          with mutual authentication.</t>
 
-      <t>Since the modules in this document only define groupings,
-      these considerations are primarily for the designers of other modules
-      that use these groupings.</t>
+        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+          provides the means to restrict access for particular users to a
+          pre-configured subset of all available protocol operations and
+          content.</t>
 
-      <t>There are a number of data nodes defined in the YANG modules that are
-      writable/creatable/deletable (i.e., config true, which is the default).
-      These data nodes may be considered sensitive or vulnerable in some
-      network environments. Write operations (e.g., edit-config) to these data
-      nodes without proper protection can have a negative effect on network
-      operations. These are the subtrees and data nodes and their
-      sensitivity/vulnerability:
-        <list hangIndent="6" style="hanging">
-          <t hangText="   *:">All of the nodes defined by the grouping
-            statement in both the "ietf-ssh-client" and "ietf-ssh-server"
-            modules are sensitive to write operations. For instance, the
-            addition or removal of references to keys, certificates,
-            trusted anchors, etc., or even the modification of transport
-            or keepalive parameters can dramatically alter the implemented
-            security policy.  For this reason, all the nodes are protected
-            the NACM extension "default-deny-write".</t>
-        </list>
-      </t>
+        <t>Since the module in this document only define groupings,
+          these considerations are primarily for the designers of other
+          modules that use these groupings.</t>
 
-      <t>Some of the readable data nodes in the YANG modules may be considered
-      sensitive or vulnerable in some network environments. It is thus
-      important to control read access (e.g., via get, get-config, or
-      notification) to these data nodes. These are the subtrees and data nodes
-      and their sensitivity/vulnerability:
-        <list hangIndent="6" style="hanging">
-          <t hangText="   ssh-client-grouping/client-identity/:">This
-          subtree in the "ietf-ssh-client" module contains nodes that are
-          additionally sensitive to read operations such that, in normal use
-          cases, they should never be returned to a client.  Specifically,
-          the descendent nodes 'password', 'public-key/local-definition/private-key'
-          and 'certificate/local-definition/private-key'.  For this reason,
-          all of these node are protected by the NACM extension
-          "default-deny-all".</t>
-          <t hangText="   ssh-server-grouping/server-identity/:">This
-          subtree in the "ietf-ssh-server" module contains nodes that are
-          additionally sensitive to read operations such that, in normal use
-          cases, they should never be returned to a client.  Specifically,
-          the descendent nodes 'host-key/public-key/local-definition/private-key' and
-          'host-key/certificate/local-definition/private-key'.  For this
-          reason, both of these node are protected by the NACM extension
-          "default-deny-all".</t>
-        </list>
-      </t>
+        <t>None of the readable data nodes defined in this YANG module are
+          considered sensitive or vulnerable in network environments.
+          The NACM "default-deny-all" extension has not been set for
+          any data nodes defined in this module.</t>
 
-      <t>Some of the operations in this YANG module may be considered
-        sensitive or vulnerable in some network environments. It is
-        thus important to control access to these operations. These
-        are the operations and their sensitivity/vulnerability:
-        <list style="hanging" hangIndent="6">
-          <t hangText="   *:">The groupings defined in this document
-            include "action" statements that come from groupings defined
-            in <xref target="I-D.ietf-netconf-crypto-types"/>.  Please
-            consult that document for the security considerations of
-            the "action" statements defined by the "grouping"
-            statements defined in this document.</t>
-        </list>
-      </t>
+        <t>None of the writable data nodes defined in this YANG module are
+          considered sensitive or vulnerable in network environments.
+          The NACM "default-deny-write" extension has not been set for
+          any data nodes defined in this module.</t>
+
+        <t>This module does not define any RPCs, actions, or notifications,
+          and thus the security consideration for such is not provided here.</t>
+      </section>
+
+      <section title="The &quot;ietf-ssh-client&quot; YANG Module">
+        <t>The "ietf-ssh-client" YANG module defines "grouping" statements
+          that are designed to be accessed via YANG based management
+          protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
+          <xref target="RFC8040"/>.  Both of these protocols have
+          mandatory-to-implement secure transport layers (e.g., SSH, TLS)
+          with mutual authentication.</t>
+
+        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+          provides the means to restrict access for particular users to a
+          pre-configured subset of all available protocol operations and
+          content.</t>
+
+        <t>Since the module in this document only define groupings,
+          these considerations are primarily for the designers of other
+          modules that use these groupings.</t>
+
+        <t>One readable data node defined in this YANG module may be considered
+          sensitive or vulnerable in some network environments. This
+          node is as follows:
+          <list style="symbols">
+            <t>The "client-identity/password" node:
+              <ul empty="true">
+                <li>The cleartext "password" node defined in the "ssh-client-grouping"
+                  grouping is additionally sensitive to read operations such that,
+                  in normal use cases, it should never be returned to a client.
+                  For this reason, the NACM extension "default-deny-all" has been
+                  applied to it.</li>
+              </ul>
+            </t>
+          </list>
+        </t>
+        <aside>
+          <t>Please be aware that this module uses the "key" and "private-key"
+            nodes from the "ietf-crypto-types" module <xref target="I-D.ietf-netconf-crypto-types"/>,
+            where said nodes have the NACM extension "default-deny-all" set, thus
+            preventing unrestricted read-access to the cleartext key values.</t>
+        </aside>
+
+        <t>All of the writable data nodes defined by this module may be
+          considered sensitive or vulnerable in some network environments.
+          For instance, any modification to a key or reference to a key
+          may dramatically alter the implemented security policy.  For
+          this reason, the NACM extension "default-deny-write" has been
+          set for all data nodes defined in this module.</t>
+
+        <t>This module does not define any RPCs, actions, or notifications,
+          and thus the security consideration for such is not provided here.</t>
+      </section>
+
+      <section title="The &quot;ietf-ssh-server&quot; YANG Module">
+        <t>The "ietf-ssh-server" YANG module defines "grouping" statements
+          that are designed to be accessed via YANG based management
+          protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
+          <xref target="RFC8040"/>.  Both of these protocols have
+          mandatory-to-implement secure transport layers (e.g., SSH, TLS)
+          with mutual authentication.</t>
+
+        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+          provides the means to restrict access for particular users to a
+          pre-configured subset of all available protocol operations and
+          content.</t>
+
+        <t>Since the module in this document only define groupings,
+          these considerations are primarily for the designers of other
+          modules that use these groupings.</t>
+
+        <t>None of the readable data nodes defined in this YANG module are
+          considered sensitive or vulnerable in network environments.
+          The NACM "default-deny-all" extension has not been set for
+          any data nodes defined in this module.</t>
+        <aside>
+          <t>Please be aware that this module uses the "key" and "private-key"
+            nodes from the "ietf-crypto-types" module <xref target="I-D.ietf-netconf-crypto-types"/>,
+            where said nodes have the NACM extension "default-deny-all" set, thus
+            preventing unrestricted read-access to the cleartext key values.</t>
+        </aside>
+
+        <t>All of the writable data nodes defined by this module may be
+          considered sensitive or vulnerable in some network environments.
+          For instance, the addition or removal of references to keys,
+          certificates, trusted anchors, etc., or even the modification
+          of transport or keepalive parameters can dramatically alter
+          the implemented security policy.  For this reason, the NACM
+          extension "default-deny-write" has been set for all data nodes
+          defined in this module.</t>
+
+        <t>This module does not define any RPCs, actions, or notifications,
+          and thus the security consideration for such is not provided here.</t>
+      </section>
     </section>
 
     <section title="IANA Considerations">
@@ -365,15 +659,15 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
         <t><figure>
             <artwork>
+   URI: urn:ietf:params:xml:ns:yang:ietf-ssh-common
+   Registrant Contact: The NETCONF WG of the IETF.
+   XML: N/A, the requested URI is an XML namespace.
+
    URI: urn:ietf:params:xml:ns:yang:ietf-ssh-client
    Registrant Contact: The NETCONF WG of the IETF.
    XML: N/A, the requested URI is an XML namespace.
 
    URI: urn:ietf:params:xml:ns:yang:ietf-ssh-server
-   Registrant Contact: The NETCONF WG of the IETF.
-   XML: N/A, the requested URI is an XML namespace.
-
-   URI: urn:ietf:params:xml:ns:yang:ietf-ssh-common
    Registrant Contact: The NETCONF WG of the IETF.
    XML: N/A, the requested URI is an XML namespace.
 </artwork>
@@ -387,6 +681,11 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
         <t><figure>
             <artwork>
+   name:         ietf-ssh-common
+   namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-common
+   prefix:       sshcmn
+   reference:    RFC EEEE
+
    name:         ietf-ssh-client
    namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-client
    prefix:       sshc
@@ -395,11 +694,6 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
    name:         ietf-ssh-server
    namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-server
    prefix:       sshs
-   reference:    RFC EEEE
-
-   name:         ietf-ssh-common
-   namespace:    urn:ietf:params:xml:ns:yang:ietf-ssh-common
-   prefix:       sshcmn
    reference:    RFC EEEE
 </artwork>
           </figure></t>
@@ -419,9 +713,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       <?rfc include="reference.RFC.7950.xml"?>
       <?rfc include="reference.RFC.8174.xml"?>
       <?rfc include="reference.RFC.8341.xml"?>
-      <?rfc include="reference.I-D.ietf-netconf-trust-anchors"?>
-      <?rfc include="reference.I-D.ietf-netconf-keystore"?>
-      <?rfc include="reference.I-D.ietf-netconf-crypto-types"?>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-crypto-types.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-trust-anchors.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-keystore.xml"/>
     </references>
 
     <references title="Informative References">
@@ -443,6 +737,13 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       <?rfc include="reference.RFC.8040.xml"?>
       <?rfc include="reference.RFC.8071.xml"?>
       <?rfc include="reference.RFC.8340.xml"?>
+      <?rfc include="reference.RFC.8342.xml"?>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-tcp-client-server.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-ssh-client-server.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-tls-client-server.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-http-client-server.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-netconf-client-server.xml"/>
+      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-restconf-client-server.xml"/>
       <reference anchor="OPENSSH" target="http://www.openssh.com">
         <front>
           <title>OpenSSH</title>
@@ -452,7 +753,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
       </reference>
     </references>
 
-    <section title="Change Log">
+    <section title="Change Log" removeInRFC="true" anchor="change-log">
       <section title="00 to 01">
         <t>
           <list style="symbols">
@@ -676,12 +977,15 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
           <list style="symbols">
             <t>Added a "must 'public-key or password or hostbased or none or certificate'"
               statement to the "user" node in ietf-ssh-client</t>
+            <t>Expanded "Data Model Overview section(s) [remove "wall" of tree diagrams].</t>
+            <t>Moved the "ietf-ssh-common" module section to proceed the other two module sections.</t>
+            <t>Updated the Security Considerations section.</t>
           </list>
         </t>
       </section>
     </section>
 
-    <section numbered="no" title="Acknowledgements">
+    <section title="Acknowledgements" numbered="no">
       <t>The authors would like to thank for following for lively discussions
         on list and in the halls (ordered by last name):
         Andy Bierman,

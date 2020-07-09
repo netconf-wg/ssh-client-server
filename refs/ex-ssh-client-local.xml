@@ -40,60 +40,30 @@
     </ssh-host-keys>
     <ca-certs>
       <local-definition>
-        <!-- FIXME: float 'local-def' down to each?
         <certificate>
           <name>Server Cert Issuer #1</name>
-          <cert>base64encodedvalue==</cert>
+          <cert-data>base64encodedvalue==</cert-data>
         </certificate>
         <certificate>
           <name>Server Cert Issuer #2</name>
-          <cert>base64encodedvalue==</cert>
+          <cert-data>base64encodedvalue==</cert-data>
         </certificate>
-        -->
-        <cert>base64encodedvalue==</cert>
-        <cert>base64encodedvalue==</cert>
       </local-definition>
     </ca-certs>
     <ee-certs>
       <local-definition>
-        <!-- FIXME: float 'local-def' down to each?
         <certificate>
           <name>My Application #1</name>
-          <cert>base64encodedvalue==</cert>
+          <cert-data>base64encodedvalue==</cert-data>
         </certificate>
         <certificate>
           <name>My Application #2</name>
-          <cert>base64encodedvalue==</cert>
-        </certificate> -->
-        <cert>base64encodedvalue==</cert>
-        <cert>base64encodedvalue==</cert>
+          <cert-data>base64encodedvalue==</cert-data>
+        </certificate>
       </local-definition>
     </ee-certs>
   </server-authentication>
 
-  <transport-params>
-    <host-key>
-      <host-key-alg>algs:ssh-rsa</host-key-alg>
-    </host-key>
-    <key-exchange>
-      <key-exchange-alg>
-        algs:diffie-hellman-group-exchange-sha256
-      </key-exchange-alg>
-    </key-exchange>
-    <encryption>
-      <encryption-alg>algs:aes256-ctr</encryption-alg>
-      <encryption-alg>algs:aes192-ctr</encryption-alg>
-      <encryption-alg>algs:aes128-ctr</encryption-alg>
-      <encryption-alg>algs:aes256-cbc</encryption-alg>
-      <encryption-alg>algs:aes192-cbc</encryption-alg>
-      <encryption-alg>algs:aes128-cbc</encryption-alg>
-    </encryption>
-    <mac>
-      <mac-alg>algs:hmac-sha2-256</mac-alg>
-      <mac-alg>algs:hmac-sha2-512</mac-alg>
-    </mac>
-  </transport-params>
-  
   <keepalives>
     <max-wait>30</max-wait>
     <max-attempts>3</max-attempts>

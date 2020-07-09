@@ -12,7 +12,7 @@ module ietf-ssh-client {
   import ietf-crypto-types {
     prefix ct;
     reference
-      "RFC AAAA: Common YANG Data Types for Cryptography";
+      "RFC AAAA: YANG Data Types and Groupings for Cryptography";
   }
 
   import ietf-truststore {

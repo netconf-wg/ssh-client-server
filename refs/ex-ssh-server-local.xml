@@ -24,7 +24,7 @@
           <public-key>base64encodedvalue==</public-key>
           <private-key-format>ct:rsa-private-key-format</private-key-format>
           <private-key>base64encodedvalue==</private-key>
-          <cert>base64encodedvalue==</cert>
+          <cert-data>base64encodedvalue==</cert-data>
         </local-definition>
       </certificate>
     </host-key>
@@ -61,43 +61,30 @@
     </users>
     <ca-certs>
       <local-definition>
-        <cert>base64encodedvalue==</cert>
-        <cert>base64encodedvalue==</cert>
-        <cert>base64encodedvalue==</cert>
+        <certificate>
+          <name>Identity Cert Issuer #1</name>
+          <cert-data>base64encodedvalue==</cert-data>
+        </certificate>
+        <certificate>
+          <name>Identity Cert Issuer #2</name>
+          <cert-data>base64encodedvalue==</cert-data>
+        </certificate>
       </local-definition>
     </ca-certs>
     <ee-certs>
       <local-definition>
-        <cert>base64encodedvalue==</cert>
-        <cert>base64encodedvalue==</cert>
-        <cert>base64encodedvalue==</cert>
+        <certificate>
+          <name>Application #1</name>
+          <cert-data>base64encodedvalue==</cert-data>
+        </certificate>
+        <certificate>
+          <name>Application #2</name>
+          <cert-data>base64encodedvalue==</cert-data>
+        </certificate>
       </local-definition>
     </ee-certs>
   </client-authentication>
 
-  <transport-params>
-    <host-key>
-      <host-key-alg>algs:ssh-rsa</host-key-alg>
-    </host-key>
-    <key-exchange>
-      <key-exchange-alg>
-        algs:diffie-hellman-group-exchange-sha256
-      </key-exchange-alg>
-    </key-exchange>
-    <encryption>
-      <encryption-alg>algs:aes256-ctr</encryption-alg>
-      <encryption-alg>algs:aes192-ctr</encryption-alg>
-      <encryption-alg>algs:aes128-ctr</encryption-alg>
-      <encryption-alg>algs:aes256-cbc</encryption-alg>
-      <encryption-alg>algs:aes192-cbc</encryption-alg>
-      <encryption-alg>algs:aes128-cbc</encryption-alg>
-    </encryption>
-    <mac>
-      <mac-alg>algs:hmac-sha2-256</mac-alg>
-      <mac-alg>algs:hmac-sha2-512</mac-alg>
-    </mac>
-  </transport-params>
-  
   <keepalives>
     <max-wait>30</max-wait>
     <max-attempts>3</max-attempts>
