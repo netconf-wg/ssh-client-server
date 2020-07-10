@@ -651,7 +651,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
     </section>
 
     <section title="IANA Considerations">
-      <section title="The IETF XML Registry">
+      <section title='The "IETF XML" Registry'>
         <t>This document registers three URIs in the "ns" subregistry of the
         IETF XML Registry <xref target="RFC3688"/>. Following the format in
         <xref target="RFC3688"/>, the following registrations are
@@ -674,7 +674,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           </figure></t>
       </section>
 
-      <section title="The YANG Module Names Registry">
+      <section title='The "YANG Module Names" Registry'>
         <t>This document registers three YANG modules in the YANG Module Names
         registry <xref target="RFC6020"/>. Following the format in <xref
         target="RFC6020"/>, the following registrations are requested:</t>
@@ -980,6 +980,13 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
             <t>Expanded "Data Model Overview section(s) [remove "wall" of tree diagrams].</t>
             <t>Moved the "ietf-ssh-common" module section to proceed the other two module sections.</t>
             <t>Updated the Security Considerations section.</t>
+          </list>
+        </t>
+      </section>
+      <section title="20 to 21">
+        <t>
+          <list style="symbols">
+            <t>Updated examples to reflect new "cleartext-" prefix in the crypto-types draft.</t>
           </list>
         </t>
       </section>
