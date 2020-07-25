@@ -990,6 +990,15 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+      <section title="21 to 22">
+        <t>
+          <list style="symbols">
+            <t>Cleaned up the SSH-client examples (i.e., removing FIXMEs)</t>
+
+            <t>SUBMISSION PENDING!...</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section title="Acknowledgements" numbered="no">

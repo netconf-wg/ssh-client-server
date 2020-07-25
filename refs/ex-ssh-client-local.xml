@@ -19,22 +19,16 @@
   <!-- which host keys will this client trust -->
   <server-authentication>
     <ssh-host-keys>
-      <local-definition> <!-- FIXME: float 'local-def' down to each? -->
-        <!--<ssh-public-key>-->
+      <local-definition>
         <public-key>
           <name>corp-fw1</name>
           <public-key-format>ct:ssh-public-key-format</public-key-format>
           <public-key>base64encodedvalue==</public-key>
-          <!--
-        </ssh-public-key>
-        <ssh-public-key>
-        -->
         </public-key>
         <public-key>
           <name>corp-fw2</name>
           <public-key-format>ct:ssh-public-key-format</public-key-format>
           <public-key>base64encodedvalue==</public-key>
-          <!--</ssh-public-key>-->
         </public-key>
       </local-definition>
     </ssh-host-keys>
