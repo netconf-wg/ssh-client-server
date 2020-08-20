@@ -29,12 +29,6 @@
         <email>kent+ietf@watsen.net</email>
       </address>
     </author>
-    <author fullname="Gary Wu" initials="G." surname="Wu">
-      <organization>Cisco Systems</organization>
-      <address>
-        <email>garywu@cisco.com</email>
-      </address>
-    </author>
     <date/>
     <area>Operations</area>
     <workgroup>NETCONF Working Group</workgroup>
@@ -139,7 +133,10 @@ INSERT_TEXT_FROM_FILE(../common-intro-snippet.xml,150)
       "diffie-hellman-group1-sha1" due to their weak security and there being
       alternatives that are widely supported.</t>
 
-      <section title="Data Model Overview">
+    <section title="Data Model Overview">
+
+        <t>This section provides an overview of the "ietf-ssh-common" module
+          in terms of its features, identities, and groupings.</t>
 
         <section title="Features" anchor="common-features" toc="exclude">
           <t>The following diagram lists all the "feature" statements
@@ -156,6 +153,10 @@ Features:
 ]]></artwork>
             </figure>
           </t>
+          <aside>
+            <t>The diagram above uses syntax that is similar to but not
+              defined in <xref target="RFC8340"/>.</t>
+          </aside>
         </section>
 
         <section title="Identities" anchor="identities" toc="exclude">
@@ -198,6 +199,10 @@ Identities:
 ]]></artwork>
             </figure>
           </t>
+          <aside>
+            <t>The diagram above uses syntax that is similar to but not
+              defined in <xref target="RFC8340"/>.</t>
+          </aside>
           <t>Comments:</t>
           <ul spacing="compact">
             <li>The diagram shows that there are four base identities.</li>
@@ -220,6 +225,10 @@ Groupings:
 ]]></artwork>
             </figure>
           </t>
+          <aside>
+            <t>The diagram above uses syntax that is similar to but not
+              defined in <xref target="RFC8340"/>.</t>
+          </aside>
           <t>Each of these groupings are presented in the following subsections.</t>
 
           <section title="The &quot;transport-params-grouping&quot; Grouping" anchor="transport-params-grouping">
@@ -285,7 +294,17 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
     </section>
 
     <section anchor="ssh-client-model" title="The &quot;ietf-ssh-client&quot; Module">
-      <section title="Data Model Overview">
+
+      <t>This section defines a YANG 1.1 <xref target="RFC7950"/> module called
+        "ietf-ssh-client".  A high-level overview of the module is provided in
+        <xref target="client-overview"/>. Examples illustatrating the module's use
+        are provided in <xref target="client-examples">Examples</xref>. The YANG
+        module itself is defined in <xref target="client-yang-module"/>.</t>
+
+      <section title="Data Model Overview" anchor="client-overview">
+
+        <t>This section provides an overview of the "ietf-ssh-client" module
+          in terms of its features and groupings.</t>
 
         <section title="Features" anchor="client-features" toc="exclude">
           <t>The following diagram lists all the "feature" statements
@@ -303,6 +322,10 @@ Features:
 ]]></artwork>
             </figure>
           </t>
+          <aside>
+            <t>The diagram above uses syntax that is similar to but not
+              defined in <xref target="RFC8340"/>.</t>
+          </aside>
         </section>
 
         <section title="Groupings" toc="exclude">
@@ -316,6 +339,10 @@ Groupings:
 ]]></artwork>
             </figure>
           </t>
+          <aside>
+            <t>The diagram above uses syntax that is similar to but not
+              defined in <xref target="RFC8340"/>.</t>
+          </aside>
           <t>Each of these groupings are presented in the following subsections.</t>
 
           <section title="The &quot;ssh-client-grouping&quot; Grouping" anchor="ssh-client-grouping">
@@ -358,7 +385,7 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-client-grouping.no-expand.txt)
         </section>
       </section>
 
-      <section title="Example Usage">
+      <section title="Example Usage" anchor="client-examples">
         <t>This section presents two examples showing the "ssh-client-grouping"
         grouping populated with some data. These examples are effectively the same
         except the first configures the client identity using a local key
@@ -387,7 +414,7 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-keystore.xml)
         </t>
       </section>
 
-      <section anchor="ssh-client-yang-module" title="YANG Module">
+      <section anchor="client-yang-module" title="YANG Module">
         <t>This YANG module has normative references to <xref
         target="I-D.ietf-netconf-trust-anchors"/>, and <xref
         target="I-D.ietf-netconf-keystore"/>.</t>
@@ -405,7 +432,18 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
     </section>
 
     <section anchor="ssh-server-model" title="The &quot;ietf-ssh-server&quot; Module">
-      <section title="Data Model Overview">
+
+      <t>This section defines a YANG 1.1 <xref target="RFC7950"/> module called
+        "ietf-ssh-server".  A high-level overview of the module is provided in
+        <xref target="server-overview"/>. Examples illustatrating the module's use
+        are provided in <xref target="server-examples">Examples</xref>. The YANG
+        module itself is defined in <xref target="server-yang-module"/>.</t>
+
+      <section title="Data Model Overview" anchor="server-overview">
+
+        <t>This section provides an overview of the "ietf-ssh-server" module
+          in terms of its features and groupings.</t>
+
         <section title="Features" anchor="server-features" toc="exclude">
           <t>The following diagram lists all the "feature" statements
             defined in the "ietf-ssh-server" module:</t>
@@ -423,6 +461,10 @@ Features:
 ]]></artwork>
             </figure>
           </t>
+          <aside>
+            <t>The diagram above uses syntax that is similar to but not
+              defined in <xref target="RFC8340"/>.</t>
+          </aside>
         </section>
 
         <section title="Groupings" toc="exclude">
@@ -436,6 +478,10 @@ Groupings:
 ]]></artwork>
             </figure>
           </t>
+          <aside>
+            <t>The diagram above uses syntax that is similar to but not
+              defined in <xref target="RFC8340"/>.</t>
+          </aside>
           <t>Each of these groupings are presented in the following subsections.</t>
 
           <section title="The &quot;ssh-server-grouping&quot; Grouping" anchor="ssh-server-grouping">
@@ -478,7 +524,7 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-server-grouping.no-expand.txt)
         </section>
       </section>
 
-      <section title="Example Usage">
+      <section title="Example Usage" anchor="server-examples">
         <t>This section presents two examples showing the "ssh-server-grouping"
         grouping populated with some data. These examples are effectively the same
         except the first configures the server identity using a local key
@@ -507,7 +553,7 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-keystore.xml)
         </t>
       </section>
 
-      <section anchor="ssh-server-yang-module" title="YANG Module">
+      <section anchor="server-yang-module" title="YANG Module">
         <t>This YANG module has normative references to <xref
         target="I-D.ietf-netconf-trust-anchors"/> and <xref
         target="I-D.ietf-netconf-keystore"/> and informative references to
@@ -713,9 +759,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
       <?rfc include="reference.RFC.7950.xml"?>
       <?rfc include="reference.RFC.8174.xml"?>
       <?rfc include="reference.RFC.8341.xml"?>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-crypto-types.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-trust-anchors.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-keystore.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-crypto-types.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-trust-anchors.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-keystore.xml"/>
     </references>
 
     <references title="Informative References">
@@ -738,12 +784,12 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
       <?rfc include="reference.RFC.8071.xml"?>
       <?rfc include="reference.RFC.8340.xml"?>
       <?rfc include="reference.RFC.8342.xml"?>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-tcp-client-server.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-ssh-client-server.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-tls-client-server.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-http-client-server.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-netconf-client-server.xml"/>
-      <xi:include href="https://xml2rfc.ietf.org/public/rfc/bibxml3/reference.I-D.ietf-netconf-restconf-client-server.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-tcp-client-server.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-ssh-client-server.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-tls-client-server.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-http-client-server.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-netconf-client-server.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-restconf-client-server.xml"/>
       <reference anchor="OPENSSH" target="http://www.openssh.com">
         <front>
           <title>OpenSSH</title>
@@ -994,8 +1040,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         <t>
           <list style="symbols">
             <t>Cleaned up the SSH-client examples (i.e., removing FIXMEs)</t>
-
-            <t>SUBMISSION PENDING!...</t>
+            <t>Fixed issues found by the SecDir review of the "keystore" draft.</t>
+            <t>Updated the "ietf-ssh-client" module to use the new "password-grouping"
+              grouping from the "crypto-types" module.</t>
           </list>
         </t>
       </section>
@@ -1003,23 +1050,27 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
 
     <section title="Acknowledgements" numbered="no">
       <t>The authors would like to thank for following for lively discussions
-        on list and in the halls (ordered by last name):
-        Andy Bierman,
-        Martin Bjorklund,
-        Benoit Claise,
-        Mehmet Ersue,
-        Balázs Kovács,
-        Radek Krejci,
-        David Lamparter,
-        Ladislav Lhotka,
+        on list and in the halls (ordered by first name):
         Alan Luchuk,
-        Tom Petch,
-        Juergen Schoenwaelder,
-        Phil Shafer,
-        Sean Turner,
-        Michal Vaško,
+        Andy Bierman,
+        Balázs Kovács,
+        Benoit Claise,
         Bert Wijnen,
-        and Liang Xia.</t>
+        David Lamparter,
+        Gary Wu,
+        Juergen Schoenwaelder,
+        Ladislav Lhotka,
+        Liang Xia,
+        Martin Bjorklund,
+        Mehmet Ersue,
+        Michal Vaško,
+        Phil Shafer,
+        Radek Krejci,
+        Sean Turner,
+        Tom Petch.</t>
+
+      <t>Special acknowledgement goes to Gary Wu who contributed the "ietf-ssh-common"
+        module.</t>
     </section>
   </back>
 </rfc>

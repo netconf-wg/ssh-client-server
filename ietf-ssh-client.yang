@@ -168,12 +168,15 @@ module ietf-ssh-client {
           }
         }
       }
-      leaf password {
+      container password {
         if-feature client-identity-password;
-        nacm:default-deny-all;
-        type string;
+        presence
+          "Indicates that password-based authenitcation is
+           configured.";
         description
-          "A password to be used for client identification.";
+          "A password to be used to authenicate the client's
+           identity.";
+        uses ct:password-grouping;
       }
       container hostbased {
         if-feature client-identity-hostbased;
