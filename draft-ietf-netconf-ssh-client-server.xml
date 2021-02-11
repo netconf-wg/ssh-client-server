@@ -215,21 +215,11 @@ Identities:
         </section>
           
         <section title="Groupings" toc="exclude">
-          <t>The following diagram lists all the "grouping" statements
-            defined in the "ietf-ssh-common" module:</t>
-          <t>
-            <figure>
-              <artwork><![CDATA[
-Groupings:
-  +-- transport-params-grouping
-]]></artwork>
-            </figure>
-          </t>
-          <aside>
-            <t>The diagram above uses syntax that is similar to but not
-              defined in <xref target="RFC8340"/>.</t>
-          </aside>
-          <t>Each of these groupings are presented in the following subsections.</t>
+          <t>The "ietf-ssh-common" module defines the following "grouping" statement:</t>
+          <ul spacing="compact">
+            <li>transport-params-grouping</li>
+          </ul>
+          <t>This grouping is presented in the following subsection.</t>
 
           <section title="The &quot;transport-params-grouping&quot; Grouping" anchor="transport-params-grouping">
             <t>The following tree diagram <xref target="RFC8340"/> illustrates the
@@ -329,21 +319,11 @@ Features:
         </section>
 
         <section title="Groupings" toc="exclude">
-          <t>The following diagram lists all the "grouping" statements
-            defined in the "ietf-ssh-client" module:</t>
-          <t>
-            <figure>
-              <artwork><![CDATA[
-Groupings:
-  +-- ssh-client-grouping
-]]></artwork>
-            </figure>
-          </t>
-          <aside>
-            <t>The diagram above uses syntax that is similar to but not
-              defined in <xref target="RFC8340"/>.</t>
-          </aside>
-          <t>Each of these groupings are presented in the following subsections.</t>
+          <t>The "ietf-ssh-client" module defines the following "grouping" statement:</t>
+          <ul spacing="compact">
+            <li>ssh-client-grouping</li>
+          </ul>
+          <t>This grouping is presented in the following subsection.</t>
 
           <section title="The &quot;ssh-client-grouping&quot; Grouping" anchor="ssh-client-grouping">
             <t>The following tree diagram <xref target="RFC8340"/> illustrates the
@@ -468,21 +448,11 @@ Features:
         </section>
 
         <section title="Groupings" toc="exclude">
-          <t>The following diagram lists all the "grouping" statements
-            defined in the "ietf-ssh-server" module:</t>
-          <t>
-            <figure>
-              <artwork><![CDATA[
-Groupings:
-  +-- ssh-server-grouping
-]]></artwork>
-            </figure>
-          </t>
-          <aside>
-            <t>The diagram above uses syntax that is similar to but not
-              defined in <xref target="RFC8340"/>.</t>
-          </aside>
-          <t>Each of these groupings are presented in the following subsections.</t>
+          <t>The "ietf-ssh-server" module defines the following "grouping" statement:</t>
+          <ul spacing="compact">
+            <li>ssh-server-grouping</li>
+          </ul>
+          <t>This grouping is presented in the following subsection.</t>
 
           <section title="The &quot;ssh-server-grouping&quot; Grouping" anchor="ssh-server-grouping">
             <t>The following tree diagram <xref target="RFC8340"/> illustrates the
@@ -706,15 +676,15 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         <t><figure>
             <artwork>
    URI: urn:ietf:params:xml:ns:yang:ietf-ssh-common
-   Registrant Contact: The NETCONF WG of the IETF.
+   Registrant Contact: The IESG
    XML: N/A, the requested URI is an XML namespace.
 
    URI: urn:ietf:params:xml:ns:yang:ietf-ssh-client
-   Registrant Contact: The NETCONF WG of the IETF.
+   Registrant Contact: The IESG
    XML: N/A, the requested URI is an XML namespace.
 
    URI: urn:ietf:params:xml:ns:yang:ietf-ssh-server
-   Registrant Contact: The NETCONF WG of the IETF.
+   Registrant Contact: The IESG
    XML: N/A, the requested URI is an XML namespace.
 </artwork>
           </figure></t>
@@ -1046,6 +1016,22 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
+      <section title="22 to 23">
+        <t>
+          <list style="symbols">
+            <t>Addressed comments raised by YANG Doctor in the ct/ts/ks drafts.</t>
+          </list>
+        </t>
+      </section>
+      <!--
+      <section title="23 to 24">
+        <t>
+          <list style="symbols">
+            <t>SUBMISSION PENDING</t>
+          </list>
+        </t>
+      </section>
+      -->
     </section>
 
     <section title="Acknowledgements" numbered="no">
