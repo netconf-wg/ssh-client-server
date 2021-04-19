@@ -155,6 +155,26 @@ module ietf-ssh-server {
                  for the Secure Shell Protocol (SSH)";
   }
 
+  feature client-auth-gssapi-with-mic {
+    description
+      "Indicates that the 'gssapi-with-mic' authentication
+       type per RFC 4462, is supported.";
+    reference
+      "RFC 4462: Generic Security Service Application Program
+                 Interface (GSS-API) Authentication and Key
+                 Exchange for the Secure Shell (SSH) Protocol";
+  }
+
+  feature client-auth-gssapi-keyex {
+    description
+      "Indicates that the 'gssapi-keyex' authentication
+       type per RFC 4462, is supported.";
+    reference
+      "RFC 4462: Generic Security Service Application Program
+                 Interface (GSS-API) Authentication and Key
+                 Exchange for the Secure Shell (SSH) Protocol";
+  }
+
   // Groupings
 
   grouping ssh-server-grouping {
@@ -295,11 +315,39 @@ module ietf-ssh-server {
             "Indicates that the 'keyboard-interactive' method is
              supported.";
           description
-            "This is a 'container' node to enable consuming modules
-             to augment-in values as needed.";
+            "Additional configuration may be augmented-in by
+             consuming modules as needed.";
           reference
             "RFC 4256: Generic Message Exchange Authentication
                        for the Secure Shell Protocol (SSH)";
+        }
+        container gssapi-with-mic {
+          if-feature client-auth-gssapi-with-mic;
+          presence
+            "Indicates that the 'gssapi-with-mic' method is
+             supported.";
+          description
+            "Additional configuration may be augmented-in by
+             consuming modules as needed.";
+          reference
+            "RFC 4462:
+              Generic Security Service Application Program
+              Interface (GSS-API) Authentication and Key
+              Exchange for the Secure Shell (SSH) Protocol";
+        }
+        container gssapi-keyex {
+          if-feature client-auth-gssapi-keyex;
+          presence
+            "Indicates that the 'gssapi-keyex' method is
+             supported.";
+          description
+            "Additional configuration may be augmented-in by
+             consuming modules as needed.";
+          reference
+            "RFC 4462:
+              Generic Security Service Application Program
+              Interface (GSS-API) Authentication and Key
+              Exchange for the Secure Shell (SSH) Protocol";
         }
       }
 
@@ -389,7 +437,7 @@ module ietf-ssh-server {
           }
           list keyboard-interactive {
             if-feature "client-auth-keyboard-interactive";
-            key submethod
+            key submethod;
             description
               "Indicates that the server can authenticate this
                user using the configured submethod.  Consuming
@@ -405,6 +453,42 @@ module ietf-ssh-server {
             reference
               "RFC 4256: Generic Message Exchange Authentication
                          for the Secure Shell Protocol (SSH)";
+          }
+          list gssapi-with-mic {
+            if-feature "client-auth-gssapi-with-mic";
+            key oid;
+            description
+              "Indicates that the server can authenticate this
+               user using the configured 'mechanicm OID'.
+               Consuming modules may augment-in OID-specific 
+               configuration as needed.";
+            leaf oid {
+              type binary;
+              description
+                "Configuration for a 'mechanism OIDs', per
+                 RFC 4462.";
+            }
+            reference
+              "RFC 4462:
+                Generic Security Service Application Program
+                Interface (GSS-API) Authentication and Key
+                Exchange for the Secure Shell (SSH) Protocol";
+          }
+          container gssapi-keyex {
+            if-feature "client-auth-gssapi-keyex";
+            presence
+              "Indicates that the server can authenticate this
+               user using the 'gssapi-keyex' method.";
+            description
+              "Indicates that the server can authenticate this
+               user using GSS-API Key Exchange, per RFC 4462.
+               Consuming modules may augment-in OID-specific 
+               configuration as needed.";
+            reference
+              "RFC 4462:
+                Generic Security Service Application Program
+                Interface (GSS-API) Authentication and Key
+                Exchange for the Secure Shell (SSH) Protocol";
           }
         }
       }

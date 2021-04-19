@@ -1029,10 +1029,19 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
             <t>Added RFC-references to various 'feature' statements.</t>
             <t>Added 'keyboard-interactive' auth mechanism from RFC 4256.</t>
             <t>Added a 'Contributors' section.</t>
+            <t>Added the 'gssapi-with-mic' and 'gssapi-keyex' auth mechanisms from RFC 4462.</t>
+          </list>
+        </t>
+      </section>
+      <!--
+      <section title="24 to 25">
+        <t>
+          <list style="symbols">
             <t>SUBMISSION PENDING</t>
           </list>
         </t>
       </section>
+      -->
     </section>
 
     <section title="Acknowledgements" numbered="no">

@@ -138,6 +138,26 @@ module ietf-ssh-client {
                  for the Secure Shell Protocol (SSH)";
   }
 
+  feature client-identity-gssapi-with-mic {
+    description
+      "Indicates that the 'gssapi-with-mic' authentication type,
+       per RFC 4462, is supported for client identification.";
+    reference
+      "RFC 4462: Generic Security Service Application Program
+                 Interface (GSS-API) Authentication and Key
+                 Exchange for the Secure Shell (SSH) Protocol";
+  }
+
+  feature client-identity-gssapi-keyex {
+    description
+      "Indicates that the 'gssapi-keyex' authentication type,
+       per RFC 4462, is supported for client identification.";
+    reference
+      "RFC 4462: Generic Security Service Application Program
+                 Interface (GSS-API) Authentication and Key
+                 Exchange for the Secure Shell (SSH) Protocol";
+  }
+
   // Groupings
 
   grouping ssh-client-grouping {
@@ -158,7 +178,9 @@ module ietf-ssh-client {
     container client-identity {
       nacm:default-deny-write;
       must
-        'public-key or password or hostbased or none or certificate or keyboard-interactive';
+        'public-key or password or hostbased or none or '
+        + 'certificate or keyboard-interactive or gssapi-with-mic '
+        + 'or gssapi-keyex';
       description
         "The credentials that the client may use, pending
          the SSH server's requirements, by the SSH client
@@ -173,7 +195,9 @@ module ietf-ssh-client {
         if-feature client-identity-publickey;
         presence
           "Indicates that publickey-based authentication
-           is configured";
+           is configured.  Present so that the decendant nodes'
+           'mandatory true' doesn't imply that this node must
+           be configured.";
         description
           "A locally-defined or referenced asymmetric key
            pair to be used for client identification.";
@@ -202,7 +226,9 @@ module ietf-ssh-client {
       container hostbased {
         if-feature client-identity-hostbased;
         presence
-          "Indicates that hostbased authentication is configured";
+          "Indicates that hostbased authentication is configured.
+           Present so that the decendant nodes' 'mandatory true'
+           doesn't imply that this node must be configured.";
         description
           "A locally-defined or referenced asymmetric key
            pair to be used for host identification.";
@@ -229,7 +255,9 @@ module ietf-ssh-client {
         if-feature "sshcmn:ssh-x509-certs";
         presence
           "Indicates that certificate-based authentication
-           is configured";
+           is configured.  Present so that the decendant nodes'
+           'mandatory true' doesn't imply that this node must
+           be configured.";
         description
           "A locally-defined or referenced certificate
            to be used for client identification.";
@@ -251,9 +279,6 @@ module ietf-ssh-client {
       }
       container keyboard-interactive {
         if-feature client-identity-keyboard-interactive;
-        presence
-          "Indicates that keyboard-interactive authentication
-           is configured";
         description
           "An optional list of preferred submethods.";
         reference
@@ -266,6 +291,31 @@ module ietf-ssh-client {
              something the client and the server need to agree on.";
         }
       }
+      container gssapi-with-mic {
+        if-feature client-identity-gssapi-with-mic;
+        leaf-list oids {
+          type binary;
+          description
+            "The client's preferred 'mechanism OIDs', per RFC 4462.";
+        }
+        description
+          "Additional configuration for the 'gssapi-with-mic'
+           exchange may be augmented-in by consuming modules.";
+        reference
+          "RFC 4462: Generic Security Service Application Program
+                     Interface (GSS-API) Authentication and Key
+                     Exchange for the Secure Shell (SSH) Protocol";
+      }
+      container gssapi-keyex {
+        if-feature client-identity-gssapi-keyex;
+        description
+          "Additional configuration for the 'gssapi-keyex' exchange
+           may be augmented-in by consuming modules.";
+        reference
+          "RFC 4462: Generic Security Service Application Program
+                     Interface (GSS-API) Authentication and Key
+                     Exchange for the Secure Shell (SSH) Protocol";
+      }
     } // container client-identity
 
     container server-authentication {
@@ -277,7 +327,9 @@ module ietf-ssh-client {
       container ssh-host-keys {
         presence
           "Indicates that the client can authenticate servers
-           using the configured SSH host keys.";
+           using the configured SSH host keys.  Present so that
+           the decendant nodes' 'mandatory true' doesn't imply
+           that this node must be configured.";
         description
           "A list of SSH host keys used by the SSH client to
            authenticate SSH server host keys.  A server host key
@@ -301,7 +353,9 @@ module ietf-ssh-client {
         if-feature "sshcmn:ssh-x509-certs";
         presence
           "Indicates that the client can authenticate servers
-           using the configured trust anchor certificates.";
+           using the configured trust anchor certificates. Present
+           so that the decendant nodes' 'mandatory true' doesn't
+           imply that this node must be configured.";
         description
           "A set of certificate authority (CA) certificates used by
            the SSH client to authenticate SSH servers.  A server
@@ -315,7 +369,9 @@ module ietf-ssh-client {
         if-feature "sshcmn:ssh-x509-certs";
         presence
           "Indicates that the client can authenticate servers
-           using the configured end-entity certificates.";
+           using the configured end-entity certificates.  Present
+           so that the decendant nodes' 'mandatory true' doesn't
+           imply that this node must be configured.";
         description
           "A set of end-entity certificates used by the SSH client
            to authenticate SSH servers.  A server is authenticated
