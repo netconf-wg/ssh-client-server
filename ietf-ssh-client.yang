@@ -89,32 +89,53 @@ module ietf-ssh-client {
        SSH clients on the server implementing this feature.";
   }
 
-  feature client-identity-password {
-    description
-      "Indicates that the 'password' authentication type
-       is supported for client identification.";
-  }
-
   feature client-identity-publickey {
     description
-      "Indicates that the 'publickey' authentication type
-       is supported for client identification.
+      "Indicates that the 'publickey' authentication type, per
+       RFC 4252, is supported for client identification.
       
        The 'publickey' authentication type is required by
        RFC 4252, but common implementations enable it to
        be disabled.";
+    reference
+      "RFC 4252:
+        The Secure Shell (SSH) Authentication Protocol";
+  }
+
+  feature client-identity-password {
+    description
+      "Indicates that the 'password' authentication type, per
+       RFC 4252, is supported for client identification.";
+    reference
+      "RFC 4252:
+        The Secure Shell (SSH) Authentication Protocol";
   }
 
   feature client-identity-hostbased {
     description
-      "Indicates that the 'hostbased' authentication type
-       is supported for client identification.";
+      "Indicates that the 'hostbased' authentication type, per
+       RFC 4252, is supported for client identification.";
+    reference
+      "RFC 4252:
+        The Secure Shell (SSH) Authentication Protocol";
   }
 
   feature client-identity-none {
     description
-      "Indicates that the 'none' authentication type is
-       supported for client identification.";
+      "Indicates that the 'none' authentication type, per
+       RFC 4252, is supported for client identification.";
+    reference
+      "RFC 4252:
+        The Secure Shell (SSH) Authentication Protocol";
+  }
+
+  feature client-identity-keyboard-interactive {
+    description
+      "Indicates that the 'keyboard-interactive' authentication
+       type, per RFC 4256, is supported for client identification.";
+    reference
+      "RFC 4256: Generic Message Exchange Authentication
+                 for the Secure Shell Protocol (SSH)";
   }
 
   // Groupings
@@ -137,7 +158,7 @@ module ietf-ssh-client {
     container client-identity {
       nacm:default-deny-write;
       must
-        'public-key or password or hostbased or none or certificate';
+        'public-key or password or hostbased or none or certificate or keyboard-interactive';
       description
         "The credentials that the client may use, pending
          the SSH server's requirements, by the SSH client
@@ -226,6 +247,23 @@ module ietf-ssh-client {
             must 'deref(.)/../ks:public-key-format'
                  + ' = "ct:subject-public-key-info-format"';
           }
+        }
+      }
+      container keyboard-interactive {
+        if-feature client-identity-keyboard-interactive;
+        presence
+          "Indicates that keyboard-interactive authentication
+           is configured";
+        description
+          "An optional list of preferred submethods.";
+        reference
+          "RFC 4256: Generic Message Exchange Authentication
+                     for the Secure Shell Protocol (SSH)";
+        leaf-list submethods {
+          type string;
+          description
+            "The client's preferred 'submethods'.  Valid values are
+             something the client and the server need to agree on.";
         }
       }
     } // container client-identity

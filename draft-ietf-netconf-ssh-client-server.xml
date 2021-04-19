@@ -1023,15 +1023,16 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
-      <!--
       <section title="23 to 24">
         <t>
           <list style="symbols">
+            <t>Added RFC-references to various 'feature' statements.</t>
+            <t>Added 'keyboard-interactive' auth mechanism from RFC 4256.</t>
+            <t>Added a 'Contributors' section.</t>
             <t>SUBMISSION PENDING</t>
           </list>
         </t>
       </section>
-      -->
     </section>
 
     <section title="Acknowledgements" numbered="no">
@@ -1054,9 +1055,11 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         Radek Krejci,
         Sean Turner,
         Tom Petch.</t>
+    </section>
 
-      <t>Special acknowledgement goes to Gary Wu who contributed the "ietf-ssh-common"
-        module.</t>
+    <section title="Contributors" numbered="no">
+      <t>Special acknowledgement goes to Gary Wu for his work on the
+        "ietf-ssh-common" module.</t>
     </section>
   </back>
 </rfc>

@@ -108,8 +108,8 @@ module ietf-ssh-server {
 
   feature client-auth-publickey {
     description
-      "Indicates that the 'publickey' authentication type
-       is supported.
+      "Indicates that the 'publickey' authentication type, per
+       RFC 4252, is supported.
        
        The 'publickey' authentication type is required by
        RFC 4252, but common implementations enable it to
@@ -121,20 +121,38 @@ module ietf-ssh-server {
 
   feature client-auth-password {
     description
-      "Indicates that the 'password' authentication type
-       is supported.";
+      "Indicates that the 'password' authentication type, per
+       RFC 4252, is supported.";
+    reference
+      "RFC 4252:
+        The Secure Shell (SSH) Authentication Protocol";
   }
 
   feature client-auth-hostbased {
     description
-      "Indicates that the 'hostbased' authentication type
-       is supported.";
+      "Indicates that the 'hostbased' authentication type, per
+       RFC 4252, is supported.";
+    reference
+      "RFC 4252:
+        The Secure Shell (SSH) Authentication Protocol";
   }
 
   feature client-auth-none {
     description
-      "Indicates that the 'none' authentication type is
-       supported.";
+      "Indicates that the 'none' authentication type, per
+       RFC 4252, is supported.";
+    reference
+      "RFC 4252:
+        The Secure Shell (SSH) Authentication Protocol";
+  }
+
+  feature client-auth-keyboard-interactive {
+    description
+      "Indicates that the 'keyboard-interactive' authentication
+       type per RFC 4256, is supported.";
+    reference
+      "RFC 4256: Generic Message Exchange Authentication
+                 for the Secure Shell Protocol (SSH)";
   }
 
   // Groupings
@@ -271,6 +289,18 @@ module ietf-ssh-server {
             "RFC 4252: The Secure Shell (SSH) Authentication
                        Protocol.";
         }
+        container keyboard-interactive {
+          if-feature client-auth-keyboard-interactive;
+          presence
+            "Indicates that the 'keyboard-interactive' method is
+             supported.";
+          description
+            "This is a 'container' node to enable consuming modules
+             to augment-in values as needed.";
+          reference
+            "RFC 4256: Generic Message Exchange Authentication
+                       for the Secure Shell Protocol (SSH)";
+        }
       }
 
       container users {
@@ -289,8 +319,10 @@ module ietf-ssh-server {
           container public-keys {
             if-feature client-auth-publickey;
             presence
-              "Indicates that the server can authenticate this
-               user using any of the configured SSH public keys.";
+              "Indicates that the server can authenticate this user
+               using any of the configured SSH public keys.  Present
+               so that the decendant nodes' 'mandatory true' doesn't
+               imply that this node  must be configured.";
             description
               "A set of SSH public keys may be used by the SSH
                server to authenticate this user.  A user is
@@ -317,13 +349,14 @@ module ietf-ssh-server {
             description
               "The password for this user.";
           }
-
           container hostbased {
             if-feature client-auth-hostbased;
             presence
               "Indicates that the server can authenticate this
                user's 'host' using any of the configured SSH
-               host keys.";
+               host keys.  Present so that the decendant nodes'
+               'mandatory true' doesn't imply that this node
+               must be configured.";
             description
               "A set of SSH host keys may be used by the SSH
                server to authenticate this user's host.  A
@@ -353,6 +386,25 @@ module ietf-ssh-server {
             reference
               "RFC 4252: The Secure Shell (SSH) Authentication
                          Protocol.";
+          }
+          list keyboard-interactive {
+            if-feature "client-auth-keyboard-interactive";
+            key submethod
+            description
+              "Indicates that the server can authenticate this
+               user using the configured submethod.  Consuming
+               modules may augment-in submethod-specific 
+               configuration as needed.";
+            leaf submethod {
+              type string;
+              description
+                "The name of the 'submethod'.  Valid values are
+                 something the client and the server need to
+                 agree on.";
+            }
+            reference
+              "RFC 4256: Generic Message Exchange Authentication
+                         for the Secure Shell Protocol (SSH)";
           }
         }
       }
