@@ -34,29 +34,22 @@
 
   <!-- the client credentials this SSH server will trust -->
   <client-authentication>
-    <supported-authentication-methods>
-      <publickey/>
-    </supported-authentication-methods>
     <users>
       <user>
         <name>mary</name>
         <password>$0$secret</password>
         <public-keys>
           <local-definition>
-            <!--<ssh-public-key>-->
             <public-key>
               <name>User A</name>
               <public-key-format>ct:ssh-public-key-format</public-key-format>
               <public-key>base64encodedvalue==</public-key>
-              <!--</ssh-public-key>
-            <ssh-public-key>-->
             </public-key>
             <public-key>
               <name>User B</name>
               <public-key-format>ct:ssh-public-key-format</public-key-format>
               <public-key>base64encodedvalue==</public-key>
             </public-key>
-            <!--</ssh-public-key>-->
           </local-definition>
         </public-keys>
       </user>
