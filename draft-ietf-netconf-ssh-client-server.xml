@@ -33,11 +33,10 @@
     <area>Operations</area>
     <workgroup>NETCONF Working Group</workgroup>
     <abstract>
-      <t>This document defines three YANG modules: the first defines groupings
-        for a generic SSH client, the second defines groupings for a generic SSH
-        server, and the third defines common identities and groupings used by
-        both the client and the server. It is intended that these groupings will
-        be used by applications using the SSH protocol.</t>
+      <t>This document defines three YANG 1.1
+        modules: the first defines identities and groupings common to both SSH
+        clients and SSH servers, the second defines a grouping for a generic
+        SSH client, and the third defines a grouping for a generic SSH server.</t>
     </abstract>
     <note title="Editorial Note (To be removed by RFC Editor)">
       <t>This draft contains placeholder values that need to be replaced
@@ -71,15 +70,15 @@
   <middle>
     <section title="Introduction">
       <t>This document defines three YANG 1.1 <xref target="RFC7950"/>
-      modules: the first defines a grouping for a generic SSH client, the
-      second defines a grouping for a generic SSH server, and the third
-      defines identities and groupings common to both the client and the
-      server. It is intended that these groupings will be used by applications
-      using the SSH protocol <xref target="RFC4252"/>, <xref
-      target="RFC4253"/>, and <xref target="RFC4254"/>. For instance, these
-      groupings could be used to help define the data model for an OpenSSH
-      <xref target="OPENSSH"/> server or a NETCONF over SSH <xref
-      target="RFC6242"/> based server.</t>
+        modules: the first defines identities and groupings common to both SSH
+        clients and SSH servers, the second defines a grouping for a generic
+        SSH client, and the third defines a grouping for a generic SSH server.
+        It is intended that these groupings will be used by applications
+        using the SSH protocol <xref target="RFC4252"/>, <xref
+        target="RFC4253"/>, and <xref target="RFC4254"/>. For instance, these
+        groupings could be used to help define the data model for an OpenSSH
+        <xref target="OPENSSH"/> server or a NETCONF over SSH <xref
+        target="RFC6242"/> based server.</t>
 
       <t>The client and server YANG modules in this document each define one
       grouping, which is focused on just SSH-specific configuration, and
@@ -104,7 +103,7 @@
 INSERT_TEXT_FROM_FILE(../common-intro-snippet.xml,150)
 
       <section title="Adherence to the NMDA">
-        <t>This document in compliant with the Network Management Datastore
+        <t>This document is compliant with the Network Management Datastore
           Architecture (NMDA) <xref target="RFC8342"/>.  For instance, as
           described in <xref target="I-D.ietf-netconf-trust-anchors"/> and
           <xref target="I-D.ietf-netconf-keystore"/>, trust anchors and keys
@@ -245,10 +244,8 @@ INSERT_TEXT_FROM_FILE(refs/tree-transport-params-grouping.no-expand.txt)
         </section>
 
         <section title="Protocol-accessible Nodes" toc="exclude">
-          <t>The "ietf-ssh-common" module does not contain any protocol-accessible nodes,
-            but the module needs to be "implemented", as described in <relref
-            section="5.6.5" target="RFC7950"/>, in order for the identities in
-            <xref target="identities"/> to be defined.</t>
+          <t>The "ietf-ssh-common" module defines only "grouping" statements that are
+            used by other modules to instantiate protocol-accessible nodes.</t>
         </section>
 
       </section>
@@ -287,7 +284,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 
       <t>This section defines a YANG 1.1 <xref target="RFC7950"/> module called
         "ietf-ssh-client".  A high-level overview of the module is provided in
-        <xref target="client-overview"/>. Examples illustatrating the module's use
+        <xref target="client-overview"/>. Examples illustrating the module's use
         are provided in <xref target="client-examples">Examples</xref>. The YANG
         module itself is defined in <xref target="client-yang-module"/>.</t>
 
@@ -363,6 +360,12 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-client-grouping.no-expand.txt)
             </ul>
           </section>
         </section>
+
+        <section title="Protocol-accessible Nodes" toc="exclude">
+          <t>The "ietf-ssh-client" module defines only "grouping" statements that are
+            used by other modules to instantiate protocol-accessible nodes.</t>
+        </section>
+
       </section>
 
       <section title="Example Usage" anchor="client-examples">
@@ -413,9 +416,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
 
     <section anchor="ssh-server-model" title="The &quot;ietf-ssh-server&quot; Module">
 
-      <t>This section defines a YANG 1.1 <xref target="RFC7950"/> module called
+      <t>This section defines a YANG 1.1 module called
         "ietf-ssh-server".  A high-level overview of the module is provided in
-        <xref target="server-overview"/>. Examples illustatrating the module's use
+        <xref target="server-overview"/>. Examples illustrating the module's use
         are provided in <xref target="server-examples">Examples</xref>. The YANG
         module itself is defined in <xref target="server-yang-module"/>.</t>
 
@@ -492,6 +495,12 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-server-grouping.no-expand.txt)
             </ul>
           </section>
         </section>
+
+        <section title="Protocol-accessible Nodes" toc="exclude">
+          <t>The "ietf-ssh-server" module defines only "grouping" statements that are
+            used by other modules to instantiate protocol-accessible nodes.</t>
+        </section>
+
       </section>
 
       <section title="Example Usage" anchor="server-examples">
@@ -1028,8 +1037,10 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           <list style="symbols">
             <t>Added RFC-references to various 'feature' statements.</t>
             <t>Added 'keyboard-interactive' auth mechanism from RFC 4256.</t>
-            <t>Added a 'Contributors' section.</t>
             <t>Added the 'gssapi-with-mic' and 'gssapi-keyex' auth mechanisms from RFC 4462.</t>
+            <t>Added XML-comment above examples explaining the reason for the unusual top-most element's presence.</t>
+            <t>Fixed nits found by YANG Doctor reviews.</t>
+            <t>Added a 'Contributors' section.</t>
           </list>
         </t>
       </section>
