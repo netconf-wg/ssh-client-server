@@ -89,7 +89,7 @@ module ietf-ssh-client {
        SSH clients on the server implementing this feature.";
   }
 
-  feature client-identity-publickey {
+  feature userauth-publickey {
     description
       "Indicates that the 'publickey' authentication type, per
        RFC 4252, is supported for client identification.
@@ -102,7 +102,7 @@ module ietf-ssh-client {
         The Secure Shell (SSH) Authentication Protocol";
   }
 
-  feature client-identity-password {
+  feature userauth-password {
     description
       "Indicates that the 'password' authentication type, per
        RFC 4252, is supported for client identification.";
@@ -111,7 +111,7 @@ module ietf-ssh-client {
         The Secure Shell (SSH) Authentication Protocol";
   }
 
-  feature client-identity-hostbased {
+  feature userauth-hostbased {
     description
       "Indicates that the 'hostbased' authentication type, per
        RFC 4252, is supported for client identification.";
@@ -120,7 +120,7 @@ module ietf-ssh-client {
         The Secure Shell (SSH) Authentication Protocol";
   }
 
-  feature client-identity-none {
+  feature userauth-none {
     description
       "Indicates that the 'none' authentication type, per
        RFC 4252, is supported for client identification.";
@@ -129,7 +129,7 @@ module ietf-ssh-client {
         The Secure Shell (SSH) Authentication Protocol";
   }
 
-  feature client-identity-keyboard-interactive {
+  feature userauth-keyboard-interactive {
     description
       "Indicates that the 'keyboard-interactive' authentication
        type, per RFC 4256, is supported for client identification.";
@@ -138,7 +138,7 @@ module ietf-ssh-client {
                  for the Secure Shell Protocol (SSH)";
   }
 
-  feature client-identity-gssapi-with-mic {
+  feature userauth-gssapi-with-mic {
     description
       "Indicates that the 'gssapi-with-mic' authentication type,
        per RFC 4462, is supported for client identification.";
@@ -148,7 +148,7 @@ module ietf-ssh-client {
                  Exchange for the Secure Shell (SSH) Protocol";
   }
 
-  feature client-identity-gssapi-keyex {
+  feature userauth-gssapi-keyex {
     description
       "Indicates that the 'gssapi-keyex' authentication type,
        per RFC 4462, is supported for client identification.";
@@ -166,7 +166,7 @@ module ietf-ssh-client {
        any consideration for how an underlying TCP session is
        established.
               
-       Note that this grouping uses fairly typical descendent
+       Note that this grouping uses fairly typical descendant
        node names such that a stack of 'uses' statements will
        have name conflicts.  It is intended that the consuming
        data model will resolve the issue (e.g., by wrapping
@@ -182,9 +182,14 @@ module ietf-ssh-client {
         + 'certificate or keyboard-interactive or gssapi-with-mic '
         + 'or gssapi-keyex';
       description
-        "The credentials that the client may use, pending
-         the SSH server's requirements, by the SSH client
-         to authenticate to the SSH server.";
+        "The username and authentication methods for the client.
+         The authentication methods are unordered.  Clients may
+         initially send any configured method or, per RFC 4252,
+         Section 5.2, send the 'none' method to prompt the server
+         to provide a list of productive methods.  Whenever a
+         choice amongst methods arises, implementations SHOULD
+         use a default ordering that prioritizes automation
+         over human-interaction.";
       leaf username {
         type string;
         description
@@ -192,12 +197,12 @@ module ietf-ssh-client {
            used, for instance, to log into an SSH server.";
       }
       container public-key {
-        if-feature client-identity-publickey;
+        if-feature userauth-publickey;
         presence
-          "Indicates that publickey-based authentication
-           is configured.  Present so that the decendant nodes'
-           'mandatory true' doesn't imply that this node must
-           be configured.";
+          "Indicates that publickey-based authentication has been
+           configured.  This statement is present so the mandatory
+           decendent nodes do not imply that this node must be
+           configured.";
         description
           "A locally-defined or referenced asymmetric key
            pair to be used for client identification.";
@@ -214,9 +219,11 @@ module ietf-ssh-client {
         }
       }
       container password {
-        if-feature client-identity-password;
+        if-feature userauth-password;
         presence
-          "Indicates that password-based authenitcation is
+          "Indicates that password-based authenitcation has been
+           configured.  This statement is present so the mandatory
+           decendent nodes do not imply that this node must be
            configured.";
         description
           "A password to be used to authenicate the client's
@@ -224,11 +231,11 @@ module ietf-ssh-client {
         uses ct:password-grouping;
       }
       container hostbased {
-        if-feature client-identity-hostbased;
+        if-feature userauth-hostbased;
         presence
           "Indicates that hostbased authentication is configured.
-           Present so that the decendant nodes' 'mandatory true'
-           doesn't imply that this node must be configured.";
+           This statement is present so the mandatory decendent
+           nodes do not imply that this node must be configured.";
         description
           "A locally-defined or referenced asymmetric key
            pair to be used for host identification.";
@@ -245,7 +252,7 @@ module ietf-ssh-client {
         }
       }
       leaf none {
-        if-feature client-identity-none;
+        if-feature userauth-none;
         type empty;
         description
           "Indicates that 'none' algorithm is used for client
@@ -254,10 +261,10 @@ module ietf-ssh-client {
       container certificate {
         if-feature "sshcmn:ssh-x509-certs";
         presence
-          "Indicates that certificate-based authentication
-           is configured.  Present so that the decendant nodes'
-           'mandatory true' doesn't imply that this node must
-           be configured.";
+          "Indicates that certificate-based authentication has been
+           configured.  This statement is present so the mandatory
+           decendant nodes do not imply that this node must be
+           configured.";
         description
           "A locally-defined or referenced certificate
            to be used for client identification.";
@@ -278,7 +285,7 @@ module ietf-ssh-client {
         }
       }
       container keyboard-interactive {
-        if-feature client-identity-keyboard-interactive;
+        if-feature userauth-keyboard-interactive;
         description
           "An optional list of preferred submethods.";
         reference
@@ -286,15 +293,17 @@ module ietf-ssh-client {
                      for the Secure Shell Protocol (SSH)";
         leaf-list submethods {
           type string;
+          ordered-by user;
           description
             "The client's preferred 'submethods'.  Valid values are
              something the client and the server need to agree on.";
         }
       }
       container gssapi-with-mic {
-        if-feature client-identity-gssapi-with-mic;
+        if-feature userauth-gssapi-with-mic;
         leaf-list oids {
           type binary;
+          ordered-by user;
           description
             "The client's preferred 'mechanism OIDs', per RFC 4462.";
         }
@@ -307,7 +316,7 @@ module ietf-ssh-client {
                      Exchange for the Secure Shell (SSH) Protocol";
       }
       container gssapi-keyex {
-        if-feature client-identity-gssapi-keyex;
+        if-feature userauth-gssapi-keyex;
         description
           "Additional configuration for the 'gssapi-keyex' exchange
            may be augmented-in by consuming modules.";
@@ -323,15 +332,15 @@ module ietf-ssh-client {
       must 'ssh-host-keys or ca-certs or ee-certs';
       description
         "Specifies how the SSH client can authenticate SSH servers.
-         Any combination of credentials is additive and unordered.";
+         Any combination of authentication methods is additive and
+         unordered.";
       container ssh-host-keys {
         presence
-          "Indicates that the client can authenticate servers
-           using the configured SSH host keys.  Present so that
-           the decendant nodes' 'mandatory true' doesn't imply
-           that this node must be configured.";
+          "Indicates that the SSH host key have been configured.
+           This statement is present so the mandatory decendant
+           nodes do not imply that this node must be configured.";
         description
-          "A list of SSH host keys used by the SSH client to
+          "A bag of SSH host keys used by the SSH client to
            authenticate SSH server host keys.  A server host key
            is authenticated if it is an exact match to a
            configured SSH host key.";
@@ -352,10 +361,9 @@ module ietf-ssh-client {
       container ca-certs {
         if-feature "sshcmn:ssh-x509-certs";
         presence
-          "Indicates that the client can authenticate servers
-           using the configured trust anchor certificates. Present
-           so that the decendant nodes' 'mandatory true' doesn't
-           imply that this node must be configured.";
+          "Indicates that the CA certificates have been configured.
+           This statement is present so the mandatory decendant nodes
+           do not imply that this node must be configured.";
         description
           "A set of certificate authority (CA) certificates used by
            the SSH client to authenticate SSH servers.  A server
@@ -368,10 +376,9 @@ module ietf-ssh-client {
       container ee-certs {
         if-feature "sshcmn:ssh-x509-certs";
         presence
-          "Indicates that the client can authenticate servers
-           using the configured end-entity certificates.  Present
-           so that the decendant nodes' 'mandatory true' doesn't
-           imply that this node must be configured.";
+          "Indicates that the EE certificates have been configured.
+           This statement is present so the mandatory decendant nodes
+           do not imply that this node must be configured.";
         description
           "A set of end-entity certificates used by the SSH client
            to authenticate SSH servers.  A server is authenticated

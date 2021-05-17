@@ -302,10 +302,10 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-common@YYYY-MM-DD.yang)
 Features:
   +-- ssh-client-transport-params-config
   +-- ssh-client-keepalives
-  +-- client-identity-password
-  +-- client-identity-publickey
-  +-- client-identity-hostbased
-  +-- client-identity-none
+  +-- userauth-password
+  +-- userauth-publickey
+  +-- userauth-hostbased
+  +-- userauth-none
 ]]></artwork>
             </figure>
           </t>
@@ -334,7 +334,7 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-client-grouping.no-expand.txt)
             </t>
             <t>Comments:</t>
             <ul>
-              <li>The "client-identity" node configures a "username" and credentials,
+              <li>The "client-identity" node configures a "username" and authentication methods,
                 each enabled by a "feature" statement defined in <xref target="client-features"/>.</li>
               <li>The "server-authentication" node configures trust anchors for
                 authenticating the SSH server, with each option enabled by a "feature" statement.</li>
@@ -436,11 +436,11 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
 Features:
   +-- ssh-server-transport-params-config
   +-- ssh-server-keepalives
-  +-- client-auth-config-supported
-  +-- client-auth-publickey
-  +-- client-auth-password
-  +-- client-auth-hostbased
-  +-- client-auth-none
+  +-- userauth-config-supported
+  +-- userauth-publickey
+  +-- userauth-password
+  +-- userauth-hostbased
+  +-- userauth-none
 ]]></artwork>
             </figure>
           </t>
@@ -469,8 +469,9 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-server-grouping.no-expand.txt)
             </t>
             <t>Comments:</t>
             <ul>
-              <li>The "server-identity" node configures identity credentials.  The
-                ability to use a certificate is enabled by a "feature".</li>
+              <li>The "server-identity" node configures the authentication methods the
+                server can use to identify itself to clients.  The ability to use a
+                certificate is enabled by a "feature".</li>
               <li>The "client-authentication" node configures trust anchors for
                 authenticating the SSH client, with each option enabled by a "feature" statement.</li>
               <li>The "transport-params" node, which must be enabled by a feature, configures
@@ -958,7 +959,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         <t>
           <list style="symbols">
             <t>Removed choice local-or-external by removing the 'external' case and flattening
-              the 'local' case and adding a "client-auth-config-supported" feature.</t>
+              the 'local' case and adding a "userauth-config-supported" feature.</t>
             <t>Updated examples to include the "*-key-format" nodes.</t>
             <t>Augmented-in "must" expressions ensuring that locally-defined public-key-format
               are "ct:ssh-public-key-format" (must expr for ref'ed keys are TBD).</t>
@@ -989,7 +990,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
               align with RFC 8071.</t>
             <t>Removed algorithm-mapping tables from the "SSH Common Model" section</t>
             <t>Removed 'algorithm' node from examples.</t>
-            <t>Added feature "client-identity-publickey"</t>
+            <t>Added feature "userauth-publickey"</t>
             <t>Removed "choice auth-type", as auth-types aren't exclusive.</t>
             <t>Renamed both "client-certs" and "server-certs" to "ee-certs"</t>
             <t>Switch "must" to assert the public-key-format is "subject-public-key-info-format" when certificates are used.</t>
@@ -1038,7 +1039,10 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
             <t>Added RFC-references to various 'feature' statements.</t>
             <t>Added 'keyboard-interactive' auth mechanism from RFC 4256.</t>
             <t>Added the 'gssapi-with-mic' and 'gssapi-keyex' auth mechanisms from RFC 4462.</t>
-            <t>Added XML-comment above examples explaining the reason for the unusual top-most element's presence.</t>
+            <t>Added XML-comment above examples explaining the reason for the unexepected top-most element's presence.</t>
+            <t>Renamed "credentials" to "authentication methods"</t>
+            <t>Renamed "client-auth-*" to "userauth-*"</t>
+            <t>Renamed "client-identity-*" to "userauth-*"</t>
             <t>Fixed nits found by YANG Doctor reviews.</t>
             <t>Added a 'Contributors' section.</t>
           </list>
@@ -1079,7 +1083,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
 
     <section title="Contributors" numbered="no">
       <t>Special acknowledgement goes to Gary Wu for his work on the
-        "ietf-ssh-common" module.</t>
+        "ietf-ssh-common" module, and Michal Vaško for his work on
+        the "ietf-ssh-server" model.</t>
     </section>
   </back>
 </rfc>
