@@ -106,7 +106,7 @@ module ietf-ssh-server {
     description
       "Indicates that the 'publickey' authentication type, per
        RFC 4252, is supported.
-       
+
        The 'publickey' authentication type is required by
        RFC 4252, but common implementations enable it to
        be disabled.";
@@ -143,35 +143,6 @@ module ietf-ssh-server {
         The Secure Shell (SSH) Authentication Protocol";
   }
 
-  feature userauth-keyboard-interactive {
-    description
-      "Indicates that the 'keyboard-interactive' authentication
-       type per RFC 4256, is supported.";
-    reference
-      "RFC 4256: Generic Message Exchange Authentication
-                 for the Secure Shell Protocol (SSH)";
-  }
-
-  feature userauth-gssapi-with-mic {
-    description
-      "Indicates that the 'gssapi-with-mic' authentication
-       type per RFC 4462, is supported.";
-    reference
-      "RFC 4462: Generic Security Service Application Program
-                 Interface (GSS-API) Authentication and Key
-                 Exchange for the Secure Shell (SSH) Protocol";
-  }
-
-  feature userauth-gssapi-keyex {
-    description
-      "Indicates that the 'gssapi-keyex' authentication
-       type per RFC 4462, is supported.";
-    reference
-      "RFC 4462: Generic Security Service Application Program
-                 Interface (GSS-API) Authentication and Key
-                 Exchange for the Secure Shell (SSH) Protocol";
-  }
-
   // Groupings
 
   grouping ssh-server-grouping {
@@ -184,7 +155,7 @@ module ietf-ssh-server {
        node names such that a stack of 'uses' statements will
        have name conflicts.  It is intended that the consuming
        data model will resolve the issue (e.g., by wrapping
-       the 'uses' statement in a container called 
+       the 'uses' statement in a container called
        'ssh-server-parameters').  This model purposely does
        not do this itself so as to provide maximum flexibility
        to consuming models.";
@@ -227,9 +198,9 @@ module ietf-ssh-server {
                   'public-key-format = "ct:ssh-public-key-format"';
               }
               refine "local-or-keystore/keystore/"
-                     + "keystore-reference" {
+                   + "keystore-reference" {
                 must 'deref(.)/../ks:public-key-format'
-                     + ' = "ct:ssh-public-key-format"';
+                   + ' = "ct:ssh-public-key-format"';
               }
             }
           }
@@ -244,9 +215,8 @@ module ietf-ssh-server {
             uses
             ks:local-or-keystore-end-entity-cert-with-key-grouping { 
               refine "local-or-keystore/local/local-definition" {
-                must
-                  'public-key-format'
-                  + ' = "ct:subject-public-key-info-format"';
+                must 'public-key-format'
+                   + ' = "ct:subject-public-key-info-format"';
               }
               refine "local-or-keystore/keystore/keystore-reference"
                      + "/asymmetric-key" {
@@ -268,7 +238,7 @@ module ietf-ssh-server {
         description
           "A list of locally configured users.";
         list user {
-          key name;
+          key "name";
           description
             "A locally configured user.
 
@@ -285,14 +255,14 @@ module ietf-ssh-server {
           leaf name {
             type string;
             description
-             "The 'user name' for the SSH client, as defined in
-              the SSH_MSG_USERAUTH_REQUEST message in RFC 4253.";
+              "The 'user name' for the SSH client, as defined in
+               the SSH_MSG_USERAUTH_REQUEST message in RFC 4253.";
           }
           container public-keys {
-            if-feature userauth-publickey;
+            if-feature "userauth-publickey";
             presence
               "Indicates that public keys have been configured.
-               This statement is present so the mandatory decendant
+               This statement is present so the mandatory descendant
                nodes do not imply that this node must be
                configured.";
             description
@@ -316,16 +286,16 @@ module ietf-ssh-server {
             }
           }
           leaf password {
-            if-feature userauth-password;
+            if-feature "userauth-password";
             type ianach:crypt-hash;
             description
               "The password for this user.";
           }
           container hostbased {
-            if-feature userauth-hostbased;
+            if-feature "userauth-hostbased";
             presence
               "Indicates that hostbased keys have been configured.
-               This statement is present so the mandatory decendant
+               This statement is present so the mandatory descendant
                nodes do not imply that this node must be
                configured.";
             description
@@ -350,114 +320,13 @@ module ietf-ssh-server {
             }
           }
           leaf none {
-            if-feature userauth-none;
+            if-feature "userauth-none";
             type empty;
             description
               "Indicates that the 'none' method is supported.";
             reference
               "RFC 4252: The Secure Shell (SSH) Authentication
                          Protocol.";
-          }
-          container keyboard-interactive {
-            if-feature "userauth-keyboard-interactive";
-            presence
-              "Indicates 'keyboard-interactive' has been configured.
-               This statement is present so the mandatory decendant
-               nodes do not imply that this node must be
-               configured.";
-            description
-               "The 'keyboard-interactive' method is defined in
-                RFC 4256 to present a set of challenge-expected
-                response pairs to authenticate users.";
-            reference
-              "RFC 4256: Generic Message Exchange Authentication
-                         for the Secure Shell Protocol (SSH)";
-            list submethod {
-              key "name";
-              min-elements 1;
-              ordered-by user;
-              description
-                "All the submethods supported for the user.
-                 If the user does not request any specific
-                 submethod, the first one will be used.";
-              leaf name {
-                type string;
-                description
-                  "The submethod's name.  Valid values need
-                   to be externally agreed on by clients and
-                   servers, per RFC 4256.";
-              }
-              leaf instruction {
-                type string;
-                description
-                  "The instruction presented to the user for this
-                   submethod.";
-              }
-              list prompt {
-                key "challenge";
-                min-elements 1;
-                ordered-by user;
-                description
-                  "List of prompts presented to the user that
-                   must be passed for successful authentication
-                   of this submethod.";
-                leaf challenge {
-                  type string;
-                  description
-                    "The challenge (prompt) presented to the user.";
-                }
-                leaf response {
-                  type string;
-                  mandatory true;
-                  description
-                    "The expected response to the challenge.";
-                }
-                leaf echo {
-                  type boolean;
-                  default true;
-                  description
-                    "Whether to enable or disable shell echo in case
-                     some sensitive information is requested.";
-                }
-              }
-            }
-          }
-          list gssapi-with-mic {
-            if-feature "userauth-gssapi-with-mic";
-            key oid;
-            ordered-by user;
-            description
-              "Indicates that the server can authenticate this
-               user using the configured 'mechanism OID'.
-               Consuming modules may augment-in OID-specific 
-               configuration as needed.";
-            leaf oid {
-              type binary;
-              description
-                "Configuration for a 'mechanism OIDs', per
-                 RFC 4462.";
-            }
-            reference
-              "RFC 4462:
-                Generic Security Service Application Program
-                Interface (GSS-API) Authentication and Key
-                Exchange for the Secure Shell (SSH) Protocol";
-          }
-          container gssapi-keyex {
-            if-feature "userauth-gssapi-keyex";
-            presence
-              "Indicates that the server can authenticate this
-               user using the 'gssapi-keyex' method.";
-            description
-              "Indicates that the server can authenticate this
-               user using GSS-API Key Exchange, per RFC 4462.
-               Consuming modules may augment-in OID-specific 
-               configuration as needed.";
-            reference
-              "RFC 4462:
-                Generic Security Service Application Program
-                Interface (GSS-API) Authentication and Key
-                Exchange for the Secure Shell (SSH) Protocol";
           }
         }
       }
@@ -516,7 +385,7 @@ module ietf-ssh-server {
          the SSH server SHOULD send an SSH_MSG_GLOBAL_REQUEST
          message with a purposely nonexistent 'request name'
          value (e.g., keepalive@ietf.org) and the 'want reply'
-         value set to '1'.";  
+         value set to '1'.";
       reference
         "RFC 4254: The Secure Shell (SSH) Connection Protocol";
       leaf max-wait {
@@ -542,4 +411,5 @@ module ietf-ssh-server {
       }
     }
   } // grouping ssh-server-grouping
-} // module ietf-ssh-server
+
+}

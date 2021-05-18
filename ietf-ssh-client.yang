@@ -93,7 +93,7 @@ module ietf-ssh-client {
     description
       "Indicates that the 'publickey' authentication type, per
        RFC 4252, is supported for client identification.
-      
+
        The 'publickey' authentication type is required by
        RFC 4252, but common implementations enable it to
        be disabled.";
@@ -129,35 +129,6 @@ module ietf-ssh-client {
         The Secure Shell (SSH) Authentication Protocol";
   }
 
-  feature userauth-keyboard-interactive {
-    description
-      "Indicates that the 'keyboard-interactive' authentication
-       type, per RFC 4256, is supported for client identification.";
-    reference
-      "RFC 4256: Generic Message Exchange Authentication
-                 for the Secure Shell Protocol (SSH)";
-  }
-
-  feature userauth-gssapi-with-mic {
-    description
-      "Indicates that the 'gssapi-with-mic' authentication type,
-       per RFC 4462, is supported for client identification.";
-    reference
-      "RFC 4462: Generic Security Service Application Program
-                 Interface (GSS-API) Authentication and Key
-                 Exchange for the Secure Shell (SSH) Protocol";
-  }
-
-  feature userauth-gssapi-keyex {
-    description
-      "Indicates that the 'gssapi-keyex' authentication type,
-       per RFC 4462, is supported for client identification.";
-    reference
-      "RFC 4462: Generic Security Service Application Program
-                 Interface (GSS-API) Authentication and Key
-                 Exchange for the Secure Shell (SSH) Protocol";
-  }
-
   // Groupings
 
   grouping ssh-client-grouping {
@@ -165,22 +136,18 @@ module ietf-ssh-client {
       "A reusable grouping for configuring a SSH client without
        any consideration for how an underlying TCP session is
        established.
-              
+
        Note that this grouping uses fairly typical descendant
        node names such that a stack of 'uses' statements will
        have name conflicts.  It is intended that the consuming
        data model will resolve the issue (e.g., by wrapping
-       the 'uses' statement in a container called 
+       the 'uses' statement in a container called
        'ssh-client-parameters').  This model purposely does
        not do this itself so as to provide maximum flexibility
        to consuming models.";
 
     container client-identity {
       nacm:default-deny-write;
-      must
-        'public-key or password or hostbased or none or '
-        + 'certificate or keyboard-interactive or gssapi-with-mic '
-        + 'or gssapi-keyex';
       description
         "The username and authentication methods for the client.
          The authentication methods are unordered.  Clients may
@@ -197,11 +164,11 @@ module ietf-ssh-client {
            used, for instance, to log into an SSH server.";
       }
       container public-key {
-        if-feature userauth-publickey;
+        if-feature "userauth-publickey";
         presence
           "Indicates that publickey-based authentication has been
            configured.  This statement is present so the mandatory
-           decendent nodes do not imply that this node must be
+           descendent nodes do not imply that this node must be
            configured.";
         description
           "A locally-defined or referenced asymmetric key
@@ -214,27 +181,27 @@ module ietf-ssh-client {
           }
           refine "local-or-keystore/keystore/keystore-reference" {
             must 'deref(.)/../ks:public-key-format'
-                 + ' = "ct:ssh-public-key-format"';
+               + ' = "ct:ssh-public-key-format"';
           }
         }
       }
       container password {
-        if-feature userauth-password;
+        if-feature "userauth-password";
         presence
-          "Indicates that password-based authenitcation has been
+          "Indicates that password-based authentication has been
            configured.  This statement is present so the mandatory
-           decendent nodes do not imply that this node must be
+           descendent nodes do not imply that this node must be
            configured.";
         description
-          "A password to be used to authenicate the client's
+          "A password to be used to authenticate the client's
            identity.";
         uses ct:password-grouping;
       }
       container hostbased {
-        if-feature userauth-hostbased;
+        if-feature "userauth-hostbased";
         presence
           "Indicates that hostbased authentication is configured.
-           This statement is present so the mandatory decendent
+           This statement is present so the mandatory descendent
            nodes do not imply that this node must be configured.";
         description
           "A locally-defined or referenced asymmetric key
@@ -247,12 +214,12 @@ module ietf-ssh-client {
           }
           refine "local-or-keystore/keystore/keystore-reference" {
             must 'deref(.)/../ks:public-key-format'
-                 + ' = "ct:ssh-public-key-format"';
+               + ' = "ct:ssh-public-key-format"';
           }
         }
       }
       leaf none {
-        if-feature userauth-none;
+        if-feature "userauth-none";
         type empty;
         description
           "Indicates that 'none' algorithm is used for client
@@ -263,67 +230,24 @@ module ietf-ssh-client {
         presence
           "Indicates that certificate-based authentication has been
            configured.  This statement is present so the mandatory
-           decendant nodes do not imply that this node must be
+           descendant nodes do not imply that this node must be
            configured.";
         description
           "A locally-defined or referenced certificate
            to be used for client identification.";
         reference
           "RFC CCCC: A YANG Data Model for a Keystore";
-        uses
-        ks:local-or-keystore-end-entity-cert-with-key-grouping {
+        uses ks:local-or-keystore-end-entity-cert-with-key-grouping {
           refine "local-or-keystore/local/local-definition" {
-            must
-              'public-key-format'
-              + ' = "ct:subject-public-key-info-format"';
+            must 'public-key-format'
+               + ' = "ct:subject-public-key-info-format"';
           }
           refine "local-or-keystore/keystore/keystore-reference"
-                 + "/asymmetric-key" {
+               + "/asymmetric-key" {
             must 'deref(.)/../ks:public-key-format'
-                 + ' = "ct:subject-public-key-info-format"';
+               + ' = "ct:subject-public-key-info-format"';
           }
         }
-      }
-      container keyboard-interactive {
-        if-feature userauth-keyboard-interactive;
-        description
-          "An optional list of preferred submethods.";
-        reference
-          "RFC 4256: Generic Message Exchange Authentication
-                     for the Secure Shell Protocol (SSH)";
-        leaf-list submethods {
-          type string;
-          ordered-by user;
-          description
-            "The client's preferred 'submethods'.  Valid values are
-             something the client and the server need to agree on.";
-        }
-      }
-      container gssapi-with-mic {
-        if-feature userauth-gssapi-with-mic;
-        leaf-list oids {
-          type binary;
-          ordered-by user;
-          description
-            "The client's preferred 'mechanism OIDs', per RFC 4462.";
-        }
-        description
-          "Additional configuration for the 'gssapi-with-mic'
-           exchange may be augmented-in by consuming modules.";
-        reference
-          "RFC 4462: Generic Security Service Application Program
-                     Interface (GSS-API) Authentication and Key
-                     Exchange for the Secure Shell (SSH) Protocol";
-      }
-      container gssapi-keyex {
-        if-feature userauth-gssapi-keyex;
-        description
-          "Additional configuration for the 'gssapi-keyex' exchange
-           may be augmented-in by consuming modules.";
-        reference
-          "RFC 4462: Generic Security Service Application Program
-                     Interface (GSS-API) Authentication and Key
-                     Exchange for the Secure Shell (SSH) Protocol";
       }
     } // container client-identity
 
@@ -337,7 +261,7 @@ module ietf-ssh-client {
       container ssh-host-keys {
         presence
           "Indicates that the SSH host key have been configured.
-           This statement is present so the mandatory decendant
+           This statement is present so the mandatory descendant
            nodes do not imply that this node must be configured.";
         description
           "A bag of SSH host keys used by the SSH client to
@@ -345,16 +269,16 @@ module ietf-ssh-client {
            is authenticated if it is an exact match to a
            configured SSH host key.";
         reference
-           "RFC BBBB: A YANG Data Model for a Truststore";
+          "RFC BBBB: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-public-keys-grouping {
           refine
             "local-or-truststore/local/local-definition/public-key" {
             must 'public-key-format = "ct:ssh-public-key-format"';
           }
-          refine 
+          refine
             "local-or-truststore/truststore/truststore-reference" {
             must 'deref(.)/../*/ts:public-key-format'
-                  + ' = "ct:ssh-public-key-format"';
+               + ' = "ct:ssh-public-key-format"';
           }
         }
       }
@@ -362,30 +286,30 @@ module ietf-ssh-client {
         if-feature "sshcmn:ssh-x509-certs";
         presence
           "Indicates that the CA certificates have been configured.
-           This statement is present so the mandatory decendant nodes
-           do not imply that this node must be configured.";
+           This statement is present so the mandatory descendant
+           nodes do not imply that this node must be configured.";
         description
           "A set of certificate authority (CA) certificates used by
            the SSH client to authenticate SSH servers.  A server
            is authenticated if its certificate  has a valid chain
            of trust to a configured CA certificate.";
-         reference
-           "RFC BBBB: A YANG Data Model for a Truststore";
+        reference
+          "RFC BBBB: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-certs-grouping;
       }
       container ee-certs {
         if-feature "sshcmn:ssh-x509-certs";
         presence
           "Indicates that the EE certificates have been configured.
-           This statement is present so the mandatory decendant nodes
-           do not imply that this node must be configured.";
+           This statement is present so the mandatory descendant
+           nodes do not imply that this node must be configured.";
         description
           "A set of end-entity certificates used by the SSH client
            to authenticate SSH servers.  A server is authenticated
            if its certificate is an exact match to a configured
            end-entity certificate.";
-         reference
-           "RFC BBBB: A YANG Data Model for a Truststore";
+        reference
+          "RFC BBBB: A YANG Data Model for a Truststore";
         uses ts:local-or-truststore-certs-grouping;
       }
     } // container server-authentication
@@ -438,4 +362,5 @@ module ietf-ssh-client {
       }
     } // container keepalives
   } // grouping ssh-client-grouping
-} // module ietf-ssh-client
+
+}

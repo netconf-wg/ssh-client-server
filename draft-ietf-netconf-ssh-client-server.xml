@@ -207,7 +207,7 @@ Identities:
             <li>The diagram shows that there are four base identities.</li>
             <li>These identities are used by this module to define algorithms for
               public-key, key-exchange, encryption, and MACs.</li>
-            <li>These base identities are "abstract", in the object orientied
+            <li>These base identities are "abstract", in the object oriented
               programming sense, in that they only define a "class" of algorithms, 
               rather than a specific algorithm.</li>
           </ul>
@@ -436,7 +436,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-client@YYYY-MM-DD.yang)
 Features:
   +-- ssh-server-transport-params-config
   +-- ssh-server-keepalives
-  +-- userauth-config-supported
+  +-- local-users-supported
   +-- userauth-publickey
   +-- userauth-password
   +-- userauth-hostbased
@@ -959,7 +959,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         <t>
           <list style="symbols">
             <t>Removed choice local-or-external by removing the 'external' case and flattening
-              the 'local' case and adding a "userauth-config-supported" feature.</t>
+              the 'local' case and adding a "local-users-supported" feature.</t>
             <t>Updated examples to include the "*-key-format" nodes.</t>
             <t>Augmented-in "must" expressions ensuring that locally-defined public-key-format
               are "ct:ssh-public-key-format" (must expr for ref'ed keys are TBD).</t>
@@ -986,7 +986,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
       <section title="18 to 19">
         <t>
           <list style="symbols">
-            <t>Updated the "keepalives" containers to address Michal Vasko's request to
+            <t>Updated the "keepalives" containers to address Michal Vaško's request to
               align with RFC 8071.</t>
             <t>Removed algorithm-mapping tables from the "SSH Common Model" section</t>
             <t>Removed 'algorithm' node from examples.</t>
@@ -1036,14 +1036,14 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
       <section title="23 to 24">
         <t>
           <list style="symbols">
-            <t>Added RFC-references to various 'feature' statements.</t>
-            <t>Added 'keyboard-interactive' auth mechanism from RFC 4256.</t>
-            <t>Added the 'gssapi-with-mic' and 'gssapi-keyex' auth mechanisms from RFC 4462.</t>
+            <t>Removed the 'supported-authentication-methods' from {grouping ssh-server-grouping}/client-authentication.</t>
             <t>Added XML-comment above examples explaining the reason for the unexepected top-most element's presence.</t>
+            <t>Added RFC-references to various 'feature' statements.</t>
             <t>Renamed "credentials" to "authentication methods"</t>
             <t>Renamed "client-auth-*" to "userauth-*"</t>
             <t>Renamed "client-identity-*" to "userauth-*"</t>
             <t>Fixed nits found by YANG Doctor reviews.</t>
+            <t>Aligned modules with `pyang -f` formatting.</t>
             <t>Added a 'Contributors' section.</t>
           </list>
         </t>
@@ -1072,7 +1072,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
         Juergen Schoenwaelder,
         Ladislav Lhotka,
         Liang Xia,
-        Martin Bjorklund,
+        Martin Björklund,
         Mehmet Ersue,
         Michal Vaško,
         Phil Shafer,
@@ -1083,8 +1083,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
 
     <section title="Contributors" numbered="no">
       <t>Special acknowledgement goes to Gary Wu for his work on the
-        "ietf-ssh-common" module, and Michal Vaško for his work on
-        the "ietf-ssh-server" model.</t>
+        "ietf-ssh-common" module.</t>
     </section>
   </back>
 </rfc>
