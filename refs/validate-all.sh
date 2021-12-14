@@ -19,6 +19,61 @@ run_unix_cmd() {
   fi
 }
 
+# IANA modules
+
+printf "Testing iana-ssh-encryption-algs (pyang)..."
+command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-encryption-algs\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing iana-ssh-encryption-algs (yanglint)..."
+command="yanglint -p ../ ../iana-ssh-encryption-algs\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing iana-ssh-key-exchange-algs (pyang)..."
+command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-key-exchange-algs\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing iana-ssh-key-exchange-algs (yanglint)..."
+command="yanglint -p ../ ../iana-ssh-key-exchange-algs\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing iana-ssh-mac-algs (pyang)..."
+command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-mac-algs\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing iana-ssh-mac-algs (yanglint)..."
+command="yanglint -p ../ ../iana-ssh-mac-algs\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing iana-ssh-public-key-algs (pyang)..."
+command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-public-key-algs\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing iana-ssh-public-key-algs (yanglint)..."
+command="yanglint -p ../ ../iana-ssh-public-key-algs\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+
+# IETF modules
+
+printf "Testing ietf-ssh-common (pyang)..."
+command="pyang -Werror --ietf --max-line-length=69 -p ../ ../ietf-ssh-common\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing ietf-ssh-common (yanglint)..."
+command="yanglint -p ../ ../ietf-ssh-common\@*.yang"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
 printf "Testing ietf-ssh-client (pyang)..."
 command="pyang -Werror --ietf --max-line-length=69 -p ../ ../ietf-ssh-client\@*.yang"
 run_unix_cmd $LINENO "$command" 0
@@ -39,21 +94,36 @@ command="yanglint -p ../ ../ietf-ssh-server\@*.yang"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
-printf "Testing ietf-ssh-common (pyang)..."
-command="pyang -Werror --ietf --max-line-length=69 -p ../ ../ietf-ssh-common\@*.yang"
+
+# IANA Examples
+
+printf "Testing ex-encryption-algs.xml..."
+command="yanglint ../iana-ssh-encryption-algs\@*.yang ex-encryption-algs.xml"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
-printf "Testing ietf-ssh-common (yanglint)..."
-command="yanglint -p ../ ../ietf-ssh-common\@*.yang"
+printf "Testing ex-key-exchange-algs.xml..."
+command="yanglint ../iana-ssh-key-exchange-algs\@*.yang ex-key-exchange-algs.xml"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
+printf "Testing ex-mac-algs.xml..."
+command="yanglint ../iana-ssh-mac-algs\@*.yang ex-mac-algs.xml"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing ex-public-key-algs.xml..."
+command="yanglint ../iana-ssh-public-key-algs\@*.yang ex-public-key-algs.xml"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+
+# IETF Examples
 
 printf "Testing ex-ssh-common.xml..."
 name=`ls -1 ../ietf-ssh-common\@*.yang | sed 's/\.\.\///'`
 sed 's/^}/container transport-params { uses transport-params-grouping; }}/' ../ietf-ssh-common\@*.yang > $name
-command="yanglint -s ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang $name ex-ssh-common.xml"
+command="yanglint ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../iana-ssh-encryption-algs\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang $name ex-ssh-common.xml"
 run_unix_cmd $LINENO "$command" 0
 rm $name
 printf "okay.\n"
@@ -89,4 +159,3 @@ command="yanglint -m -s ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang 
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 rm $name
-

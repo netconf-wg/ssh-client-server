@@ -1,0 +1,12 @@
+<supported-algorithms
+  xmlns="urn:ietf:params:xml:ns:yang:iana-ssh-key-exchange-algs"
+  xmlns:sshkea="urn:ietf:params:xml:ns:yang:iana-ssh-key-exchange-algs">
+  <supported-algorithm>sshkea:diffie-hellman-group-exchange-sha256</supported-algorithm>
+  <supported-algorithm>sshkea:ecdh-sha2-nistp256</supported-algorithm>
+  <supported-algorithm>sshkea:rsa2048-sha256</supported-algorithm>
+  <supported-algorithm>sshkea:gss-group1-sha1-curve25519-sha256</supported-algorithm>
+  <supported-algorithm>sshkea:gss-group14-sha1-nistp256</supported-algorithm>
+  <supported-algorithm>sshkea:gss-gex-sha1-nistp256</supported-algorithm>
+  <supported-algorithm>sshkea:gss-group14-sha256-1.2.840.10045.3.1.1</supported-algorithm>
+  <supported-algorithm>sshkea:curve25519-sha256</supported-algorithm>
+</supported-algorithms>

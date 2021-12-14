@@ -1,27 +1,31 @@
 <!-- The outermost element below doesn't exist in the data model. -->
 <!--  It simulates if the "grouping" were a "container" instead.  -->
+
 <transport-params
   xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-common"
-  xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
+  xmlns:sshea="urn:ietf:params:xml:ns:yang:iana-ssh-encryption-algs"
+  xmlns:sshkea="urn:ietf:params:xml:ns:yang:iana-ssh-key-exchange-algs"
+  xmlns:sshma="urn:ietf:params:xml:ns:yang:iana-ssh-mac-algs"
+  xmlns:sshpka="urn:ietf:params:xml:ns:yang:iana-ssh-public-key-algs">
   <host-key>
-    <host-key-alg>algs:x509v3-rsa2048-sha256</host-key-alg>
-    <host-key-alg>algs:ssh-rsa</host-key-alg>
+    <host-key-alg>sshpka:x509v3-rsa2048-sha256</host-key-alg>
+    <host-key-alg>sshpka:ssh-rsa</host-key-alg>
   </host-key>
   <key-exchange>
     <key-exchange-alg>
-      algs:diffie-hellman-group-exchange-sha256
+      sshkea:diffie-hellman-group-exchange-sha256
     </key-exchange-alg>
   </key-exchange>
   <encryption>
-    <encryption-alg>algs:aes256-ctr</encryption-alg>
-    <encryption-alg>algs:aes192-ctr</encryption-alg>
-    <encryption-alg>algs:aes128-ctr</encryption-alg>
-    <encryption-alg>algs:aes256-cbc</encryption-alg>
-    <encryption-alg>algs:aes192-cbc</encryption-alg>
-    <encryption-alg>algs:aes128-cbc</encryption-alg>
+    <encryption-alg>sshea:aes256-ctr</encryption-alg>
+    <encryption-alg>sshea:aes192-ctr</encryption-alg>
+    <encryption-alg>sshea:aes128-ctr</encryption-alg>
+    <encryption-alg>sshea:aes256-cbc</encryption-alg>
+    <encryption-alg>sshea:aes192-cbc</encryption-alg>
+    <encryption-alg>sshea:aes128-cbc</encryption-alg>
   </encryption>
   <mac>
-    <mac-alg>algs:hmac-sha2-256</mac-alg>
-    <mac-alg>algs:hmac-sha2-512</mac-alg>
+    <mac-alg>sshma:hmac-sha2-256</mac-alg>
+    <mac-alg>sshma:hmac-sha2-512</mac-alg>
   </mac>
 </transport-params>

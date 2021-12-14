@@ -1,0 +1,11 @@
+<supported-algorithms
+  xmlns="urn:ietf:params:xml:ns:yang:iana-ssh-encryption-algs"
+  xmlns:sshea="urn:ietf:params:xml:ns:yang:iana-ssh-encryption-algs">
+  <supported-algorithm>sshea:aes256-ctr</supported-algorithm>
+  <supported-algorithm>sshea:aes256-cbc</supported-algorithm>
+  <supported-algorithm>sshea:twofish256-cbc</supported-algorithm>
+  <supported-algorithm>sshea:serpent256-cbc</supported-algorithm>
+  <supported-algorithm>sshea:arcfour256</supported-algorithm>
+  <supported-algorithm>sshea:serpent256-ctr</supported-algorithm>
+  <supported-algorithm>sshea:aead-aes-256-gcm</supported-algorithm>
+</supported-algorithms>
