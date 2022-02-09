@@ -1523,6 +1523,15 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2021-06-01.yang)
           </list>
         </t>
       </section>
+      <section title="26 to 27">
+        <t>
+          <list style="symbols">
+            <t>Fixed up the 'WG Web' and 'WG List' lines in YANG module(s)</t>
+            <t>Fixed up copyright (i.e., s/Simplified/Revised/) in YANG module(s)</t>
+            <t>SUBMISSION PENDING</t>
+          </list>
+        </t>
+      </section>
       <!--
       <section title="26 to 27">
         <t>
