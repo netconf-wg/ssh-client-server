@@ -41,6 +41,19 @@ module iana-ssh-public-key-algs {
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
+  // Typedefs
+
+  typedef public-key-algorithm-ref {
+    type identityref {
+      base "public-key-alg-base";
+    }
+    description
+      "A reference to a SSH public key algorithm identifier.";
+  }
+
+
+  // Identities
+
   identity public-key-alg-base {
     description
       "Base identity used to identify public key algorithms.";
@@ -414,9 +427,7 @@ module iana-ssh-public-key-algs {
       "A container for a list of public key algorithms
        supported by the server.";
     leaf-list supported-algorithm {
-      type identityref {
-        base "sshpka:public-key-alg-base";
-      }
+      type public-key-algorithm-ref;
       description
         "A public key algorithm supported by the server.";
     }
