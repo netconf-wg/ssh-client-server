@@ -41,6 +41,19 @@ module iana-ssh-mac-algs {
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
+  // Typedefs
+
+  typedef mac-algorithm-ref {
+    type identityref {
+      base "mac-alg-base";
+    }
+    description
+      "A reference to a SSH mac algorithm identifier.";
+  }
+
+
+  // Identities
+
   identity mac-alg-base {
     description
       "Base identity used to identify message authentication
@@ -140,9 +153,7 @@ module iana-ssh-mac-algs {
       "A container for a list of MAC algorithms
        supported by the server.";
     leaf-list supported-algorithm {
-      type identityref {
-        base "sshma:mac-alg-base";
-      }
+      type mac-algorithm-ref;
       description
         "A MAC algorithm supported by the server.";
     }

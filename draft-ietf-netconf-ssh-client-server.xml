@@ -825,7 +825,7 @@ reference:    RFC EEEE
           "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-MAC-ALGS"/>.</t>
         <t>This registry defines a YANG identity for each MAC algorithm, and a "base"
           identity from which all of the other identities are derived.</t>
-        <t>An initial version of this module can be found in <xref target="iana-ssh-ma-module"/>.</t>
+        <t>An initial version of this module can be found in <xref target="iana-ssh-mac-module"/>.</t>
         <ul>
           <li>Please note that this module was created on June 1st, 2021, and that additional
             entries may have been added in the interim before this document's publication.
@@ -984,9 +984,31 @@ Identities:
                 defined in <xref target="RFC8340"/>.</t>
             </aside>
           </section>
+          <section title="Typedefs" toc="exclude">
+            <t>The following diagram illustrates the "typedef" statements
+              defined in the "iana-ssh-encryption-algs" module:</t>
+            <t>
+              <figure>
+               <artwork><![CDATA[
+Typedefs:
+  identityref
+    +-- encryption-algorithm-ref
+]]></artwork>
+              </figure>
+            </t>
+            <aside>
+              <t>The diagram above uses syntax that is similar to but not
+                defined in <xref target="RFC8340"/>.</t>
+            </aside>
+            <t>Comments:</t>
+            <ul>
+              <li>The typedef defined in the "iana-ssh-encryption-algs" module
+                extends the "identityref" type defined in <xref target="RFC7950"/>.</li>
+            </ul>
+          </section>
           <section title="Protocol-accessible Nodes" toc="exclude">
             <t>The following tree diagram <xref target="RFC8340"/> lists all the
-              protocol-accessible nodes defined in the "iana-ssh-encryption-alg"
+              protocol-accessible nodes defined in the "iana-ssh-encryption-algs"
               module:</t>
             <t>
               <figure>
@@ -1029,7 +1051,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-encryption-algs@2021-06-01.yang)
         </section>
       </section>
 
-      <section title='Initial Module for the "MAC Algorithm Names" Registry' anchor="iana-ssh-ma-module">
+      <section title='Initial Module for the "MAC Algorithm Names" Registry' anchor="iana-ssh-mac-module">
         <section title="Data Model Overview">
           <t>This section provides an overview of the "iana-ssh-mac-algs" module
             in terms of its identities and protocol-accessible nodes.</t>
@@ -1052,9 +1074,31 @@ Identities:
                 defined in <xref target="RFC8340"/>.</t>
             </aside>
           </section>
+          <section title="Typedefs" toc="exclude">
+            <t>The following diagram illustrates the "typedef" statements
+              defined in the "iana-ssh-mac-algs" module:</t>
+            <t>
+              <figure>
+               <artwork><![CDATA[
+Typedefs:
+  identityref
+    +-- mac-algorithm-ref
+]]></artwork>
+              </figure>
+            </t>
+            <aside>
+              <t>The diagram above uses syntax that is similar to but not
+                defined in <xref target="RFC8340"/>.</t>
+            </aside>
+            <t>Comments:</t>
+            <ul>
+              <li>The typedef defined in the "iana-ssh-mac-algs" module
+                extends the "identityref" type defined in <xref target="RFC7950"/>.</li>
+            </ul>
+          </section>
           <section title="Protocol-accessible Nodes" toc="exclude">
             <t>The following tree diagram <xref target="RFC8340"/> lists all the
-              protocol-accessible nodes defined in the "iana-ssh-mac-alg"
+              protocol-accessible nodes defined in the "iana-ssh-mac-algs"
               module:</t>
             <t>
               <figure>
@@ -1120,9 +1164,31 @@ Identities:
                 defined in <xref target="RFC8340"/>.</t>
             </aside>
           </section>
+          <section title="Typedefs" toc="exclude">
+            <t>The following diagram illustrates the "typedef" statements
+              defined in the "iana-ssh-public-key-algs" module:</t>
+            <t>
+              <figure>
+               <artwork><![CDATA[
+Typedefs:
+  identityref
+    +-- public-key-algorithm-ref
+]]></artwork>
+              </figure>
+            </t>
+            <aside>
+              <t>The diagram above uses syntax that is similar to but not
+                defined in <xref target="RFC8340"/>.</t>
+            </aside>
+            <t>Comments:</t>
+            <ul>
+              <li>The typedef defined in the "iana-ssh-public-key-algs" module
+                extends the "identityref" type defined in <xref target="RFC7950"/>.</li>
+            </ul>
+          </section>
           <section title="Protocol-accessible Nodes" toc="exclude">
             <t>The following tree diagram <xref target="RFC8340"/> lists all the
-              protocol-accessible nodes defined in the "iana-ssh-public-key-alg"
+              protocol-accessible nodes defined in the "iana-ssh-public-key-algs"
               module:</t>
             <t>
               <figure>
@@ -1188,9 +1254,31 @@ Identities:
                 defined in <xref target="RFC8340"/>.</t>
             </aside>
           </section>
+          <section title="Typedefs" toc="exclude">
+            <t>The following diagram illustrates the "typedef" statements
+              defined in the "iana-ssh-key-exchange-algs" module:</t>
+            <t>
+              <figure>
+               <artwork><![CDATA[
+Typedefs:
+  identityref
+    +-- key-exchange-algorithm-ref
+]]></artwork>
+              </figure>
+            </t>
+            <aside>
+              <t>The diagram above uses syntax that is similar to but not
+                defined in <xref target="RFC8340"/>.</t>
+            </aside>
+            <t>Comments:</t>
+            <ul>
+              <li>The typedef defined in the "iana-ssh-key-exchange-algs" module
+                extends the "identityref" type defined in <xref target="RFC7950"/>.</li>
+            </ul>
+          </section>
           <section title="Protocol-accessible Nodes" toc="exclude">
             <t>The following tree diagram <xref target="RFC8340"/> lists all the
-              protocol-accessible nodes defined in the "iana-ssh-key-exchange-alg"
+              protocol-accessible nodes defined in the "iana-ssh-key-exchange-algs"
               module:</t>
             <t>
               <figure>
@@ -1528,7 +1616,8 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2021-06-01.yang)
           <list style="symbols">
             <t>Fixed up the 'WG Web' and 'WG List' lines in YANG module(s)</t>
             <t>Fixed up copyright (i.e., s/Simplified/Revised/) in YANG module(s)</t>
-            <t>SUBMISSION PENDING</t>
+            <t>Created identityref-based typedefs for each of the four IANA alg identity bases.</t>
+            <t>Added ietf-ssh-common:generate-public-key() RPC for discussion.</t>
           </list>
         </t>
       </section>

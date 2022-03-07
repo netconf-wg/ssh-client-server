@@ -41,6 +41,19 @@ module iana-ssh-key-exchange-algs {
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
+  // Typedefs
+
+  typedef key-exchange-algorithm-ref {
+    type identityref {
+      base "key-exchange-alg-base";
+    }
+    description
+      "A reference to a SSH key exchange algorithm identifier.";
+  }
+
+
+  // Identities
+
   identity key-exchange-alg-base {
     description
       "Base identity used to identify key exchange algorithms.";
@@ -2193,9 +2206,7 @@ module iana-ssh-key-exchange-algs {
       "A container for a list of key exchange algorithms
        supported by the server.";
     leaf-list supported-algorithm {
-      type identityref {
-        base "sshkea:key-exchange-alg-base";
-      }
+      type key-exchange-algorithm-ref;
       description
         "A key exchange algorithm supported by the server.";
     }

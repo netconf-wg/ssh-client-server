@@ -27,6 +27,18 @@ module ietf-ssh-common {
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
+  import ietf-crypto-types {
+    prefix ct;
+    reference
+      "RFC AAAA: YANG Data Types and Groupings for Cryptography";
+  }
+
+  import ietf-keystore {
+    prefix ks;
+    reference
+      "RFC CCCC: A YANG Data Model for a Keystore";
+  }
+
   organization
     "IETF NETCONF (Network Configuration) Working Group";
 
@@ -81,6 +93,12 @@ module ietf-ssh-common {
   feature transport-params {
     description
       "SSH transport layer parameters are configurable.";
+  }
+
+  feature public-key-generation {
+    description
+      "Indicates that the server implements the
+       'generate-public-key' RPC.";
   }
 
   // Groupings
@@ -164,5 +182,76 @@ module ietf-ssh-common {
       }
     }
   }
+
+  // Protocol-accessible Nodes
+
+  rpc generate-public-key {
+    if-feature "public-key-generation";
+    description
+      "Requests the device to generate an public key using
+       the specified key algorithm.";
+    input {
+      leaf algorithm {
+        type sshpka:public-key-algorithm-ref;
+        mandatory true;
+        description
+          "The algorithm to be used when generating the key.";
+      }
+      leaf bits {
+        type uint16;
+        description
+          "Specifies the number of bits in the key to create.
+           For RSA keys, the minimum size is 1024 bits and
+           the default is 3072 bits. Generally, 3072 bits is
+           considered sufficient. DSA keys must be exactly 1024
+           bits as specified by FIPS 186-2.  For ECDSA keys, the
+           'bits' value determines the key length by selecting
+           from one of three elliptic curve sizes: 256, 384 or
+           521 bits. Attempting to use bit lengths other than
+           these three values for ECDSA keys will fail. ECDSA-SK,
+           Ed25519 and Ed25519-SK keys have a fixed length and
+           the 'bits' value, if specified, will be ignored.";
+      }
+      choice private-key-encoding {
+        default cleartext;
+        description
+          "A choice amongst optional private key handling.";
+        case cleartext {
+          leaf cleartext {
+            type empty;
+            description
+              "Indicates that the private key is to be returned
+               as a cleartext value.";
+          }
+        }
+        case encrypt {
+          if-feature "ct:private-key-encryption";
+          container encrypt-with {
+            description
+               "Indicates that the key is to be encrypted using
+                the specified symmetric or asymmetric key.";
+            uses ks:encrypted-by-choice-grouping;
+          }
+        }
+        case hide {
+          if-feature "ct:hidden-keys";
+          leaf hide {
+            type empty;
+            description
+              "Indicates that the private key is to be hidden.
+
+               Unlike the 'cleartext' and 'encrypt' options, the
+               key returned is a placeholder for an internally
+               stored key.  See the 'Support for Built-in Keys'
+               section in RFC CCCC for information about hidden
+               keys.";
+          }
+        }
+      }
+    }
+    output {
+      uses ct:asymmetric-key-pair-grouping;
+    }
+  } // end generate-public-key
 
 }
