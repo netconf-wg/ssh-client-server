@@ -12,9 +12,7 @@
     <host-key-alg>sshpka:ssh-rsa</host-key-alg>
   </host-key>
   <key-exchange>
-    <key-exchange-alg>
-      sshkea:diffie-hellman-group-exchange-sha256
-    </key-exchange-alg>
+    <key-exchange-alg>sshkea:diffie-hellman-group-exchange-sha256</key-exchange-alg>
   </key-exchange>
   <encryption>
     <encryption-alg>sshea:aes256-ctr</encryption-alg>

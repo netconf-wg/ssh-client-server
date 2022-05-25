@@ -5,9 +5,9 @@ pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-mac-algs\@*.yang > iana-s
 pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-public-key-algs\@*.yang > iana-ssh-public-key-algs-tree.txt
 pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-key-exchange-algs\@*.yang > iana-ssh-key-exchange-algs-tree.txt
 
-#pyang -p ../ -f tree --tree-line-length 69 --tree-print-groupings ../ietf-ssh-server\@*.yang > ietf-ssh-server-tree.txt
-#pyang -p ../ -f tree --tree-line-length 69 --tree-print-groupings ../ietf-ssh-common\@*.yang > ietf-ssh-common-tree.txt
-#
+pyang -p ../ -f tree --tree-line-length 69  ../ietf-ssh-common\@*.yang > ietf-ssh-common-tree.txt
+pyang -p ../ -f tree --tree-line-length 69  --tree-no-expand-uses ../ietf-ssh-common\@*.yang > ietf-ssh-common-tree-no-expand.txt
+
 #pyang -p ../ -f tree --tree-line-length 69 --tree-print-groupings --tree-no-expand-uses ../ietf-ssh-client\@*.yang > ietf-ssh-client-tree-no-expand.txt
 #pyang -p ../ -f tree --tree-line-length 69 --tree-print-groupings --tree-no-expand-uses ../ietf-ssh-server\@*.yang > ietf-ssh-server-tree-no-expand.txt
 

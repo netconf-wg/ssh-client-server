@@ -148,7 +148,8 @@ INSERT_TEXT_FROM_FILE(../common-intro-snippet.xml,150)
 Features:
   +-- ssh-x509-certs
   +-- transport-params
-]]></artwork>
+  +-- public-key-generation
+                ]]></artwork>
             </figure>
           </t>
           <aside>
@@ -188,21 +189,61 @@ INSERT_TEXT_FROM_FILE(refs/tree-transport-params-grouping.no-expand.txt)
         </section>
 
         <section title="Protocol-accessible Nodes" toc="exclude">
-          <t>The "ietf-ssh-common" module defines only "grouping" statements that are
-            used by other modules to instantiate protocol-accessible nodes.</t>
+           <t>The following tree diagram <xref target="RFC8340"/> lists all the
+             protocol-accessible nodes defined in the "ietf-ssh-common" module,
+             without expanding the "grouping" statements:</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree-no-expand.txt)
+]]></artwork>
+              </figure>
+            </t>
+            <t>The following tree diagram <xref target="RFC8340"/> lists all the
+              protocol-accessible nodes defined in the "ietf-ssh-common" module,
+              with all "grouping" statements expanded, enabling the module's full
+              structure to be seen:</t>
+            <t>
+              <figure>
+                <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree.txt)
+]]></artwork>
+              </figure>
+            </t>
+            <t>Comments:</t>
+            <ul>
+              <li>Protocol-accessible nodes are those nodes that are accessible
+                when the module is "implemented", as described in <relref
+                section="5.6.5" target="RFC7950"/>.</li>
+              <li>The protocol-accessible nodes for the "ietf-ssh-common" module
+                are limited to the RPC "generate-public-key", which is
+                additionally constrained by the feature "public-key-generation".</li>
+              <li>The "encrypted-by-choice-grouping" grouping is discussed in
+                <relref section="2.1.3.1" target="I-D.ietf-netconf-keystore"/>.</li>
+              <li>The "asymmetric-key-pair-grouping" grouping is discussed in
+                <relref section="2.1.4.5" target="I-D.ietf-netconf-crypto-types"/>.</li>
+            </ul>
         </section>
 
       </section>
 
       <section title="Example Usage">
-        <t>This following example illustrates how the
-        "transport-params-grouping' grouping appears when populated with some data.</t>
-
+        <t>The following example illustrates the "transport-params-grouping'
+          grouping when populated with some data.</t>
         <t><figure>
             <artwork><![CDATA[
 INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
 ]]></artwork>
-          </figure></t>
+          </figure>
+        </t>
+
+        <t>The following example illustrates the "generate-public-key" RPC.</t>
+        <t><figure>
+            <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ex-generate-public-key.xml)
+]]></artwork>
+          </figure>
+        </t>
       </section>
 
       <section anchor="ssh-common-yang-module" title="YANG Module">
@@ -1618,6 +1659,15 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2021-06-01.yang)
             <t>Fixed up copyright (i.e., s/Simplified/Revised/) in YANG module(s)</t>
             <t>Created identityref-based typedefs for each of the four IANA alg identity bases.</t>
             <t>Added ietf-ssh-common:generate-public-key() RPC for discussion.</t>
+          </list>
+        </t>
+      </section>
+      <section title="27 to 28">
+        <t>
+          <list style="symbols">
+            <t>Fixed example to not have line-returns around "identity" values.</t>
+            <t>Fixed examples to not include "xmlns:algs".</t>
+            <t>Added an example for the "generate-public-key" RPC.</t>
           </list>
         </t>
       </section>

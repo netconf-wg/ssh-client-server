@@ -3,8 +3,7 @@
 
 <ssh-client
   xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-client"
-  xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types"
-  xmlns:algs="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
+  xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types">
 
   <!-- how this client will authenticate itself to the server -->
   <client-identity>
