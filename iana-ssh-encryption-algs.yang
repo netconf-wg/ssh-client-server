@@ -34,7 +34,7 @@ module iana-ssh-encryption-algs {
      (https://www.rfc-editor.org/info/rfcEEEE); see the RFC
      itself for full legal notices.";
 
-  revision 2021-06-01 {
+  revision 2022-06-16 {
     description
       "Initial version";
     reference

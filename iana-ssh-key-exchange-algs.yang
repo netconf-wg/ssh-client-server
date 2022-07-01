@@ -34,7 +34,7 @@ module iana-ssh-key-exchange-algs {
      (https://www.rfc-editor.org/info/rfcEEEE); see the RFC
      itself for full legal notices.";
 
-  revision 2021-06-01 {
+  revision 2022-06-16 {
     description
       "Initial version";
     reference
@@ -741,6 +741,7 @@ module iana-ssh-key-exchange-algs {
 
   identity rsa1024-sha1 {
     base key-exchange-alg-base;
+    status obsolete;
     description
       "RSA1024-SHA1";
     reference
