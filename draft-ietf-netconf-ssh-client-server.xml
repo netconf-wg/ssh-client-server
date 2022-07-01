@@ -855,7 +855,7 @@ reference:    RFC EEEE
           <li>Please note that this module was created on June 1st, 2021, and that additional
             entries may have been added in the interim before this document's publication.
             If this is that case, IANA may either publish just an updated module containing
-            the new entries, or publish the initial module as is immediately followed by a
+            the new entries, or publish the initial module that is immediately followed by a
             "revision" containing the additional algorithm names.</li>
         </ul>
       </section>
@@ -871,7 +871,7 @@ reference:    RFC EEEE
           <li>Please note that this module was created on June 1st, 2021, and that additional
             entries may have been added in the interim before this document's publication.
             If this is that case, IANA may either publish just an updated module containing
-            the new entries, or publish the initial module as is immediately followed by a
+            the new entries, or publish the initial module that is immediately followed by a
             "revision" containing the additional algorithm names.</li>
         </ul>
       </section>
@@ -890,7 +890,7 @@ reference:    RFC EEEE
           <li>Please note that this module was created on June 1st, 2021, and that additional
             entries may have been added in the interim before this document's publication.
             If this is that case, IANA may either publish just an updated module containing
-            the new entries, or publish the initial module as is immediately followed by a
+            the new entries, or publish the initial module that is immediately followed by a
             "revision" containing the additional algorithm names.</li>
         </ul>
       </section>
@@ -909,7 +909,7 @@ reference:    RFC EEEE
           <li>Please note that this module was created on June 1st, 2021, and that additional
             entries may have been added in the interim before this document's publication.
             If this is that case, IANA may either publish just an updated module containing
-            the new entries, or publish the initial module as is immediately followed by a
+            the new entries, or publish the initial module that is immediately followed by a
             "revision" containing the additional algorithm names.</li>
           <li>Please also note that the "status" statement has been set to "deprecated"
             <eref target="https://datatracker.ietf.org/doc/html/rfc8732#section-6"/>.  It is
@@ -1078,13 +1078,13 @@ INSERT_TEXT_FROM_FILE(refs/ex-encryption-algs.xml)
         </section>
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
-            Please note that the date "2021-06-01" reflects the day on which the extraction
+            Please note that the date "2022-06-16" reflects the day on which the extraction
             occurred.</t>
           <t>
             <figure>
-              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-encryption-algs@2021-06-01.yang"</preamble>
+              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-encryption-algs@2022-06-16.yang"</preamble>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(iana-ssh-encryption-algs@2021-06-01.yang)
+INSERT_TEXT_FROM_FILE(iana-ssh-encryption-algs@2022-06-16.yang)
 ]]></artwork>
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
@@ -1168,13 +1168,13 @@ INSERT_TEXT_FROM_FILE(refs/ex-mac-algs.xml)
         </section>
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
-            Please note that the date "2021-06-01" reflects the day on which the extraction
+            Please note that the date "2022-06-16" reflects the day on which the extraction
             occurred.</t>
           <t>
             <figure>
-              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-mac-algs@2021-06-01.yang"</preamble>
+              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-mac-algs@2022-06-16.yang"</preamble>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(iana-ssh-mac-algs@2021-06-01.yang)
+INSERT_TEXT_FROM_FILE(iana-ssh-mac-algs@2022-06-16.yang)
 ]]></artwork>
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
@@ -1258,13 +1258,13 @@ INSERT_TEXT_FROM_FILE(refs/ex-public-key-algs.xml)
         </section>
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
-            Please note that the date "2021-06-01" reflects the day on which the extraction
+            Please note that the date "2022-06-16" reflects the day on which the extraction
             occurred.</t>
           <t>
             <figure>
-              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-public-key-algs@2021-06-01.yang"</preamble>
+              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-public-key-algs@2022-06-16.yang"</preamble>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(iana-ssh-public-key-algs@2021-06-01.yang)
+INSERT_TEXT_FROM_FILE(iana-ssh-public-key-algs@2022-06-16.yang)
 ]]></artwork>
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
@@ -1348,13 +1348,13 @@ INSERT_TEXT_FROM_FILE(refs/ex-key-exchange-algs.xml)
         </section>
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
-            Please note that the date "2021-06-01" reflects the day on which the extraction
+            Please note that the date "2022-06-16" reflects the day on which the extraction
             occurred.</t>
           <t>
             <figure>
-              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-key-exchange-algs@2021-06-01.yang"</preamble>
+              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-key-exchange-algs@2022-06-16.yang"</preamble>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2021-06-01.yang)
+INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
 ]]></artwork>
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>

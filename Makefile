@@ -58,10 +58,10 @@ $(next).xml: $(draft).xml ietf-ssh-client.yang ietf-ssh-server.yang ietf-ssh-com
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ietf-ssh-client.yang > ietf-ssh-client\@$(shell date +%Y-%m-%d).yang
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ietf-ssh-server.yang > ietf-ssh-server\@$(shell date +%Y-%m-%d).yang
 	sed -e"s/YYYY-MM-DD/$(shell date +%Y-%m-%d)/" ietf-ssh-common.yang > ietf-ssh-common\@$(shell date +%Y-%m-%d).yang
-	sed -e"s/YYYY-MM-DD/2021-06-01/" iana-ssh-encryption-algs.yang > iana-ssh-encryption-algs\@2021-06-01.yang
-	sed -e"s/YYYY-MM-DD/2021-06-01/" iana-ssh-key-exchange-algs.yang > iana-ssh-key-exchange-algs\@2021-06-01.yang
-	sed -e"s/YYYY-MM-DD/2021-06-01/" iana-ssh-mac-algs.yang > iana-ssh-mac-algs\@2021-06-01.yang
-	sed -e"s/YYYY-MM-DD/2021-06-01/" iana-ssh-public-key-algs.yang > iana-ssh-public-key-algs\@2021-06-01.yang
+	sed -e"s/YYYY-MM-DD/2022-06-16/" iana-ssh-encryption-algs.yang > iana-ssh-encryption-algs\@2022-06-16.yang
+	sed -e"s/YYYY-MM-DD/2022-06-16/" iana-ssh-key-exchange-algs.yang > iana-ssh-key-exchange-algs\@2022-06-16.yang
+	sed -e"s/YYYY-MM-DD/2022-06-16/" iana-ssh-mac-algs.yang > iana-ssh-mac-algs\@2022-06-16.yang
+	sed -e"s/YYYY-MM-DD/2022-06-16/" iana-ssh-public-key-algs.yang > iana-ssh-public-key-algs\@2022-06-16.yang
 	cd refs && ./validate-all.sh && ./gen-trees.sh && cd ..
 	./.insert-figures.sh $@ > tmp && mv tmp $@
 	rm refs/*-tree*.txt refs/tree-*.txt
