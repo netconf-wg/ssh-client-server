@@ -36,6 +36,12 @@ module iana-ssh-encryption-algs {
 
   revision 2022-06-16 {
     description
+      "Updated to reflect contents of the encryption algorithms
+       registry on June 16, 2022.";
+  }
+
+  revision 2021-06-01 {
+    description
       "Initial version";
     reference
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
