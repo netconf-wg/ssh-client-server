@@ -1678,16 +1678,13 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
           </list>
         </t>
       </section>
-
-      <!--
-      <section title="26 to 27">
+      <section title="29 to 30">
         <t>
           <list style="symbols">
-            <t>SUBMISSION PENDING</t>
+            <t>Fixed 'must' expressions.</t>
           </list>
         </t>
       </section>
-      -->
     </section>
 
     <section title="Acknowledgements" numbered="no">
