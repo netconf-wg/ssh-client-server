@@ -38,6 +38,8 @@ module iana-ssh-public-key-algs {
     description
       "Updated to reflect contents of the public key algorithms
        registry on June 16, 2022.";
+    reference
+      "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   revision 2021-06-01 {

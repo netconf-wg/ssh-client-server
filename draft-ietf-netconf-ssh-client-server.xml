@@ -1682,6 +1682,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
         <t>
           <list style="symbols">
             <t>Fixed 'must' expressions.</t>
+            <t>Added missing 'revision' statement.</t>
           </list>
         </t>
       </section>
