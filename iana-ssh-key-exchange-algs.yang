@@ -36,15 +36,8 @@ module iana-ssh-key-exchange-algs {
 
   revision 2022-06-16 {
     description
-      "Updated to reflect contents of the key exchange algorithms
-       registry on June 16, 2022.";
-    reference
-      "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
-  }
-
-  revision 2021-06-01 {
-    description
-      "Initial version";
+      "Reflects contents of the key exchange algorithms registry
+       on June 16, 2022.";
     reference
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
@@ -69,6 +62,7 @@ module iana-ssh-key-exchange-algs {
 
   identity diffie-hellman-group-exchange-sha1 {
     base key-exchange-alg-base;
+    status deprecated;
     description
       "DIFFIE-HELLMAN-GROUP-EXCHANGE-SHA1";
     reference
@@ -89,6 +83,7 @@ module iana-ssh-key-exchange-algs {
 
   identity diffie-hellman-group1-sha1 {
     base key-exchange-alg-base;
+    status deprecated;
     description
       "DIFFIE-HELLMAN-GROUP1-SHA1";
     reference
@@ -98,6 +93,7 @@ module iana-ssh-key-exchange-algs {
 
   identity diffie-hellman-group14-sha1 {
     base key-exchange-alg-base;
+    status deprecated;
     description
       "DIFFIE-HELLMAN-GROUP14-SHA1";
     reference
@@ -107,6 +103,7 @@ module iana-ssh-key-exchange-algs {
 
   identity diffie-hellman-group14-sha256 {
     base key-exchange-alg-base;
+    status deprecated;
     description
       "DIFFIE-HELLMAN-GROUP14-SHA256";
     reference
@@ -157,6 +154,7 @@ module iana-ssh-key-exchange-algs {
 
   identity ecdh-sha2-nistp256 {
     base key-exchange-alg-base;
+    status deprecated;
     description
       "ECDH-SHA2-NISTP256 (secp256r1)";
     reference

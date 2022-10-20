@@ -59,6 +59,14 @@
           <t><spanx style="verb">YYYY-MM-DD</spanx> --&gt; the publication date of this draft</t>
         </list>
       </t>
+      <t>The "Relation to other RFCs" section <xref target="collective-effort"/> contains
+        the text "one or more YANG modules" and, later, "modules".  This text is sourced
+        from a file in a context where it is unknown how many modules a draft defines.
+        The text is not wrong as is, but it may be improved by stating more directly how
+        many modules are defined.</t>
+      <t>The "Relation to other RFCs" section <xref target="collective-effort"/> contains
+        a self-reference to this draft, along with a corresponding Informative Reference in
+        the Appendix.</t>
       <t>The following Appendix section is to be removed prior to publication:
         <list style="symbols">
           <t><xref target="change-log"/>.  Change Log</t>
@@ -118,6 +126,7 @@ INSERT_TEXT_FROM_FILE(../common-intro-snippet.xml,150)
             base64 encoded structures are often many lines long and
             hence distracting to the example being presented.</t>
         </section>
+
     </section>
 
     <section anchor="ssh-common-model" title='The "ietf-ssh-common" Module'>
@@ -251,8 +260,6 @@ INSERT_TEXT_FROM_FILE(refs/ex-generate-public-key.xml)
         target="RFC4253"/>, <xref target="RFC4344"/>, <xref
         target="RFC4419"/>, <xref target="RFC5656"/>, <xref
         target="RFC6187"/>, and <xref target="RFC6668"/>.</t>
-
-
         <t>
           <figure>
             <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-common@YYYY-MM-DD.yang"</preamble>
@@ -382,10 +389,9 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-keystore.xml)
       </section>
 
       <section anchor="client-yang-module" title="YANG Module">
-        <t>This YANG module has normative references to <xref
-        target="I-D.ietf-netconf-trust-anchors"/>, and <xref
-        target="I-D.ietf-netconf-keystore"/>.</t>
-
+        <t>This YANG module has normative references to <xref target="RFC4252"/>,
+        <xref target="RFC4254"/>, <xref target="RFC8341"/>, <xref target="I-D.ietf-netconf-crypto-types"/>,
+        <xref target="I-D.ietf-netconf-trust-anchors"/>, and <xref target="I-D.ietf-netconf-keystore"/>.</t>
         <t>
           <figure>
             <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-client@YYYY-MM-DD.yang"</preamble>
@@ -517,11 +523,10 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-keystore.xml)
       </section>
 
       <section anchor="server-yang-module" title="YANG Module">
-        <t>This YANG module has normative references to <xref
-        target="I-D.ietf-netconf-trust-anchors"/> and <xref
-        target="I-D.ietf-netconf-keystore"/> and informative references to
-        <xref target="RFC4253"/> and <xref target="RFC7317"/>.</t>
-
+        <t>This YANG module has normative references to <xref target="RFC4252"/>,
+          <xref target="RFC4254"/>, <xref target="RFC8341"/>, <xref target="I-D.ietf-netconf-crypto-types"/>,
+          <xref target="I-D.ietf-netconf-trust-anchors"/>, and <xref target="I-D.ietf-netconf-keystore"/>,
+          and informative references to <xref target="RFC4253"/> and <xref target="RFC7317"/>.</t>
         <t>
           <figure>
             <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-server@YYYY-MM-DD.yang"</preamble>
@@ -542,7 +547,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           <xref target="RFC8040"/>.  Both of these protocols have
           mandatory-to-implement secure transport layers (e.g., SSH, TLS)
           with mutual authentication.</t>
-        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+        <t>The Network Access Control Model (NACM) <xref target="RFC8341"/>
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
@@ -567,7 +572,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           <xref target="RFC8040"/>.  Both of these protocols have
           mandatory-to-implement secure transport layers (e.g., SSH, TLS)
           with mutual authentication.</t>
-        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+        <t>The Network Access Control Model (NACM) <xref target="RFC8341"/>
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
@@ -592,7 +597,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           <xref target="RFC8040"/>.  Both of these protocols have
           mandatory-to-implement secure transport layers (e.g., SSH, TLS)
           with mutual authentication.</t>
-        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+        <t>The Network Access Control Model (NACM) <xref target="RFC8341"/>
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
@@ -617,7 +622,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           <xref target="RFC8040"/>.  Both of these protocols have
           mandatory-to-implement secure transport layers (e.g., SSH, TLS)
           with mutual authentication.</t>
-        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+        <t>The Network Access Control Model (NACM) <xref target="RFC8341"/>
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
@@ -643,7 +648,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           mandatory-to-implement secure transport layers (e.g., SSH, TLS)
           with mutual authentication.</t>
 
-        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+        <t>The Network Access Control Model (NACM) <xref target="RFC8341"/>
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
@@ -674,7 +679,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           mandatory-to-implement secure transport layers (e.g., SSH, TLS)
           with mutual authentication.</t>
 
-        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+        <t>The Network Access Control Model (NACM) <xref target="RFC8341"/>
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
@@ -724,7 +729,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           mandatory-to-implement secure transport layers (e.g., SSH, TLS)
           with mutual authentication.</t>
 
-        <t>The NETCONF access control model (NACM) <xref target="RFC8341"/>
+        <t>The Network Access Control Model (NACM) <xref target="RFC8341"/>
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
@@ -849,7 +854,8 @@ reference:    RFC EEEE
           that shadows the "Encryption Algorithm Names" sub-registry of the
           "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-ENC-ALGS"/>.</t>
         <t>This registry defines a YANG identity for each encryption algorithm, and a "base"
-          identity from which all of the other identities are derived.</t>
+          identity from which all of the other identities are derived.  Identities are chosen
+          over enumerations for extensibility reasons.</t>
         <t>An initial version of this module can be found in <xref target="iana-ssh-ea-module"/></t>
         <ul>
           <li>Please note that this module was created on June 16th, 2022, and that additional
@@ -865,7 +871,8 @@ reference:    RFC EEEE
           that shadows the "MAC Algorithm Names" sub-registry of the
           "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-MAC-ALGS"/>.</t>
         <t>This registry defines a YANG identity for each MAC algorithm, and a "base"
-          identity from which all of the other identities are derived.</t>
+          identity from which all of the other identities are derived.  Identities are chosen
+          over enumerations for extensibility reasons.</t>
         <t>An initial version of this module can be found in <xref target="iana-ssh-mac-module"/>.</t>
         <ul>
           <li>Please note that this module was created on June 16th, 2022, and that additional
@@ -881,7 +888,8 @@ reference:    RFC EEEE
           that shadows the "Public Key Algorithm Names" sub-registry of the
           "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-PUBKEY-ALGS"/>.</t>
         <t>This registry defines a YANG identity for each public key algorithm, and a "base"
-          identity from which all of the other identities are derived.</t>
+          identity from which all of the other identities are derived.  Identities are chosen
+          over enumerations for extensibility reasons.</t>
         <t>Registry entries for which the '*All values beginning with the specified string
           and not containing "@".' note applies MUST be expanded so that there is a distinct
           YANG identity for each enumeration.</t>
@@ -899,8 +907,9 @@ reference:    RFC EEEE
         <t>IANA is requested to maintain a YANG module called "iana-ssh-key-exchange-algs"
           that shadows the "Key Exchange Method Names" sub-registry of the
           "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-KEYEX-ALGS"/>.</t>
-        <t>This registry defines a YANG identity for each key exchange algortihm, and a "base"
-          identity from which all of the other identities are derived.</t>
+        <t>This registry defines a YANG identity for each key exchange algorithm, and a "base"
+          identity from which all of the other identities are derived.  Identities are chosen
+          over enumerations for extensibility reasons.</t>
         <t>Registry entries for which the '*All values beginning with the specified string
           and not containing "@".' note applies MUST be expanded so that there is a distinct
           YANG identity for each enumeration.</t>
@@ -911,10 +920,6 @@ reference:    RFC EEEE
             If this is that case, IANA may either publish just an updated module containing
             the new entries, or publish the initial module that is immediately followed by a
             "revision" containing the additional algorithm names.</li>
-          <li>Please also note that the "status" statement has been set to "deprecated"
-            <eref target="https://datatracker.ietf.org/doc/html/rfc8732#section-6"/>.  It is
-            recommended that IANA adds a column to the registry to more easily track the
-            deprecation status of algorithms.</li>
         </ul>
       </section>
 
@@ -924,15 +929,27 @@ reference:    RFC EEEE
   <back>
     <references title="Normative References">
       <?rfc include="reference.RFC.2119.xml"?>
+      <?rfc include="reference.RFC.4252.xml"?>
+      <?rfc include="reference.RFC.4254.xml"?>
       <?rfc include="reference.RFC.4344.xml"?>
       <?rfc include="reference.RFC.4419.xml"?>
+      <?rfc include="reference.RFC.4432.xml"?>
+      <?rfc include="reference.RFC.4462.xml"?>
+      <?rfc include="reference.RFC.5647.xml"?>
       <?rfc include="reference.RFC.5656.xml"?>
       <?rfc include="reference.RFC.6020.xml"?>
       <?rfc include="reference.RFC.6187.xml"?>
       <?rfc include="reference.RFC.6668.xml"?>
       <?rfc include="reference.RFC.7950.xml"?>
       <?rfc include="reference.RFC.8174.xml"?>
+      <?rfc include="reference.RFC.8268.xml"?>
+      <?rfc include="reference.RFC.8308.xml"?>
+      <?rfc include="reference.RFC.8332.xml"?>
       <?rfc include="reference.RFC.8341.xml"?>
+      <?rfc include="reference.RFC.8709.xml"?>
+      <?rfc include="reference.RFC.8731.xml"?>
+      <?rfc include="reference.RFC.8732.xml"?>
+      <?rfc include="reference.RFC.8758.xml"?>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-crypto-types.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-trust-anchors.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-keystore.xml"/>
@@ -948,9 +965,7 @@ reference:    RFC EEEE
           <seriesInfo name="FIPS PUB" value="180-4"/>
         </reference>-->
       <?rfc include="reference.RFC.3688.xml"?>
-      <?rfc include="reference.RFC.4252.xml"?>
       <?rfc include="reference.RFC.4253.xml"?>
-      <?rfc include="reference.RFC.4254.xml"?>
       <?rfc include="reference.RFC.6241.xml"?>
       <?rfc include="reference.RFC.6242.xml"?>
       <?rfc include="reference.RFC.7317.xml"?>
@@ -1080,6 +1095,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-encryption-algs.xml)
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "2022-06-16" reflects the day on which the extraction
             occurred.</t>
+          <t>This YANG module has normative references to [FIPS 46-3], <xref target="RFC4253"/>,
+            <xref target="RFC4344"/>, <xref target="RFC5647"/>, and <xref target="RFC8758"/>.</t>
           <t>
             <figure>
               <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-encryption-algs@2022-06-16.yang"</preamble>
@@ -1170,6 +1187,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-mac-algs.xml)
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "2022-06-16" reflects the day on which the extraction
             occurred.</t>
+          <t>This YANG module has normative references <xref target="RFC4253"/>,
+            <xref target="RFC5647"/>, and <xref target="RFC6668"/>.</t>
           <t>
             <figure>
               <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-mac-algs@2022-06-16.yang"</preamble>
@@ -1260,6 +1279,9 @@ INSERT_TEXT_FROM_FILE(refs/ex-public-key-algs.xml)
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "2022-06-16" reflects the day on which the extraction
             occurred.</t>
+          <t>This YANG module has normative references <xref target="RFC4253"/>,
+            <xref target="RFC4462"/>, <xref target="RFC5656"/>, <xref target="RFC6187"/>,
+            <xref target="RFC8332"/>, and <xref target="RFC8709"/>.</t>
           <t>
             <figure>
               <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-public-key-algs@2022-06-16.yang"</preamble>
@@ -1350,6 +1372,9 @@ INSERT_TEXT_FROM_FILE(refs/ex-key-exchange-algs.xml)
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "2022-06-16" reflects the day on which the extraction
             occurred.</t>
+          <t>This YANG module has normative references to <xref target="RFC4419"/>,
+            <xref target="RFC4432"/>, <xref target="RFC5656"/>, <xref target="RFC8268"/>,
+            <xref target="RFC8308"/>, <xref target="RFC8731"/>, <xref target="RFC8732"/>.</t>
           <t>
             <figure>
               <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-key-exchange-algs@2022-06-16.yang"</preamble>
@@ -1686,6 +1711,13 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
           </list>
         </t>
       </section>
+      <section title="30 to 31">
+        <t>
+          <list style="symbols">
+            <t>Updated per Shepherd reviews.</t>
+          </list>
+        </t>
+      </section>
     </section>
 
     <section title="Acknowledgements" numbered="no">
@@ -1705,6 +1737,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
         Martin Björklund,
         Mehmet Ersue,
         Michal Vaško,
+        Per Andersson,
         Phil Shafer,
         Radek Krejci,
         Sean Turner,

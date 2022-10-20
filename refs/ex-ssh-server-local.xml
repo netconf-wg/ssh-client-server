@@ -41,12 +41,12 @@
         <public-keys>
           <local-definition>
             <public-key>
-              <name>User A</name>
+              <name>Mary-Key-1</name>
               <public-key-format>ct:ssh-public-key-format</public-key-format>
               <public-key>BASE64VALUE=</public-key>
             </public-key>
             <public-key>
-              <name>User B</name>
+              <name>Mary-Key-2</name>
               <public-key-format>ct:ssh-public-key-format</public-key-format>
               <public-key>BASE64VALUE=</public-key>
             </public-key>
