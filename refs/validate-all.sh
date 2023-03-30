@@ -128,15 +128,20 @@ run_unix_cmd $LINENO "$command" 0
 rm $name
 printf "okay.\n"
 
-printf "Testing ex-generate-public-key.xml..."
-command="yanglint  -t nc-rpc -O ../../keystore/refs/ex-keystore.xml ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../iana-ssh-encryption-algs\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang ../ietf-ssh-common\@*.yang ex-generate-public-key.xml"
+printf "Testing ex-generate-public-key-rpc.xml..."
+command="yanglint  -t nc-rpc -O ../../keystore/refs/ex-keystore.xml ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../iana-ssh-encryption-algs\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang ../ietf-ssh-common\@*.yang ex-generate-public-key-rpc.xml"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
-printf "Testing ex-ssh-client-local.xml..."
+printf "Testing ex-generate-public-key-rpc-reply.xml..."
+command="yanglint -t nc-reply -O ../../keystore/refs/ex-keystore.xml -R ex-generate-public-key-rpc.xml ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang ../ietf-ssh-common\@*.yang ex-generate-public-key-rpc-reply.xml"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing ex-ssh-client-inline.xml..."
 name=`ls -1 ../ietf-ssh-client\@*.yang | sed 's/\.\.\///'`
 sed 's/^}/container ssh-client { uses ssh-client-grouping; }}/' ../ietf-ssh-client\@*.yang > $name
-command="yanglint -m ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-client-local.xml ../../trust-anchors/refs/ex-truststore.xml ../../keystore/refs/ex-keystore.xml"
+command="yanglint -m ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-client-inline.xml ../../trust-anchors/refs/ex-truststore.xml ../../keystore/refs/ex-keystore.xml"
 run_unix_cmd $LINENO "$command" 0
 rm $name
 printf "okay.\n"
@@ -152,10 +157,10 @@ run_unix_cmd $LINENO "$command" 0
 rm $name
 printf "okay.\n"
 
-printf "Testing ex-ssh-server-local.xml..."
+printf "Testing ex-ssh-server-inline.xml..."
 name=`ls -1 ../ietf-ssh-server\@*.yang | sed 's/\.\.\///'`
 sed 's/^}/container ssh-server { uses ssh-server-grouping; }}/' ../ietf-ssh-server\@*.yang > $name
-command="yanglint -m ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-server-local.xml ../../trust-anchors/refs/ex-truststore.xml ../../keystore/refs/ex-keystore.xml"
+command="yanglint -m ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../ietf-ssh-common\@*.yang ./ietf-origin.yang $name ex-ssh-server-inline.xml ../../trust-anchors/refs/ex-truststore.xml ../../keystore/refs/ex-keystore.xml"
 run_unix_cmd $LINENO "$command" 0
 rm $name
 printf "okay.\n"

@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
 
 <?rfc toc="yes"?>
 <?rfc symrefs="yes"?>
@@ -18,6 +17,7 @@
 <rfc xmlns:xi="http://www.w3.org/2001/XInclude"
      category="std"
      consensus="true"
+     submissionType="IETF"
      docName="draft-ietf-netconf-ssh-client-server-latest"
      ipr="trust200902">
   <front>
@@ -88,6 +88,13 @@
         <xref target="OPENSSH"/> server or a NETCONF over SSH <xref
         target="RFC6242"/> based server.</t>
 
+      <t>The word "generic" in the previous paragraph should be interpreted
+        as "least common denominator" more so than "complete."  Basic SSH
+        protocol support is afforded by these modules, leaving configuration
+        of advance features (e.g., multiple channels) to augmentations made
+        by consuming modules.  This design decision may be revisted after
+        sufficient experience with these modules.</t>
+
       <t>The client and server YANG modules in this document each define one
       grouping, which is focused on just SSH-specific configuration, and
       specifically avoids any transport-level configuration, such as what
@@ -101,7 +108,7 @@
       <t>The modules defined in this document use groupings defined in <xref
       target="I-D.ietf-netconf-keystore"/> <!-- and
         <xref target="I-D.kwatsen-netconf-trust-anchors"/> --> enabling keys
-      <!-- and trust anchors, respectively,--> to be either locally defined or
+      <!-- and trust anchors, respectively,--> to be either inlined or
       a reference to globally configured values.</t>
 
       <t>The modules defined in this document optionally support <xref
@@ -247,19 +254,26 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-common.xml)
         </t>
 
         <t>The following example illustrates the "generate-public-key" RPC.</t>
-        <t><figure>
+        <t>
+          <figure>
+            <preamble>REQUEST</preamble>
             <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ex-generate-public-key.xml)
+INSERT_TEXT_FROM_FILE(refs/ex-generate-public-key-rpc.xml)
+]]></artwork>
+          </figure>
+          <figure>
+            <preamble>RESPONSE</preamble>
+            <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(refs/ex-generate-public-key-rpc-reply.xml)
 ]]></artwork>
           </figure>
         </t>
       </section>
 
       <section anchor="ssh-common-yang-module" title="YANG Module">
-        <t>This YANG module has normative references to <xref
-        target="RFC4253"/>, <xref target="RFC4344"/>, <xref
-        target="RFC4419"/>, <xref target="RFC5656"/>, <xref
-        target="RFC6187"/>, and <xref target="RFC6668"/>.</t>
+        <t>This YANG module has normative references to <xref target="RFC4253"/>,
+        <xref target="RFC4344"/>, <xref target="RFC4419"/>, <xref target="RFC5656"/>, 
+        <xref target="RFC6187"/>, <xref target="RFC6668"/>, and <xref target="FIPS 186-6"/>.</t>
         <t>
           <figure>
             <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-common@YYYY-MM-DD.yang"</preamble>
@@ -336,13 +350,13 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-client-grouping.no-expand.txt)
                 aliveness-test occurs at the SSH protocol layer.</li>
               <li>For the referenced grouping statement(s):
                 <ul spacing="compact">
-                  <li>The "local-or-keystore-asymmetric-key-grouping" grouping is
+                  <li>The "inline-or-keystore-asymmetric-key-grouping" grouping is
                     discussed in <relref section="2.1.3.4" target="I-D.ietf-netconf-keystore"/>.</li>
-                  <li>The "local-or-keystore-end-entity-cert-with-key-grouping" grouping is
+                  <li>The "inline-or-keystore-end-entity-cert-with-key-grouping" grouping is
                     discussed in <relref section="2.1.3.6" target="I-D.ietf-netconf-keystore"/>.</li>
-                  <li>The "local-or-truststore-public-keys-grouping" grouping is
+                  <li>The "inline-or-truststore-public-keys-grouping" grouping is
                     discussed in <relref section="2.1.3.2" target="I-D.ietf-netconf-trust-anchors"/>.</li>
-                  <li>The "local-or-truststore-certs-grouping" grouping is
+                  <li>The "inline-or-truststore-certs-grouping" grouping is
                     discussed in <relref section="2.1.3.1" target="I-D.ietf-netconf-trust-anchors"/>.</li>
                   <li>The "transport-params-grouping" grouping is discussed in
                   <xref target="transport-params-grouping"/> in this document.</li>
@@ -362,17 +376,17 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-client-grouping.no-expand.txt)
       <section title="Example Usage" anchor="client-examples">
         <t>This section presents two examples showing the "ssh-client-grouping"
         grouping populated with some data. These examples are effectively the same
-        except the first configures the client identity using a local key
+        except the first configures the client identity using a inlined key
         while the second uses a key configured in a keystore. Both examples
         are consistent with the examples presented in Section 2 of <xref
         target="I-D.ietf-netconf-trust-anchors"/> and Section 3.2 of <xref
         target="I-D.ietf-netconf-keystore"/>.</t>
 
-        <t>The following configuration example uses local-definitions for the
+        <t>The following configuration example uses inline-definitions for the
           client identity and server authentication:
           <figure>
             <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-local.xml)
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-inline.xml)
 ]]></artwork>
           </figure>
         </t>
@@ -470,13 +484,13 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-server-grouping.no-expand.txt)
                 aliveness-test occurs at the SSH protocol layer.</li>
               <li>For the referenced grouping statement(s):
                 <ul spacing="compact">
-                  <li>The "local-or-keystore-asymmetric-key-grouping" grouping is
+                  <li>The "inline-or-keystore-asymmetric-key-grouping" grouping is
                     discussed in <relref section="2.1.3.4" target="I-D.ietf-netconf-keystore"/>.</li>
-                  <li>The "local-or-keystore-end-entity-cert-with-key-grouping" grouping is
+                  <li>The "inline-or-keystore-end-entity-cert-with-key-grouping" grouping is
                     discussed in <relref section="2.1.3.6" target="I-D.ietf-netconf-keystore"/>.</li>
-                  <li>The "local-or-truststore-public-keys-grouping" grouping is
+                  <li>The "inline-or-truststore-public-keys-grouping" grouping is
                     discussed in <relref section="2.1.3.2" target="I-D.ietf-netconf-trust-anchors"/>.</li>
-                  <li>The "local-or-truststore-certs-grouping" grouping is
+                  <li>The "inline-or-truststore-certs-grouping" grouping is
                     discussed in <relref section="2.1.3.1" target="I-D.ietf-netconf-trust-anchors"/>.</li>
                   <li>The "transport-params-grouping" grouping is discussed in
                   <xref target="transport-params-grouping"/> in this document.</li>
@@ -496,17 +510,17 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-server-grouping.no-expand.txt)
       <section title="Example Usage" anchor="server-examples">
         <t>This section presents two examples showing the "ssh-server-grouping"
         grouping populated with some data. These examples are effectively the same
-        except the first configures the server identity using a local key
+        except the first configures the server identity using a inlined key
         while the second uses a key configured in a keystore. Both examples
         are consistent with the examples presented in Section 2 of <xref
         target="I-D.ietf-netconf-trust-anchors"/> and Section 3.2 of <xref
         target="I-D.ietf-netconf-keystore"/>.</t>
 
-        <t>The following configuration example uses local-definitions for the
+        <t>The following configuration example uses inline-definitions for the
           server identity and client authentication:
           <figure>
             <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-local.xml)
+INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-inline.xml)
 ]]></artwork>
           </figure>
         </t>
@@ -523,10 +537,11 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-keystore.xml)
       </section>
 
       <section anchor="server-yang-module" title="YANG Module">
-        <t>This YANG module has normative references to <xref target="RFC4252"/>,
-          <xref target="RFC4254"/>, <xref target="RFC8341"/>, <xref target="I-D.ietf-netconf-crypto-types"/>,
-          <xref target="I-D.ietf-netconf-trust-anchors"/>, and <xref target="I-D.ietf-netconf-keystore"/>,
-          and informative references to <xref target="RFC4253"/> and <xref target="RFC7317"/>.</t>
+        <t>This YANG module has references to <xref target="RFC4251"/>, <xref target="RFC4252"/>,
+        <xref target="RFC4253"/>, <xref target="RFC4254"/>, <xref target="RFC7317"/>,
+        <xref target="RFC8341"/>, <xref target="I-D.ietf-netconf-crypto-types"/>,
+        <xref target="I-D.ietf-netconf-trust-anchors"/>, and
+        <xref target="I-D.ietf-netconf-keystore"/>.</t>
         <t>
           <figure>
             <preamble>&lt;CODE BEGINS&gt; file "ietf-ssh-server@YYYY-MM-DD.yang"</preamble>
@@ -929,7 +944,9 @@ reference:    RFC EEEE
   <back>
     <references title="Normative References">
       <?rfc include="reference.RFC.2119.xml"?>
+      <?rfc include="reference.RFC.4251.xml"?>
       <?rfc include="reference.RFC.4252.xml"?>
+      <?rfc include="reference.RFC.4253.xml"?>
       <?rfc include="reference.RFC.4254.xml"?>
       <?rfc include="reference.RFC.4344.xml"?>
       <?rfc include="reference.RFC.4419.xml"?>
@@ -940,6 +957,7 @@ reference:    RFC EEEE
       <?rfc include="reference.RFC.6020.xml"?>
       <?rfc include="reference.RFC.6187.xml"?>
       <?rfc include="reference.RFC.6668.xml"?>
+      <?rfc include="reference.RFC.7317.xml"?>
       <?rfc include="reference.RFC.7950.xml"?>
       <?rfc include="reference.RFC.8174.xml"?>
       <?rfc include="reference.RFC.8268.xml"?>
@@ -965,20 +983,27 @@ reference:    RFC EEEE
           <seriesInfo name="FIPS PUB" value="180-4"/>
         </reference>-->
       <?rfc include="reference.RFC.3688.xml"?>
-      <?rfc include="reference.RFC.4253.xml"?>
       <?rfc include="reference.RFC.6241.xml"?>
       <?rfc include="reference.RFC.6242.xml"?>
-      <?rfc include="reference.RFC.7317.xml"?>
       <?rfc include="reference.RFC.8040.xml"?>
       <?rfc include="reference.RFC.8071.xml"?>
       <?rfc include="reference.RFC.8340.xml"?>
       <?rfc include="reference.RFC.8342.xml"?>
+
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-tcp-client-server.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-ssh-client-server.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-tls-client-server.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-http-client-server.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-netconf-client-server.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-restconf-client-server.xml"/>
+
+      <reference anchor="FIPS 186-6" target="https://csrc.nist.gov/publications/detail/fips/186/5/draft">
+        <front>
+          <title>Digital Signature Standard (DSS)</title>
+          <author fullname="The National Institute for Science and Technology (NIST)"/>
+        </front>
+      </reference>
+
       <reference anchor="OPENSSH" target="http://www.openssh.com">
         <front>
           <title>OpenSSH</title>
@@ -1531,7 +1556,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
             <t>Fixed a couple references (section 2 --> section 3)</t>
             <t>In the server model, replaced &lt;client-cert-auth&gt;
               with &lt;client-authentication&gt; and introduced
-              'local-or-external' choice.</t>
+              'inline-or-external' choice.</t>
           </list>
         </t>
       </section>
@@ -1550,8 +1575,8 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
               (e.g., identities --&gt; enumerations)</t>
             <t>Updated "server-authentication" and "client-authentication" nodes from
               being a leaf of type "ts:host-keys-ref" or "ts:certificates-ref" to a
-              container that uses "ts:local-or-truststore-host-keys-grouping" or
-              "ts:local-or-truststore-certs-grouping".</t>
+              container that uses "ts:inline-or-truststore-host-keys-grouping" or
+              "ts:inline-or-truststore-certs-grouping".</t>
           </list>
         </t>
       </section>
@@ -1567,7 +1592,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
       <section title="16 to 17">
         <t>
           <list style="symbols">
-            <t>Removed choice local-or-external by removing the 'external' case and flattening
+            <t>Removed choice inline-or-external by removing the 'external' case and flattening
               the 'local' case and adding a "local-users-supported" feature.</t>
             <t>Updated examples to include the "*-key-format" nodes.</t>
             <t>Augmented-in "must" expressions ensuring that locally-defined public-key-format
@@ -1722,6 +1747,17 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
         <t>
           <list style="symbols">
             <t>Updated per Shepherd reviews impacting the suite of drafts.</t>
+          </list>
+        </t>
+      </section>
+      <section title="32 to 33">
+        <t>
+          <list style="symbols">
+            <t>Updated per Tom Petch review.</t>
+            <t>Updated Intro to clarify what "generic" means.</t>
+            <t>Added RPC-reply for 'generate-public-key' example</t>
+            <t>Added references to RFC 4251 and FIPS 186-6.</t>
+            <t>Added "if-feature ct:encrypted-private-keys" for "case cleartext"</t>
           </list>
         </t>
       </section>
