@@ -1,0 +1,12 @@
+<rpc message-id="101"
+  xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
+  <generate-public-key
+    xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-common"
+    xmlns:sshpka="urn:ietf:params:xml:ns:yang:iana-ssh-public-key-algs">
+    <algorithm>sshpka:ecdsa-sha2-nistp256</algorithm>
+    <bits>521</bits>
+    <encrypt-with>
+      <asymmetric-key-ref>hidden-asymmetric-key</asymmetric-key-ref>
+    </encrypt-with>
+  </generate-public-key>
+</rpc>

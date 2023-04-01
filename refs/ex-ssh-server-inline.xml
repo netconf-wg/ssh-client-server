@@ -1,0 +1,88 @@
+<!-- The outermost element below doesn't exist in the data model. -->
+<!--  It simulates if the "grouping" were a "container" instead.  -->
+
+<ssh-server
+  xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-server"
+  xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types">
+
+  <!-- the host-key this SSH server will present -->
+  <server-identity>
+    <host-key>
+      <name>my-pubkey-based-host-key</name>
+      <public-key>
+        <inline-definition>
+          <public-key-format>ct:ssh-public-key-format</public-key-format>
+          <public-key>BASE64VALUE=</public-key>
+          <private-key-format>ct:rsa-private-key-format</private-key-format>
+          <cleartext-private-key>BASE64VALUE=</cleartext-private-key>
+        </inline-definition>
+      </public-key>
+    </host-key>
+    <host-key>
+      <name>my-cert-based-host-key</name>
+      <certificate>
+        <inline-definition>
+          <public-key-format>ct:subject-public-key-info-format</public-key-format>
+          <public-key>BASE64VALUE=</public-key>
+          <private-key-format>ct:rsa-private-key-format</private-key-format>
+          <cleartext-private-key>BASE64VALUE=</cleartext-private-key>
+          <cert-data>BASE64VALUE=</cert-data>
+        </inline-definition>
+      </certificate>
+    </host-key>
+  </server-identity>
+
+  <!-- the client credentials this SSH server will trust -->
+  <client-authentication>
+    <users>
+      <user>
+        <name>mary</name>
+        <password>$0$secret</password>
+        <public-keys>
+          <inline-definition>
+            <public-key>
+              <name>Mary-Key-1</name>
+              <public-key-format>ct:ssh-public-key-format</public-key-format>
+              <public-key>BASE64VALUE=</public-key>
+            </public-key>
+            <public-key>
+              <name>Mary-Key-2</name>
+              <public-key-format>ct:ssh-public-key-format</public-key-format>
+              <public-key>BASE64VALUE=</public-key>
+            </public-key>
+          </inline-definition>
+        </public-keys>
+      </user>
+    </users>
+    <ca-certs>
+      <inline-definition>
+        <certificate>
+          <name>Identity Cert Issuer #1</name>
+          <cert-data>BASE64VALUE=</cert-data>
+        </certificate>
+        <certificate>
+          <name>Identity Cert Issuer #2</name>
+          <cert-data>BASE64VALUE=</cert-data>
+        </certificate>
+      </inline-definition>
+    </ca-certs>
+    <ee-certs>
+      <inline-definition>
+        <certificate>
+          <name>Application #1</name>
+          <cert-data>BASE64VALUE=</cert-data>
+        </certificate>
+        <certificate>
+          <name>Application #2</name>
+          <cert-data>BASE64VALUE=</cert-data>
+        </certificate>
+      </inline-definition>
+    </ee-certs>
+  </client-authentication>
+
+  <keepalives>
+    <max-wait>30</max-wait>
+    <max-attempts>3</max-attempts>
+  </keepalives>
+
+</ssh-server>

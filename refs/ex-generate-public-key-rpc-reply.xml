@@ -1,0 +1,9 @@
+<rpc-reply message-id="101"
+  xmlns="urn:ietf:params:xml:ns:netconf:base:1.0"
+  xmlns:ct="urn:ietf:params:xml:ns:yang:ietf-crypto-types"
+  xmlns:sshcmn="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
+  <sshcmn:public-key-format>ct:subject-public-key-info-format</sshcmn:public-key-format>
+  <sshcmn:public-key>BASE64VALUE=</sshcmn:public-key>
+  <sshcmn:private-key-format>ct:ec-private-key-format</sshcmn:private-key-format>
+  <sshcmn:cleartext-private-key>BASE64VALUE=</sshcmn:cleartext-private-key>
+</rpc-reply>
