@@ -1755,9 +1755,9 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
           <list style="symbols">
             <t>Updated per Tom Petch review.</t>
             <t>Updated Intro to clarify what "generic" means.</t>
-            <t>Added RPC-reply for 'generate-public-key' example</t>
+            <t>Added RPC-reply for 'generate-public-key' example.</t>
             <t>Added references to RFC 4251 and FIPS 186-6.</t>
-            <t>Added "if-feature ct:encrypted-private-keys" for "case cleartext"</t>
+            <t>Added "if-feature ct:encrypted-private-keys" for "case cleartext".</t>
           </list>
         </t>
       </section>
