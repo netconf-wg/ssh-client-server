@@ -384,7 +384,7 @@ module iana-ssh-encryption-algs {
     leaf-list supported-algorithm {
       type encryption-algorithm-ref;
       description
-        "A encryption algorithm supported by the server.";
+        "An encryption algorithm supported by the server.";
     }
   }
 

@@ -65,8 +65,15 @@
         The text is not wrong as is, but it may be improved by stating more directly how
         many modules are defined.</t>
       <t>The "Relation to other RFCs" section <xref target="collective-effort"/> contains
-        a self-reference to this draft, along with a corresponding Informative Reference in
-        the Appendix.</t>
+          a self-reference to this draft, along with a corresponding reference in
+          the Appendix.  Please replace the self-reference in this section with "This RFC"
+          (or similar) and remove the self-reference in the "Normative/Informative References"
+          section, whichever it is in.</t>
+        <t>Tree-diagrams in this draft may use the '/' line-folding mode defined in RFC 8792.
+          However, nicer-to-the-eye is when the '//' line-folding mode is used.  The AD suggested
+          suggested putting a request here for the RFC Editor to help convert "ugly" '/' folded
+          examples to use the '//' folding mode.  "Help convert" may be interpreted as, identify
+          what looks ugly and ask the authors to make the adjustment.</t>
       <t>The following Appendix section is to be removed prior to publication:
         <list style="symbols">
           <t><xref target="change-log"/>.  Change Log</t>
@@ -77,43 +84,52 @@
 
   <middle>
     <section title="Introduction">
-      <t>This document defines three YANG 1.1 <xref target="RFC7950"/>
-        modules: the first defines features and groupings common to both SSH
-        clients and SSH servers, the second defines a grouping for a generic
-        SSH client, and the third defines a grouping for a generic SSH server.
-        It is intended that these groupings will be used by applications
-        using the SSH protocol <xref target="RFC4252"/>, <xref
-        target="RFC4253"/>, and <xref target="RFC4254"/>. For instance, these
-        groupings could be used to help define the data model for an OpenSSH
-        <xref target="OPENSSH"/> server or a NETCONF over SSH <xref
-        target="RFC6242"/> based server.</t>
+ 
+      <t>This document defines seven YANG 1.1 <xref target="RFC7950"/>
+          modules. Three "IETF" modules and four "IANA" modules.</t>
+        <t>The three IETF modules include:</t>
+      <ul>
+        <li>ietf-ssh-common (<xref target="ssh-common-model"/>)</li>
+        <li>ietf-ssh-client (<xref target="ssh-client-model"/>)</li>
+        <li>ietf-ssh-server (<xref target="ssh-server-model"/>)</li>
+      </ul>
+      <t>The four IANA modules include:</t>
+      <ul>
+        <li>iana-ssh-encryption-algs (<xref target="ssh-enc-algs-model"/>)</li>
+        <li>iana-ssh-key-exchange-algs (<xref target="ssh-keyex-algs-model"/>)</li>
+        <li>iana-ssh-mac-algs (<xref target="ssh-mac-algs-model"/>)</li>
+        <li>iana-ssh-public-key-algs (<xref target="ssh-pubkey-algs-model"/>)</li>
+      </ul>
 
-      <t>The word "generic" in the previous paragraph should be interpreted
-        as "least common denominator" more so than "complete."  Basic SSH
-        protocol support is afforded by these modules, leaving configuration
-        of advance features (e.g., multiple channels) to augmentations made
-        by consuming modules.  This design decision may be revisted after
-        sufficient experience with these modules.</t>
+      <section title="Regarding the IETF Modules">
 
-      <t>The client and server YANG modules in this document each define one
-      grouping, which is focused on just SSH-specific configuration, and
-      specifically avoids any transport-level configuration, such as what
-      ports to listen on or connect to. This affords applications the
-      opportunity to define their own strategy for how the underlying TCP
-      connection is established. For instance, applications supporting NETCONF
-      Call Home <xref target="RFC8071"/> could use the "ssh-server-grouping"
-      grouping for the SSH parts it provides, while adding data nodes for the
-      TCP-level call-home configuration.</t>
+        <t>The three IETF modules define features and groupings to model "generic" SSH
+         clients and SSH servers, where "generic" should be interpreted as "least
+         common denominator" more so than "complete."  Basic SSH protocol
+         (<xref target="RFC4252"/>, <xref target="RFC4253"/>, and <xref target="RFC4254"/>)
+         support is afforded by these modules, leaving configuration of advance features
+         (e.g., multiple channels) to augmentations made by consuming modules.</t>
 
-      <t>The modules defined in this document use groupings defined in <xref
-      target="I-D.ietf-netconf-keystore"/> <!-- and
-        <xref target="I-D.kwatsen-netconf-trust-anchors"/> --> enabling keys
-      <!-- and trust anchors, respectively,--> to be either inlined or
-      a reference to globally configured values.</t>
+        <t>It is intended that the YANG groupings will be used by applications
+         needing to configure SSH client and server protocol stacks.  For
+         instance, these groupings are used to help define the data model
+         for NETCONF over SSH <xref target="RFC6242"/> based clients and
+         servers in <xref target="I-D.ietf-netconf-netconf-client-server"/>.</t>
 
-      <t>The modules defined in this document optionally support <xref
-      target="RFC6187"/> enabling X.509v3 certificate based host keys and
-      public keys.</t>
+        <t>The ietf-ssh-client and ietf-ssh-server YANG modules each define one
+        grouping, which is focused on just SSH-specific configuration, and
+        specifically avoids any transport-level configuration, such as what
+        ports to listen on or connect to. This affords applications the
+        opportunity to define their own strategy for how the underlying TCP
+        connection is established. For instance, applications supporting NETCONF
+        Call Home <xref target="RFC8071"/> could use the "ssh-server-grouping"
+        grouping for the SSH parts it provides, while adding data nodes for the
+        TCP-level call-home configuration.</t>
+  
+        <t>The modules defined in this document optionally support <xref
+        target="RFC6187"/> enabling X.509v3 certificate based host keys and
+          public keys.</t>
+      </section>
 
 INSERT_TEXT_FROM_FILE(../common-intro-snippet.xml,150)
 
@@ -215,17 +231,6 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree-no-expand.txt)
 ]]></artwork>
               </figure>
             </t>
-            <t>The following tree diagram <xref target="RFC8340"/> lists all the
-              protocol-accessible nodes defined in the "ietf-ssh-common" module,
-              with all "grouping" statements expanded, enabling the module's full
-              structure to be seen:</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree.txt)
-]]></artwork>
-              </figure>
-            </t>
             <t>Comments:</t>
             <ul>
               <li>Protocol-accessible nodes are those nodes that are accessible
@@ -234,7 +239,7 @@ INSERT_TEXT_FROM_FILE(refs/ietf-ssh-common-tree.txt)
               <li>The protocol-accessible nodes for the "ietf-ssh-common" module
                 are limited to the RPC "generate-public-key", which is
                 additionally constrained by the feature "public-key-generation".</li>
-              <li>The "encrypted-by-choice-grouping" grouping is discussed in
+              <li>The "encrypted-by-grouping" grouping is discussed in
                 <relref section="2.1.3.1" target="I-D.ietf-netconf-keystore"/>.</li>
               <li>The "asymmetric-key-pair-grouping" grouping is discussed in
                 <relref section="2.1.4.5" target="I-D.ietf-netconf-crypto-types"/>.</li>
@@ -355,9 +360,9 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-client-grouping.no-expand.txt)
                   <li>The "inline-or-keystore-end-entity-cert-with-key-grouping" grouping is
                     discussed in <relref section="2.1.3.6" target="I-D.ietf-netconf-keystore"/>.</li>
                   <li>The "inline-or-truststore-public-keys-grouping" grouping is
-                    discussed in <relref section="2.1.3.2" target="I-D.ietf-netconf-trust-anchors"/>.</li>
+                    discussed in <relref section="2.1.3.4" target="I-D.ietf-netconf-trust-anchors"/>.</li>
                   <li>The "inline-or-truststore-certs-grouping" grouping is
-                    discussed in <relref section="2.1.3.1" target="I-D.ietf-netconf-trust-anchors"/>.</li>
+                    discussed in <relref section="2.1.3.3" target="I-D.ietf-netconf-trust-anchors"/>.</li>
                   <li>The "transport-params-grouping" grouping is discussed in
                   <xref target="transport-params-grouping"/> in this document.</li>
                 </ul>
@@ -368,7 +373,8 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-client-grouping.no-expand.txt)
 
         <section title="Protocol-accessible Nodes" toc="exclude">
           <t>The "ietf-ssh-client" module defines only "grouping" statements that are
-            used by other modules to instantiate protocol-accessible nodes.</t>
+            used by other modules to instantiate protocol-accessible nodes.   Thus this
+            module, when implemented, does not itself define any protocol-accessible nodes.</t>
         </section>
 
       </section>
@@ -391,8 +397,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-client-inline.xml)
           </figure>
         </t>
 
-        <t>The following configuration example uses keystore-references for the
-          client identity and truststore-references for server authentication:
+        <t>The following configuration example uses central-keystore-references for the
+          client identity and central-truststore-references for server authentication:
           from the keystore:
           <figure>
             <artwork><![CDATA[
@@ -489,9 +495,9 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-server-grouping.no-expand.txt)
                   <li>The "inline-or-keystore-end-entity-cert-with-key-grouping" grouping is
                     discussed in <relref section="2.1.3.6" target="I-D.ietf-netconf-keystore"/>.</li>
                   <li>The "inline-or-truststore-public-keys-grouping" grouping is
-                    discussed in <relref section="2.1.3.2" target="I-D.ietf-netconf-trust-anchors"/>.</li>
+                    discussed in <relref section="2.1.3.4" target="I-D.ietf-netconf-trust-anchors"/>.</li>
                   <li>The "inline-or-truststore-certs-grouping" grouping is
-                    discussed in <relref section="2.1.3.1" target="I-D.ietf-netconf-trust-anchors"/>.</li>
+                    discussed in <relref section="2.1.3.3" target="I-D.ietf-netconf-trust-anchors"/>.</li>
                   <li>The "transport-params-grouping" grouping is discussed in
                   <xref target="transport-params-grouping"/> in this document.</li>
                 </ul>
@@ -502,7 +508,8 @@ INSERT_TEXT_FROM_FILE(refs/tree-ssh-server-grouping.no-expand.txt)
 
         <section title="Protocol-accessible Nodes" toc="exclude">
           <t>The "ietf-ssh-server" module defines only "grouping" statements that are
-            used by other modules to instantiate protocol-accessible nodes.</t>
+            used by other modules to instantiate protocol-accessible nodes.   Thus this
+            module, when implemented, does not itself define any protocol-accessible nodes.</t>
         </section>
 
       </section>
@@ -525,8 +532,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-ssh-server-inline.xml)
           </figure>
         </t>
 
-        <t>The following configuration example uses keystore-references for the
-          server identity and truststore-references for client authentication:
+        <t>The following configuration example uses central-keystore-references for the
+          server identity and central-truststore-references for client authentication:
           from the keystore:
           <figure>
             <artwork><![CDATA[
@@ -570,7 +577,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           registry, and a single protocol-accessible read-only node for the subset
           of those identities supported by a server.</t>
         <t>YANG identities are not security-sensitive, as they are statically
-          defined in the publicly-accessible YANG module.</t>
+          defined in the publicly-accessible YANG module.  IANA MAY deprecate
+          and/or obsolete identities over time as needed to address security
+          issues found in the algorithms.</t>
         <t>The protocol-accessible read-only node for the algorithms supported
           by a server is mildly sensitive, but not to the extent that special
           NACM annotations are needed to prevent read-access to regular
@@ -668,10 +677,6 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           pre-configured subset of all available protocol operations and
           content.</t>
 
-        <t>Since this module only define groupings,
-          these considerations are primarily for the designers of other
-          modules that use these groupings.</t>
-
         <t>None of the readable data nodes defined in this YANG module are
           considered sensitive or vulnerable in network environments.
           The NACM "default-deny-all" extension has not been set for
@@ -682,8 +687,15 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           The NACM "default-deny-write" extension has not been set for
           any data nodes defined in this module.</t>
 
-        <t>This module does not define any RPCs, actions, or notifications,
+        <t>This module defines the RPC "generate-public-key" that may, if
+          the "ct:cleartext-private-keys" feature is enabled, and the client
+          requests it, return the private clear in cleartext form.  It is
+          NOT RECOMMENDED for private keys to pass the server's security
+          perimeter.</t>
+
+        <t>This module does not define any actions or notifications,
           and thus the security consideration for such is not provided here.</t>
+
       </section>
 
       <section title='The "ietf-ssh-client" YANG Module'>
@@ -699,9 +711,16 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           pre-configured subset of all available protocol operations and
           content.</t>
 
-        <t>Since this module only define groupings,
+        <t>Since this module only defines groupings,
           these considerations are primarily for the designers of other
           modules that use these groupings.</t>
+
+        <t>Please be aware that this YANG module uses groupings from
+          other YANG modules that define nodes that may be considered
+          sensitive or vulnerable in network environments.  Please
+          review the Security Considerations for dependent YANG modules
+          for information as to which nodes may be considered sensitive
+          or vulnerable in network environments.</t>
 
         <t>One readable data node defined in this YANG module may be considered
           sensitive or vulnerable in some network environments. This
@@ -749,9 +768,16 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           pre-configured subset of all available protocol operations and
           content.</t>
 
-        <t>Since this module only define groupings,
+        <t>Since this module only defines groupings,
           these considerations are primarily for the designers of other
           modules that use these groupings.</t>
+
+        <t>Please be aware that this YANG module uses groupings from
+          other YANG modules that define nodes that may be considered
+          sensitive or vulnerable in network environments.  Please
+          review the Security Considerations for dependent YANG modules
+          for information as to which nodes may be considered sensitive
+          or vulnerable in network environments.</t>
 
         <t>None of the readable data nodes defined in this YANG module are
           considered sensitive or vulnerable in network environments.
@@ -871,7 +897,7 @@ reference:    RFC EEEE
         <t>This registry defines a YANG identity for each encryption algorithm, and a "base"
           identity from which all of the other identities are derived.  Identities are chosen
           over enumerations for extensibility reasons.</t>
-        <t>An initial version of this module can be found in <xref target="iana-ssh-ea-module"/></t>
+        <t>An initial version of this module can be found in <xref target="ssh-enc-algs-model"/></t>
         <ul>
           <li>Please note that this module was created on June 16th, 2022, and that additional
             entries may have been added in the interim before this document's publication.
@@ -888,7 +914,7 @@ reference:    RFC EEEE
         <t>This registry defines a YANG identity for each MAC algorithm, and a "base"
           identity from which all of the other identities are derived.  Identities are chosen
           over enumerations for extensibility reasons.</t>
-        <t>An initial version of this module can be found in <xref target="iana-ssh-mac-module"/>.</t>
+        <t>An initial version of this module can be found in <xref target="ssh-keyex-algs-model"/>.</t>
         <ul>
           <li>Please note that this module was created on June 16th, 2022, and that additional
             entries may have been added in the interim before this document's publication.
@@ -908,7 +934,7 @@ reference:    RFC EEEE
         <t>Registry entries for which the '*All values beginning with the specified string
           and not containing "@".' note applies MUST be expanded so that there is a distinct
           YANG identity for each enumeration.</t>
-        <t>An initial version of this module can be found in <xref target="iana-ssh-pka-module"/>.</t>
+        <t>An initial version of this module can be found in <xref target="ssh-mac-algs-model"/>.</t>
         <ul>
           <li>Please note that this module was created on June 16th, 2022, and that additional
             entries may have been added in the interim before this document's publication.
@@ -928,7 +954,7 @@ reference:    RFC EEEE
         <t>Registry entries for which the '*All values beginning with the specified string
           and not containing "@".' note applies MUST be expanded so that there is a distinct
           YANG identity for each enumeration.</t>
-        <t>An initial version of this module can be found in <xref target="iana-ssh-kea-module"/>.</t>
+        <t>An initial version of this module can be found in <xref target="ssh-pubkey-algs-model"/>.</t>
         <ul>
           <li>Please note that this module was created on June 16th, 2022, and that additional
             entries may have been added in the interim before this document's publication.
@@ -1004,12 +1030,14 @@ reference:    RFC EEEE
         </front>
       </reference>
 
+      <!--
       <reference anchor="OPENSSH" target="http://www.openssh.com">
         <front>
           <title>OpenSSH</title>
           <author fullname="The OpenBSD Project"/>
         </front>
       </reference>
+      -->
 
       <reference anchor="IANA-KEYEX-ALGS" target="https://www.iana.org/assignments/ssh-parameters/ssh-parameters.xhtml#ssh-parameters-16">
         <front>
@@ -1042,7 +1070,7 @@ reference:    RFC EEEE
       <t>The modules contained in this section were generated by scripts using the contents of the
         associated sub-registry as they existed on June 16th, 2022.</t>
 
-      <section title='Initial Module for the "Encryption Algorithm Names" Registry' anchor="iana-ssh-ea-module">
+      <section title='Initial Module for the "Encryption Algorithm Names" Registry' anchor="ssh-enc-algs-model">
         <section title="Data Model Overview">
           <t>This section provides an overview of the "iana-ssh-encryption-algs" module
             in terms of its identities and protocol-accessible nodes.</t>
@@ -1119,7 +1147,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-encryption-algs.xml)
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "2022-06-16" reflects the day on which the extraction
-            occurred.</t>
+            occurred.  Applications SHOULD use the IANA-maintained module, not the module
+            defined in this draft.</t>
           <t>This YANG module has normative references to [FIPS 46-3], <xref target="RFC4253"/>,
             <xref target="RFC4344"/>, <xref target="RFC5647"/>, and <xref target="RFC8758"/>.</t>
           <t>
@@ -1134,7 +1163,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-encryption-algs@2022-06-16.yang)
         </section>
       </section>
 
-      <section title='Initial Module for the "MAC Algorithm Names" Registry' anchor="iana-ssh-mac-module">
+      <section title='Initial Module for the "MAC Algorithm Names" Registry' anchor="ssh-keyex-algs-model">
         <section title="Data Model Overview">
           <t>This section provides an overview of the "iana-ssh-mac-algs" module
             in terms of its identities and protocol-accessible nodes.</t>
@@ -1211,7 +1240,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-mac-algs.xml)
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "2022-06-16" reflects the day on which the extraction
-            occurred.</t>
+            occurred.  Applications SHOULD use the IANA-maintained module, not the module 
+            defined in this draft.</t>
           <t>This YANG module has normative references <xref target="RFC4253"/>,
             <xref target="RFC5647"/>, and <xref target="RFC6668"/>.</t>
           <t>
@@ -1226,7 +1256,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-mac-algs@2022-06-16.yang)
         </section>
       </section>
 
-      <section title='Initial Module for the "Public Key Algorithm Names" Registry' anchor="iana-ssh-pka-module">
+      <section title='Initial Module for the "Public Key Algorithm Names" Registry' anchor="ssh-mac-algs-model">
         <section title="Data Model Overview">
           <t>This section provides an overview of the "iana-ssh-public-key-algs" module
             in terms of its identities and protocol-accessible nodes.</t>
@@ -1303,7 +1333,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-public-key-algs.xml)
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "2022-06-16" reflects the day on which the extraction
-            occurred.</t>
+            occurred.  Applications SHOULD use the IANA-maintained module, not the module 
+            defined in this draft.</t>
           <t>This YANG module has normative references <xref target="RFC4253"/>,
             <xref target="RFC4462"/>, <xref target="RFC5656"/>, <xref target="RFC6187"/>,
             <xref target="RFC8332"/>, and <xref target="RFC8709"/>.</t>
@@ -1319,7 +1350,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-public-key-algs@2022-06-16.yang)
         </section>
       </section>
 
-      <section title='Initial Module for the "Key Exchange Method Names" Registry' anchor="iana-ssh-kea-module">
+      <section title='Initial Module for the "Key Exchange Method Names" Registry' anchor="ssh-pubkey-algs-model">
         <section title="Data Model Overview">
           <t>This section provides an overview of the "iana-ssh-key-exchange-algs" module
             in terms of its identities and protocol-accessible nodes.</t>
@@ -1396,7 +1427,8 @@ INSERT_TEXT_FROM_FILE(refs/ex-key-exchange-algs.xml)
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "2022-06-16" reflects the day on which the extraction
-            occurred.</t>
+            occurred.  Applications SHOULD use the IANA-maintained module, not the module 
+            defined in this draft.</t>
           <t>This YANG module has normative references to <xref target="RFC4419"/>,
             <xref target="RFC4432"/>, <xref target="RFC5656"/>, <xref target="RFC8268"/>,
             <xref target="RFC8308"/>, <xref target="RFC8731"/>, <xref target="RFC8732"/>.</t>
@@ -1758,6 +1790,24 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
             <t>Added RPC-reply for 'generate-public-key' example.</t>
             <t>Added references to RFC 4251 and FIPS 186-6.</t>
             <t>Added "if-feature ct:encrypted-private-keys" for "case cleartext".</t>
+          </list>
+        </t>
+      </section>
+      <section title="33 to 34">
+        <t>
+          <list style="symbols">
+              <t>Addresses AD review comments.</t>
+              <t>Added note to Editor to fix line foldings.</t>
+              <t>Introduction now more clearly identifies the "ietf-" and "iana-" modules defined.</t>
+              <t>Clarified that the modules, when implemented, do not define any protocol-accessible nodes.</t>
+              <t>Clarified that IANA may deprecate and/or obsolete identities over time.</t>
+              <t>Added Security Consideration for the "generate-public-key" RPC.</t>
+              <t>Added Security Considerations text to also look a SC-section from imported modules.</t>
+              <t>Fixed private-key "must" expressions to not require public-key nodes to be present.</t>
+              <t>Renamed leaf from "bits" to "num-bits".</t>
+              <t>Renamed leaf from "hide" to "hidden".</t>
+              <t>Added container "private-key-encoding" to wrap existing choice.</t>
+              <t>Removed "public-key-format" and "public-key" nodes from examples.</t>
           </list>
         </t>
       </section>
