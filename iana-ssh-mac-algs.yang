@@ -146,18 +146,4 @@ module iana-ssh-mac-algs {
          Secure Shell (SSH) Transport Layer Protocol";
   }
 
-  // Protocol-accessible Nodes
-
-  container supported-algorithms {
-    config false;
-    description
-      "A container for a list of MAC algorithms
-       supported by the server.";
-    leaf-list supported-algorithm {
-      type mac-algorithm-ref;
-      description
-        "A MAC algorithm supported by the server.";
-    }
-  }
-
 }

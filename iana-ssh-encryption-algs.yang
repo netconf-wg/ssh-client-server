@@ -374,18 +374,4 @@ module iana-ssh-encryption-algs {
          Secure Shell Transport Layer Protocol";
   }
 
-  // Protocol-accessible Nodes
-
-  container supported-algorithms {
-    config false;
-    description
-      "A container for a list of encryption algorithms
-       supported by the server.";
-    leaf-list supported-algorithm {
-      type encryption-algorithm-ref;
-      description
-        "An encryption algorithm supported by the server.";
-    }
-  }
-
 }

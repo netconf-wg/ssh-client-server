@@ -3,6 +3,12 @@ module ietf-ssh-server {
   namespace "urn:ietf:params:xml:ns:yang:ietf-ssh-server";
   prefix sshs;
 
+  import ietf-yang-types {
+    prefix yang;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+
   import iana-crypt-hash {
     prefix ianach;
     reference
@@ -293,11 +299,23 @@ module ietf-ssh-server {
               }
             }
           }
-          leaf password {
-            if-feature "local-user-auth-password";
-            type ianach:crypt-hash;
+          container password {
             description
-              "The password for this user.";
+              "A password the SSH server may use to authenticate
+               this user.  A user is authenticated if the hash
+               of the supplied password matches this value.";
+            leaf hashed-password {
+              if-feature "local-user-auth-password";
+              type ianach:crypt-hash;
+              description
+                "The password for this user.";
+            }
+            leaf last-modified {
+              type yang:date-and-time;
+              config false;
+              description
+                "Identifies when the password was last set.";
+            }
           }
           container hostbased {
             if-feature "local-user-auth-hostbased";

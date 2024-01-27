@@ -97,25 +97,6 @@ printf "okay.\n"
 
 # IANA Examples
 
-printf "Testing ex-encryption-algs.xml..."
-command="yanglint ../iana-ssh-encryption-algs\@*.yang ex-encryption-algs.xml"
-run_unix_cmd $LINENO "$command" 0
-printf "okay.\n"
-
-printf "Testing ex-key-exchange-algs.xml..."
-command="yanglint ../iana-ssh-key-exchange-algs\@*.yang ex-key-exchange-algs.xml"
-run_unix_cmd $LINENO "$command" 0
-printf "okay.\n"
-
-printf "Testing ex-mac-algs.xml..."
-command="yanglint ../iana-ssh-mac-algs\@*.yang ex-mac-algs.xml"
-run_unix_cmd $LINENO "$command" 0
-printf "okay.\n"
-
-printf "Testing ex-public-key-algs.xml..."
-command="yanglint ../iana-ssh-public-key-algs\@*.yang ex-public-key-algs.xml"
-run_unix_cmd $LINENO "$command" 0
-printf "okay.\n"
 
 
 # IETF Examples
@@ -128,13 +109,18 @@ run_unix_cmd $LINENO "$command" 0
 rm $name
 printf "okay.\n"
 
-printf "Testing ex-generate-public-key-rpc.xml..."
-command="yanglint  -t nc-rpc -O ../../keystore/refs/ex-keystore.xml ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../iana-ssh-encryption-algs\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang ../ietf-ssh-common\@*.yang ex-generate-public-key-rpc.xml"
+printf "Testing ex-supported-algs.xml..."
+command="yanglint ../iana-ssh-encryption-algs\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang ../ietf-ssh-common\@*.yang ex-supported-algs.xml"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
-printf "Testing ex-generate-public-key-rpc-reply.xml..."
-command="yanglint -t nc-reply -O ../../keystore/refs/ex-keystore.xml -R ex-generate-public-key-rpc.xml ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang ../ietf-ssh-common\@*.yang ex-generate-public-key-rpc-reply.xml"
+printf "Testing ex-generate-asymmetric-key-pair-rpc.xml..."
+command="yanglint  -t nc-rpc -O ../../keystore/refs/ex-keystore.xml ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../iana-ssh-encryption-algs\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang ../ietf-ssh-common\@*.yang ex-generate-asymmetric-key-pair-rpc.xml"
+run_unix_cmd $LINENO "$command" 0
+printf "okay.\n"
+
+printf "Testing ex-generate-asymmetric-key-pair-rpc-reply.xml..."
+command="yanglint -t nc-reply -O ../../keystore/refs/ex-keystore.xml -R ex-generate-asymmetric-key-pair-rpc.xml ../ietf-crypto-types\@*.yang ../ietf-truststore\@*.yang ../ietf-keystore\@*.yang ../iana-ssh-key-exchange-algs\@*.yang ../iana-ssh-mac-algs\@*.yang ../iana-ssh-public-key-algs\@*.yang ../ietf-ssh-common\@*.yang ex-generate-asymmetric-key-pair-rpc-reply.xml"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 

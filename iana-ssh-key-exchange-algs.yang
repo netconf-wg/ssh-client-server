@@ -2205,18 +2205,4 @@ module iana-ssh-key-exchange-algs {
          Using Curve25519 and Curve448";
   }
 
-  // Protocol-accessible Nodes
-
-  container supported-algorithms {
-    config false;
-    description
-      "A container for a list of key exchange algorithms
-       supported by the server.";
-    leaf-list supported-algorithm {
-      type key-exchange-algorithm-ref;
-      description
-        "A key exchange algorithm supported by the server.";
-    }
-  }
-
 }

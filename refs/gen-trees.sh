@@ -1,9 +1,9 @@
 echo "Generating tree diagrams..."
 
-pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-encryption-algs\@*.yang > iana-ssh-encryption-algs-tree.txt
-pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-mac-algs\@*.yang > iana-ssh-mac-algs-tree.txt
-pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-public-key-algs\@*.yang > iana-ssh-public-key-algs-tree.txt
-pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-key-exchange-algs\@*.yang > iana-ssh-key-exchange-algs-tree.txt
+#pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-encryption-algs\@*.yang > iana-ssh-encryption-algs-tree.txt
+#pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-mac-algs\@*.yang > iana-ssh-mac-algs-tree.txt
+#pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-public-key-algs\@*.yang > iana-ssh-public-key-algs-tree.txt
+#pyang -p ../ -f tree --tree-line-length 69 ../iana-ssh-key-exchange-algs\@*.yang > iana-ssh-key-exchange-algs-tree.txt
 
 pyang -p ../ -f tree --tree-line-length 69  ../ietf-ssh-common\@*.yang > ietf-ssh-common-tree.txt
 pyang -p ../ -f tree --tree-line-length 69  --tree-no-expand-uses ../ietf-ssh-common\@*.yang > ietf-ssh-common-tree-no-expand.txt

@@ -33,7 +33,9 @@
     <users>
       <user>
         <name>mary</name>
-        <password>$0$secret</password>
+        <password>
+          <hashed-password>$0$secret</hashed-password>
+        </password>
         <public-keys>
           <inline-definition>
             <public-key>
