@@ -145,10 +145,11 @@ INSERT_TEXT_FROM_FILE(../common-intro-snippet.xml,150)
 
         <section title="Conventions">
           <t>Various examples in this document use "BASE64VALUE=" as a
-            placeholder value for binary data has has been base64
-            encoded.  This placeholder value is used as real
-            base64 encoded structures are often many lines long and
-            hence distracting to the example being presented.</t>
+            placeholder value for binary data that has been base64
+            encoded (per <xref section="9.8" target="RFC7950"/>).  This
+            placeholder value is used because real base64 encoded structures
+            are often many lines long and hence distracting to the example
+            being presented.</t>
         </section>
 
     </section>
@@ -575,7 +576,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
     </section>
 
     <section title="Security Considerations">
-      <section title='The "iana-ssh-key-exchange-algs" Module'>
+      <section title='Template for the "iana-ssh-key-exchange-algs" Module'>
+        <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
         <t>The "iana-ssh-key-exchange-algs" YANG module defines a data model
           that is designed to be accessed via YANG based management
           protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
@@ -602,7 +604,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           is not provided here.</t>
       </section>
 
-      <section title='The "iana-ssh-encryption-algs" Module'>
+      <section title='Template for the "iana-ssh-encryption-algs" Module'>
+        <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
         <t>The "iana-ssh-encryption-algs" YANG module defines a data model
           that is designed to be accessed via YANG based management
           protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
@@ -627,7 +630,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           is not provided here.</t>
       </section>
 
-      <section title='The "iana-ssh-mac-algs" Module'>
+      <section title='Template for the "iana-ssh-mac-algs" Module'>
+        <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
         <t>The "iana-ssh-mac-algs" YANG module defines a data model
           that is designed to be accessed via YANG based management
           protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
@@ -652,7 +656,8 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           is not provided here.</t>
       </section>
 
-      <section title='The "iana-ssh-public-key-algs" Module'>
+      <section title='Template for the "iana-ssh-public-key-algs" Module'>
+        <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
         <t>The "iana-ssh-public-key-algs" YANG module defines a data model
           that is designed to be accessed via YANG based management
           protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
@@ -677,7 +682,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           is not provided here.</t>
       </section>
 
-      <section title='The "ietf-ssh-common" YANG Module'>
+      <section title='Template for the "ietf-ssh-common" YANG Module'>
+        <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
+
         <t>The "ietf-ssh-common" YANG module defines "grouping" statements
           that are designed to be accessed via YANG based management
           protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
@@ -711,7 +718,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
 
       </section>
 
-      <section title='The "ietf-ssh-client" YANG Module'>
+      <section title='Template for the "ietf-ssh-client" YANG Module'>
+        <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
+
         <t>The "ietf-ssh-client" YANG module defines "grouping" statements
           that are designed to be accessed via YANG based management
           protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
@@ -768,7 +777,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           and thus the security consideration for such is not provided here.</t>
       </section>
 
-      <section title='The "ietf-ssh-server" YANG Module'>
+      <section title='Template for the "ietf-ssh-server" YANG Module'>
+        <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
+
         <t>The "ietf-ssh-server" YANG module defines "grouping" statements
           that are designed to be accessed via YANG based management
           protocols, such as NETCONF <xref target="RFC6241"/> and RESTCONF
@@ -1028,6 +1039,7 @@ reference:    RFC EEEE
       <?rfc include="reference.RFC.8071.xml"?>
       <?rfc include="reference.RFC.8340.xml"?>
       <?rfc include="reference.RFC.8342.xml"?>
+      <?rfc include="reference.RFC.8407.xml"?>
 
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-tcp-client-server.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-ssh-client-server.xml"/>
@@ -1080,8 +1092,18 @@ reference:    RFC EEEE
     </references>
 
     <section title='YANG Modules for IANA' removeInRFC="true" anchor="iana-modules">
-      <t>The modules contained in this section were generated by scripts using the contents of the
-        associated sub-registry as they existed on June 16th, 2022.</t>
+      <t>The modules contained in this section were generated by the following script.
+        Run the script using the command `python gen-idenities.py`, to produce four
+        YANG module files in the current directory.</t>
+      <t>
+        <figure>
+          <preamble>&lt;CODE BEGINS&gt; file "gen-identities.py"</preamble>
+          <artwork><![CDATA[
+INSERT_TEXT_FROM_FILE(gen-identities.py)
+]]></artwork>
+          <postamble>&lt;CODE ENDS&gt;</postamble>
+        </figure>
+      </t>
 
       <section title='Initial Module for the "Encryption Algorithm Names" Registry' anchor="ssh-enc-algs-model">
         <section title="Data Model Overview">
@@ -1131,16 +1153,16 @@ Typedefs:
         </section>
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
-            Please note that the date "2022-06-16" reflects the day on which the extraction
+            Please note that the date "YYYY-MM-DD" reflects the day on which the extraction
             occurred.  Applications SHOULD use the IANA-maintained module, not the module
             defined in this draft.</t>
           <t>This YANG module has normative references to [FIPS 46-3], <xref target="RFC4253"/>,
             <xref target="RFC4344"/>, <xref target="RFC5647"/>, and <xref target="RFC8758"/>.</t>
           <t>
             <figure>
-              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-encryption-algs@2022-06-16.yang"</preamble>
+              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-encryption-algs@YYYY-MM-DD.yang"</preamble>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(iana-ssh-encryption-algs@2022-06-16.yang)
+INSERT_TEXT_FROM_FILE(iana-ssh-encryption-algs@YYYY-MM-DD.yang)
 ]]></artwork>
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
@@ -1196,16 +1218,16 @@ Typedefs:
         </section>
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
-            Please note that the date "2022-06-16" reflects the day on which the extraction
+            Please note that the date "YYYY-MM-DD" reflects the day on which the extraction
             occurred.  Applications SHOULD use the IANA-maintained module, not the module 
             defined in this draft.</t>
           <t>This YANG module has normative references <xref target="RFC4253"/>,
             <xref target="RFC5647"/>, and <xref target="RFC6668"/>.</t>
           <t>
             <figure>
-              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-mac-algs@2022-06-16.yang"</preamble>
+              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-mac-algs@YYYY-MM-DD.yang"</preamble>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(iana-ssh-mac-algs@2022-06-16.yang)
+INSERT_TEXT_FROM_FILE(iana-ssh-mac-algs@YYYY-MM-DD.yang)
 ]]></artwork>
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
@@ -1261,7 +1283,7 @@ Typedefs:
         </section>
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
-            Please note that the date "2022-06-16" reflects the day on which the extraction
+            Please note that the date "YYYY-MM-DD" reflects the day on which the extraction
             occurred.  Applications SHOULD use the IANA-maintained module, not the module 
             defined in this draft.</t>
           <t>This YANG module has normative references <xref target="RFC4253"/>,
@@ -1269,9 +1291,9 @@ Typedefs:
             <xref target="RFC8332"/>, and <xref target="RFC8709"/>.</t>
           <t>
             <figure>
-              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-public-key-algs@2022-06-16.yang"</preamble>
+              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-public-key-algs@YYYY-MM-DD.yang"</preamble>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(iana-ssh-public-key-algs@2022-06-16.yang)
+INSERT_TEXT_FROM_FILE(iana-ssh-public-key-algs@YYYY-MM-DD.yang)
 ]]></artwork>
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
@@ -1327,7 +1349,7 @@ Typedefs:
         </section>
         <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
-            Please note that the date "2022-06-16" reflects the day on which the extraction
+            Please note that the date "YYYY-MM-DD" reflects the day on which the extraction
             occurred.  Applications SHOULD use the IANA-maintained module, not the module 
             defined in this draft.</t>
           <t>This YANG module has normative references to <xref target="RFC4419"/>,
@@ -1335,9 +1357,9 @@ Typedefs:
             <xref target="RFC8308"/>, <xref target="RFC8731"/>, <xref target="RFC8732"/>.</t>
           <t>
             <figure>
-              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-key-exchange-algs@2022-06-16.yang"</preamble>
+              <preamble>&lt;CODE BEGINS&gt; file "iana-ssh-key-exchange-algs@YYYY-MM-DD.yang"</preamble>
               <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
+INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@YYYY-MM-DD.yang)
 ]]></artwork>
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
@@ -1719,6 +1741,13 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
           </list>
         </t>
       </section>
+        <section title="35 to 36">
+          <t>  
+            <list style="symbols">
+              <t>Addresses 1st-round of IESG reviews.</t>
+            </list>
+          </t> 
+        </section>
     </section>
 
     <section title="Acknowledgements" numbered="no">
@@ -1732,10 +1761,11 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
         Bert Wijnen,
         David Lamparter,
         Gary Wu,
-        Juergen Schoenwaelder,
+        Jürgen Schönwälder,
         Ladislav Lhotka,
         Liang Xia,
         Martin Björklund,
+        Martin Thomson,
         Mehmet Ersue,
         Michal Vaško,
         Per Andersson,
@@ -1743,7 +1773,8 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@2022-06-16.yang)
         Radek Krejci,
         Rob Wilton,
         Sean Turner,
-        Tom Petch.</t>
+        Tom Petch,
+        and Thomas Martin.</t>
     </section>
 
     <section title="Contributors" numbered="no">
