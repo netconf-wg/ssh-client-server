@@ -1,9 +1,8 @@
 <rpc message-id="101"
   xmlns="urn:ietf:params:xml:ns:netconf:base:1.0">
   <generate-asymmetric-key-pair
-    xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-common"
-    xmlns:sshpka="urn:ietf:params:xml:ns:yang:iana-ssh-public-key-algs">
-    <algorithm>sshpka:ecdsa-sha2-nistp256</algorithm>
+    xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
+    <algorithm>ecdsa-sha2-nistp256</algorithm>
     <num-bits>521</num-bits>
     <private-key-encoding>
       <encrypted>

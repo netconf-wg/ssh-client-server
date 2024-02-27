@@ -22,8 +22,7 @@ run_unix_cmd() {
 # IANA modules
 
 printf "Testing iana-ssh-encryption-algs (pyang)..."
-#command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-encryption-algs\@*.yang"
-command="pyang -Werror -p ../ ../iana-ssh-encryption-algs\@*.yang"
+command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-encryption-algs\@*.yang"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
@@ -33,8 +32,7 @@ run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
 printf "Testing iana-ssh-key-exchange-algs (pyang)..."
-#command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-key-exchange-algs\@*.yang"
-command="pyang -Werror -p ../ ../iana-ssh-key-exchange-algs\@*.yang"
+command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-key-exchange-algs\@*.yang"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
@@ -44,8 +42,7 @@ run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
 printf "Testing iana-ssh-mac-algs (pyang)..."
-#command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-mac-algs\@*.yang"
-command="pyang -Werror -p ../ ../iana-ssh-mac-algs\@*.yang"
+command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-mac-algs\@*.yang"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
@@ -55,8 +52,7 @@ run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 
 printf "Testing iana-ssh-public-key-algs (pyang)..."
-#command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-public-key-algs\@*.yang"
-command="pyang -Werror -p ../ ../iana-ssh-public-key-algs\@*.yang"
+command="pyang -Werror --max-line-length=69 -p ../ ../iana-ssh-public-key-algs\@*.yang"
 run_unix_cmd $LINENO "$command" 0
 printf "okay.\n"
 

@@ -33,10 +33,15 @@
     <area>Operations</area>
     <workgroup>NETCONF Working Group</workgroup>
     <abstract>
-      <t>This document defines three YANG 1.1
-        modules: the first defines features and groupings common to both SSH
-        clients and SSH servers, the second defines a grouping for a generic
-        SSH client, and the third defines a grouping for a generic SSH server.</t>
+      <t>This document presents seven YANG 1.1 modules. Three "IETF" modules,
+        and four supporting "IANA" modules.</t>
+      <t>The three IETF modules are: ietf-ssh-common, ietf-ssh-client, and
+        ietf-ssh-server.  The "ietf-ssh-client" and "ietf-ssh-server" modules
+        are the primary productions of this work, supporting the configuration
+        and monitoring of SSH clients and servers.</t>
+      <t>The four IANA modules are: iana-ssh-encryption-algs, iana-ssh-key-exchange-algs,
+        iana-ssh-mac-algs, and iana-ssh-public-key-algs.  These modules each
+        define YANG enumerations providing support for an IANA-maintained algorithm registry.</t>
     </abstract>
     <note title="Editorial Note (To be removed by RFC Editor)">
       <t>This draft contains placeholder values that need to be replaced
@@ -76,7 +81,10 @@
           what looks ugly and ask the authors to make the adjustment.</t>
       <t>The following Appendix sections are to be removed prior to publication:
         <list style="symbols">
-          <li><xref target="iana-modules"/>.  YANG Modules for IANA</li>
+          <li><xref target="ssh-enc-algs-model"/>.  Initial Module for the "Encryption Algorithm Names" Registry</li>
+          <li><xref target="ssh-mac-algs-model"/>.  Initial Module for the "MAC Algorithm Names" Registry</li>
+          <li><xref target="ssh-pubkey-algs-model"/>.  Initial Module for the "Public Key Algorithm Names" Registry</li>
+          <li><xref target="ssh-keyex-algs-model"/>.  Initial Module for the "Key Exchange Method Names" Registry</li>
           <li><xref target="change-log"/>.  Change Log</li>
         </list>
       </t>
@@ -86,27 +94,32 @@
   <middle>
     <section title="Introduction">
  
-      <t>This document defines seven YANG 1.1 <xref target="RFC7950"/>
+      <t>This document presents seven YANG 1.1 <xref target="RFC7950"/>
           modules. Three "IETF" modules and four "IANA" modules.</t>
-        <t>The three IETF modules include:</t>
-      <ul>
-        <li>ietf-ssh-common (<xref target="ssh-common-model"/>)</li>
-        <li>ietf-ssh-client (<xref target="ssh-client-model"/>)</li>
-        <li>ietf-ssh-server (<xref target="ssh-server-model"/>)</li>
-      </ul>
-      <t>The four IANA modules include:</t>
-      <ul>
-        <li>iana-ssh-encryption-algs (<xref target="ssh-enc-algs-model"/>)</li>
-        <li>iana-ssh-key-exchange-algs (<xref target="ssh-keyex-algs-model"/>)</li>
-        <li>iana-ssh-mac-algs (<xref target="ssh-mac-algs-model"/>)</li>
-        <li>iana-ssh-public-key-algs (<xref target="ssh-pubkey-algs-model"/>)</li>
-      </ul>
+
+      <t>The three IETF modules are ietf-ssh-common (<xref target="ssh-common-model"/>),
+        ietf-ssh-client (<xref target="ssh-client-model"/>), and ietf-ssh-server
+        (<xref target="ssh-server-model"/>).  The "ietf-ssh-client" and "ietf-ssh-server"
+        modules are the primary productions of this work, supporting the configuration
+        and monitoring of SSH clients and servers.</t>
+
+      <t>The four IANA modules are: iana-ssh-encryption-algs (<xref target="ssh-enc-algs-model"/>),
+        iana-ssh-key-exchange-algs (<xref target="ssh-keyex-algs-model"/>),
+        iana-ssh-mac-algs (<xref target="ssh-mac-algs-model"/>), and iana-ssh-public-key-algs
+        (<xref target="ssh-pubkey-algs-model"/>).  These modules each define YANG
+        enumerations providing support for an IANA-maintained algorithm registry.</t>
+
+      <t>This document only defines that the four IANA modules exist,
+        and presents a script in <xref target="iana-script"/> that IANA
+        may use to generate the YANG modules.  This document does not
+        publish initial versions of these four modules.  IANA publishes
+        these modules.</t>
 
       <section title="Regarding the IETF Modules">
 
         <t>The three IETF modules define features and groupings to model "generic" SSH
          clients and SSH servers, where "generic" should be interpreted as "least
-         common denominator" more so than "complete."  Basic SSH protocol
+         common denominator" rather than "complete."  Basic SSH protocol
          (<xref target="RFC4252"/>, <xref target="RFC4253"/>, and <xref target="RFC4254"/>)
          support is afforded by these modules, leaving configuration of advance features
          (e.g., multiple channels) to augmentations made by consuming modules.</t>
@@ -140,7 +153,8 @@ INSERT_TEXT_FROM_FILE(../common-intro-snippet.xml,150)
           described in <xref target="I-D.ietf-netconf-trust-anchors"/> and
           <xref target="I-D.ietf-netconf-keystore"/>, trust anchors and keys
           installed during manufacturing are expected to appear
-          in &lt;operational&gt;.</t>
+          in &lt;operational&gt; (<xref section="5.3" target="RFC8342"/>), and &lt;system&gt;
+          <xref target="I-D.ietf-netmod-system-config"/>, if implemented.</t>
       </section>
 
         <section title="Conventions">
@@ -576,7 +590,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
     </section>
 
     <section title="Security Considerations">
-      <section title='Template for the "iana-ssh-key-exchange-algs" Module'>
+      <section title='Considerations for the "iana-ssh-key-exchange-algs" Module'>
         <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
         <t>The "iana-ssh-key-exchange-algs" YANG module defines a data model
           that is designed to be accessed via YANG based management
@@ -588,12 +602,11 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
-        <t>This YANG module defines YANG identities, for a public IANA-maintained
-          registry, and a single protocol-accessible read-only node for the subset
-          of those identities supported by a server.</t>
-        <t>YANG identities are not security-sensitive, as they are statically
+        <t>This YANG module defines YANG enumerations, for a public IANA-maintained
+          registry.</t>
+        <t>YANG enumerations are not security-sensitive, as they are statically
           defined in the publicly-accessible YANG module.  IANA MAY deprecate
-          and/or obsolete identities over time as needed to address security
+          and/or obsolete enumerations over time as needed to address security
           issues found in the algorithms.</t>
         <t>The protocol-accessible read-only node for the algorithms supported
           by a server is mildly sensitive, but not to the extent that special
@@ -604,7 +617,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           is not provided here.</t>
       </section>
 
-      <section title='Template for the "iana-ssh-encryption-algs" Module'>
+      <section title='Considerations for the "iana-ssh-encryption-algs" Module'>
         <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
         <t>The "iana-ssh-encryption-algs" YANG module defines a data model
           that is designed to be accessed via YANG based management
@@ -616,10 +629,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
-        <t>This YANG module defines YANG identities, for a public IANA-maintained
-          registry, and a single protocol-accessible read-only node for the subset
-          of those identities supported by a server.</t>
-        <t>YANG identities are not security-sensitive, as they are statically
+        <t>This YANG module defines YANG enumerations, for a public IANA-maintained
+          registry.</t>
+        <t>YANG enumerations are not security-sensitive, as they are statically
           defined in the publicly-accessible YANG module.</t>
         <t>The protocol-accessible read-only node for the algorithms supported
           by a server is mildly sensitive, but not to the extent that special
@@ -630,7 +642,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           is not provided here.</t>
       </section>
 
-      <section title='Template for the "iana-ssh-mac-algs" Module'>
+      <section title='Considerations for the "iana-ssh-mac-algs" Module'>
         <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
         <t>The "iana-ssh-mac-algs" YANG module defines a data model
           that is designed to be accessed via YANG based management
@@ -642,10 +654,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
-        <t>This YANG module defines YANG identities, for a public IANA-maintained
-          registry, and a single protocol-accessible read-only node for the subset
-          of those identities supported by a server.</t>
-        <t>YANG identities are not security-sensitive, as they are statically
+        <t>This YANG module defines YANG enumerations, for a public IANA-maintained
+          registry.</t>
+        <t>YANG enumerations are not security-sensitive, as they are statically
           defined in the publicly-accessible YANG module.</t>
         <t>The protocol-accessible read-only node for the algorithms supported
           by a server is mildly sensitive, but not to the extent that special
@@ -656,7 +667,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           is not provided here.</t>
       </section>
 
-      <section title='Template for the "iana-ssh-public-key-algs" Module'>
+      <section title='Considerations for the "iana-ssh-public-key-algs" Module'>
         <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
         <t>The "iana-ssh-public-key-algs" YANG module defines a data model
           that is designed to be accessed via YANG based management
@@ -668,10 +679,9 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           provides the means to restrict access for particular users to a
           pre-configured subset of all available protocol operations and
           content.</t>
-        <t>This YANG module defines YANG identities, for a public IANA-maintained
-          registry, and a single protocol-accessible read-only node for the subset
-          of those identities supported by a server.</t>
-        <t>YANG identities are not security-sensitive, as they are statically
+        <t>This YANG module defines YANG enumerations, for a public IANA-maintained
+          registry.</t>
+        <t>YANG enumerations are not security-sensitive, as they are statically
           defined in the publicly-accessible YANG module.</t>
         <t>The protocol-accessible read-only node for the algorithms supported
           by a server is mildly sensitive, but not to the extent that special
@@ -682,7 +692,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           is not provided here.</t>
       </section>
 
-      <section title='Template for the "ietf-ssh-common" YANG Module'>
+      <section title='Considerations for the "ietf-ssh-common" YANG Module'>
         <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
 
         <t>The "ietf-ssh-common" YANG module defines "grouping" statements
@@ -718,7 +728,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
 
       </section>
 
-      <section title='Template for the "ietf-ssh-client" YANG Module'>
+      <section title='Considerations for the "ietf-ssh-client" YANG Module'>
         <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
 
         <t>The "ietf-ssh-client" YANG module defines "grouping" statements
@@ -777,7 +787,7 @@ INSERT_TEXT_FROM_FILE(ietf-ssh-server@YYYY-MM-DD.yang)
           and thus the security consideration for such is not provided here.</t>
       </section>
 
-      <section title='Template for the "ietf-ssh-server" YANG Module'>
+      <section title='Considerations for the "ietf-ssh-server" YANG Module'>
         <t>This section follows the template defined in <xref section="3.7.1" target="RFC8407"/>.</t>
 
         <t>The "ietf-ssh-server" YANG module defines "grouping" statements
@@ -914,78 +924,172 @@ reference:    RFC EEEE
           </figure></t>
       </section>
 
-      <section title='The "iana-ssh-encryption-algs" Module'>
-        <t>IANA is requested to maintain a YANG module called "iana-ssh-encryption-algs"
-          that shadows the "Encryption Algorithm Names" sub-registry of the
-          "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-ENC-ALGS"/>.</t>
-        <t>This registry defines a YANG identity for each encryption algorithm, and a "base"
-          identity from which all of the other identities are derived.  Identities are chosen
-          over enumerations for extensibility reasons.</t>
-        <t>An initial version of this module can be found in <xref target="ssh-enc-algs-model"/></t>
-        <ul>
-          <li>Please note that this module was created on June 16th, 2022, and that additional
-            entries may have been added in the interim before this document's publication.
-            If this is that case, IANA may either publish just an updated module containing
-            the new entries, or publish the initial module that is immediately followed by a
-            "revision" containing the additional algorithm names.</li>
-        </ul>
+      <section title='Considerations for the "iana-ssh-encryption-algs" Module'>
+        <t>This section follows the template defined in <xref section="4.30.3.1"
+          target="I-D.ietf-netmod-rfc8407bis"/>.</t>
+        <t>This document presents a script (see <xref target="iana-script"/>) for
+          IANA to use to generate the IANA-maintained "iana-ssh-encryption-algs" YANG module.
+          The most recent version of the YANG module is available from the "YANG Parameters"
+          registry <xref target="IANA-YANG-PARAMETERS"/>.</t>
+        <t>IANA is requested to add the following note to the registry:</t>
+        <blockquote>New values must not be directly added to the "iana-ssh-encryption-algs"
+          YANG module.  They must instead be added to the "Encryption Algorithm Names" sub-registry of the
+          "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-ENC-ALGS"/>.</blockquote>
+        <t>When a value is added to the "Encryption Algorithm Names" sub-registry, a new "enum"
+          statement must be added to the "iana-ssh-encryption-algs" YANG module.  The
+          "enum" statement, and sub-statements thereof, should be defined as follows:</t>
+        <dl newline="true">
+          <dt>enum</dt>
+          <dd>Replicates a name from the registry.</dd>
+          <dt>value</dt>
+          <dd>Contains the decimal value of the IANA-assigned value.</dd>
+          <dt>status</dt>
+          <dd>Include only if a registration has been deprecated or obsoleted.
+            An IANA "Note" containing the word "HISTORIC" maps to YANG status "obsolete".
+            Since the registry is unable to express a "SHOULD NOT" recommendation,
+            there is no mapping to YANG status "deprecated".</dd>
+          <dt>description</dt>
+          <dd>Contains "Enumeration for the 'foo-bar' algorithm.", where "foo-bar" is
+            a placeholder for the algorithm's name (e.g., "3des-cbc").</dd>
+          <dt>reference</dt>
+          <dd>Replicates the reference(s) from the registry with the title of the
+            document(s) added.</dd>
+        </dl>
+        <t>Unassigned or reserved values are not present in the module.</t>
+        <t>When the "iana-ssh-encryption-algs" YANG module is updated, a new "revision" statement
+          with a unique revision date must be added in front of the existing revision statements.
+          The "revision" statement must have a "reference" substatement that points to the 
+          document defining the registry update that resulted in this change.</t>
+        <t>IANA is requested to add the following note to the "Encryption Algorithm Names"
+          sub-registry.</t>
+        <blockquote>When this registry is modified, the YANG module "iana-ssh-encryption-algs"
+          <xref target="IANA-YANG-PARAMETERS"/> must be updated as defined in RFC EEEE.</blockquote>
       </section>
 
-      <section title='The "iana-ssh-mac-algs" Module'>
-        <t>IANA is requested to maintain a YANG module called "iana-ssh-mac-algs"
-          that shadows the "MAC Algorithm Names" sub-registry of the
-          "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-MAC-ALGS"/>.</t>
-        <t>This registry defines a YANG identity for each MAC algorithm, and a "base"
-          identity from which all of the other identities are derived.  Identities are chosen
-          over enumerations for extensibility reasons.</t>
-        <t>An initial version of this module can be found in <xref target="ssh-keyex-algs-model"/>.</t>
-        <ul>
-          <li>Please note that this module was created on June 16th, 2022, and that additional
-            entries may have been added in the interim before this document's publication.
-            If this is that case, IANA may either publish just an updated module containing
-            the new entries, or publish the initial module that is immediately followed by a
-            "revision" containing the additional algorithm names.</li>
-        </ul>
+      <section title='Considerations for the "iana-ssh-mac-algs" Module'>
+        <t>This section follows the template defined in <xref section="4.30.3.1"
+          target="I-D.ietf-netmod-rfc8407bis"/>.</t>
+        <t>This document presents a script (see <xref target="iana-script"/>) for
+          IANA to use to generate the IANA-maintained "iana-ssh-mac-algs" YANG module.
+          The most recent version of the YANG module is available from the "YANG Parameters"
+          registry <xref target="IANA-YANG-PARAMETERS"/>.</t>
+        <t>IANA is requested to add the following note to the registry:</t>
+        <blockquote>New values must not be directly added to the "iana-ssh-mac-algs"
+          YANG module.  They must instead be added to the "MAC Algorithm Names" sub-registry of the
+          "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-MAC-ALGS"/>.</blockquote>
+        <t>When a value is added to the "MAC Algorithm Names" sub-registry, a new "enum"
+          statement must be added to the "iana-ssh-mac-algs" YANG module.  The
+          "enum" statement, and sub-statements thereof, should be defined as follows:</t>
+        <dl newline="true">
+          <dt>enum</dt>
+          <dd>Replicates a name from the registry.</dd>
+          <dt>value</dt>
+          <dd>Contains the decimal value of the IANA-assigned value.</dd>
+          <dt>status</dt>
+          <dd>Include only if a registration has been deprecated or obsoleted.</dd>
+          <dt>description</dt>
+          <dd>Contains "Enumeration for the 'foo-bar' algorithm.", where "foo-bar" is
+            a placeholder for the algorithm's name (e.g., "3des-cbc").</dd>
+          <dt>reference</dt>
+          <dd>Replicates the reference(s) from the registry with the title of the
+            document(s) added.</dd>
+        </dl>
+        <t>Unassigned or reserved values are not present in the module.</t>
+        <t>When the "iana-ssh-mac-algs" YANG module is updated, a new "revision" statement
+          with a unique revision date must be added in front of the existing revision statements.
+          The "revision" statement must have a "reference" substatement that points to the
+          document defining the registry update that resulted in this change.</t>
+        <t>IANA is requested to add the following note to the "MAC Algorithm Names" sub-registry.</t>
+        <blockquote>When this registry is modified, the YANG module "iana-ssh-mac-algs"
+          <xref target="IANA-YANG-PARAMETERS"/> must be updated as defined in RFC EEEE.</blockquote>
       </section>
 
-      <section title='The "iana-ssh-public-key-algs" Module'>
-        <t>IANA is requested to maintain a YANG module called "iana-ssh-public-key-algs"
-          that shadows the "Public Key Algorithm Names" sub-registry of the
-          "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-PUBKEY-ALGS"/>.</t>
-        <t>This registry defines a YANG identity for each public key algorithm, and a "base"
-          identity from which all of the other identities are derived.  Identities are chosen
-          over enumerations for extensibility reasons.</t>
-        <t>Registry entries for which the '*All values beginning with the specified string
-          and not containing "@".' note applies MUST be expanded so that there is a distinct
-          YANG identity for each enumeration.</t>
-        <t>An initial version of this module can be found in <xref target="ssh-mac-algs-model"/>.</t>
-        <ul>
-          <li>Please note that this module was created on June 16th, 2022, and that additional
-            entries may have been added in the interim before this document's publication.
-            If this is that case, IANA may either publish just an updated module containing
-            the new entries, or publish the initial module that is immediately followed by a
-            "revision" containing the additional algorithm names.</li>
-        </ul>
+      <section title='Considerations for the "iana-ssh-public-key-algs" Module'>
+        <t>This section follows the template defined in <xref section="4.30.3.1"
+          target="I-D.ietf-netmod-rfc8407bis"/>.</t>
+        <t>This document presents a script (see <xref target="iana-script"/>) for
+          IANA to use to generate the IANA-maintained "iana-ssh-public-key-algs" YANG module.
+          The most recent version of the YANG module is available from the "YANG Parameters"
+          registry <xref target="IANA-YANG-PARAMETERS"/>.</t>
+        <t>IANA is requested to add the following note to the registry:</t>
+        <blockquote>New values must not be directly added to the "iana-ssh-public-key-algs"
+          YANG module.  They must instead be added to the "Public Key Algorithm Names" sub-registry of the
+          "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-PUBKEY-ALGS"/>.</blockquote>
+        <t>When a value is added to the "Public Key Algorithm Names" sub-registry, a new "enum"
+          statement must be added to the "iana-ssh-public-key-algs" YANG module.  The
+          "enum" statement, and sub-statements thereof, should be defined as follows:</t>
+        <dl newline="true">
+          <dt>enum</dt>
+          <dd>Replicates a name from the registry.</dd>
+          <dt>value</dt>
+          <dd>Contains the decimal value of the IANA-assigned value.</dd>
+          <dt>status</dt>
+          <dd>Include only if a registration has been deprecated or obsoleted.</dd>
+          <dt>description</dt>
+          <dd>Contains "Enumeration for the 'foo-bar' algorithm.", where "foo-bar" is
+            a placeholder for the algorithm's name (e.g., "3des-cbc").</dd>
+          <dt>reference</dt>
+          <dd>Replicates the reference(s) from the registry with the title of the
+            document(s) added.</dd>
+        </dl>
+        <t>In the case that the algorithm name ends with "-*", the familiy of enumerations 
+          must be added.  The familiy of enum algorithm names are generated by replacing
+          the '*' character with these strings: "nistp256", "nistp384", "nistp521",
+          "1.3.132.0.1", "1.2.840.10045.3.1.1", "1.3.132.0.33", "1.3.132.0.26",
+          "1.3.132.0.27", "1.3.132.0.16", "1.3.132.0.36", "1.3.132.0.37", and "1.3.132.0.38".</t>
+        <t>Unassigned or reserved values are not present in the module.</t>
+        <t>When the "iana-ssh-public-key-algs" YANG module is updated, a new "revision" statement
+          with a unique revision date must be added in front of the existing revision statements.
+          The "revision" statement must have a "reference" substatement that points to the
+          document defining the registry update that resulted in this change.</t>
+        <t>IANA is requested to add the following note to the "MAC Algorithm Names" sub-registry.</t>
+        <blockquote>When this registry is modified, the YANG module "iana-ssh-public-key-algs"
+          <xref target="IANA-YANG-PARAMETERS"/> must be updated as defined in RFC EEEE.</blockquote>
       </section>
 
-      <section title='The "iana-ssh-key-exchange-algs" Module'>
-        <t>IANA is requested to maintain a YANG module called "iana-ssh-key-exchange-algs"
-          that shadows the "Key Exchange Method Names" sub-registry of the
-          "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-KEYEX-ALGS"/>.</t>
-        <t>This registry defines a YANG identity for each key exchange algorithm, and a "base"
-          identity from which all of the other identities are derived.  Identities are chosen
-          over enumerations for extensibility reasons.</t>
-        <t>Registry entries for which the '*All values beginning with the specified string
-          and not containing "@".' note applies MUST be expanded so that there is a distinct
-          YANG identity for each enumeration.</t>
-        <t>An initial version of this module can be found in <xref target="ssh-pubkey-algs-model"/>.</t>
-        <ul>
-          <li>Please note that this module was created on June 16th, 2022, and that additional
-            entries may have been added in the interim before this document's publication.
-            If this is that case, IANA may either publish just an updated module containing
-            the new entries, or publish the initial module that is immediately followed by a
-            "revision" containing the additional algorithm names.</li>
-        </ul>
+      <section title='Considerations for the "iana-ssh-key-exchange-algs" Module'>
+        <t>This section follows the template defined in <xref section="4.30.3.1"
+          target="I-D.ietf-netmod-rfc8407bis"/>.</t>
+        <t>This document presents a script (see <xref target="iana-script"/>) for
+          IANA to use to generate the IANA-maintained "iana-ssh-key-exchange-algs" YANG module.
+          The most recent version of the YANG module is available from the "YANG Parameters"
+          registry <xref target="IANA-YANG-PARAMETERS"/>.</t>
+        <t>IANA is requested to add the following note to the registry:</t>
+        <blockquote>New values must not be directly added to the "iana-ssh-key-exchange-algs"
+          YANG module.  They must instead be added to the "Key Exchange Method Names" sub-registry of the
+          "Secure Shell (SSH) Protocol Parameters" registry <xref target="IANA-KEYEX-ALGS"/>.</blockquote>
+        <t>When a value is added to the "Key Exchange Method Names" sub-registry, a new
+          "enum" statement must be added to the "iana-ssh-key-exchange-algs" YANG module.
+          The "enum" statement, and sub-statements thereof, should be defined as follows:</t>
+        <dl newline="true">
+          <dt>enum</dt>
+          <dd>Replicates a name from the registry.</dd>
+          <dt>value</dt>
+          <dd>Contains the decimal value of the IANA-assigned value.</dd>
+          <dt>status</dt>
+          <dd>Include only if a registration has been deprecated or obsoleted. 
+             An IANA "OK to Implement" containing "SHOULD NOT" maps to YANG status "deprecated".
+             An IANA "OK to Implement" containing "MUST NOT" maps to YANG status "obsolete".</dd>
+          <dt>description</dt>
+          <dd>Contains "Enumeration for the 'foo-bar' algorithm.", where "foo-bar" is
+            a placeholder for the algorithm's name (e.g., "3des-cbc").</dd>
+          <dt>reference</dt>
+          <dd>Replicates the reference(s) from the registry with the title of the
+            document(s) added.</dd>
+        </dl>
+        <t>In the case that the algorithm name ends with "-*", the familiy of enumerations 
+          must be added.  The familiy of enum algorithm names are generated by replacing
+          the '*' character with these strings: "nistp256", "nistp384", "nistp521",
+          "1.3.132.0.1", "1.2.840.10045.3.1.1", "1.3.132.0.33", "1.3.132.0.26",
+          "1.3.132.0.27", "1.3.132.0.16", "1.3.132.0.36", "1.3.132.0.37", and "1.3.132.0.38".</t>
+        <t>Unassigned or reserved values are not present in the module.</t>
+        <t>When the "iana-ssh-key-exchange-algs" YANG module is updated, a new "revision" statement
+          with a unique revision date must be added in front of the existing revision statements.
+          The "revision" statement must have a "reference" substatement that points to the
+          document defining the registry update that resulted in this change.</t>
+        <t>IANA is requested to add the following note to the "Key Exchange Method Names" sub-registry.</t>
+        <blockquote>When this registry is modified, the YANG module "iana-ssh-key-exchange-algs"
+          <xref target="IANA-YANG-PARAMETERS"/> must be updated as defined in RFC EEEE.</blockquote>
       </section>
 
     </section>
@@ -1047,6 +1151,8 @@ reference:    RFC EEEE
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-http-client-server.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-netconf-client-server.xml"/>
       <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netconf-restconf-client-server.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netmod-system-config.xml"/>
+      <xi:include href="https://datatracker.ietf.org/doc/bibxml3/reference.I-D.ietf-netmod-rfc8407bis.xml"/>
 
       <reference anchor="FIPS 186-6" target="https://csrc.nist.gov/publications/detail/fips/186/5/draft">
         <front>
@@ -1088,70 +1194,35 @@ reference:    RFC EEEE
           <author fullname="Internet Assigned Numbers Authority (IANA)"/>
         </front>
       </reference>
-
+      <reference anchor="IANA-YANG-PARAMETERS" target="https://www.iana.org/assignments/yang-parameters">
+        <front>
+          <title>YANG Parameters</title>
+          <author>
+            <organization/>
+          </author>
+          <date>n.d.</date>
+        </front>
+      </reference>
     </references>
 
-    <section title='YANG Modules for IANA' removeInRFC="true" anchor="iana-modules">
+    <section title='Script to Generate IANA-Maintained YANG Modules' anchor="iana-script">
       <t>The modules contained in this section were generated by the following script.
-        Run the script using the command `python gen-idenities.py`, to produce four
+        Run the script using the command `python gen-yang-modules.py`, to produce four
         YANG module files in the current directory.</t>
+      <t>Be aware that the script does not attempt to copy the "revision" statements
+        from the previous/current YANG module.  Copying the revision statements must
+        be done manually.</t>
       <t>
         <figure>
-          <preamble>&lt;CODE BEGINS&gt; file "gen-identities.py"</preamble>
+          <preamble>&lt;CODE BEGINS&gt; file "gen-yang-modules.py"</preamble>
           <artwork><![CDATA[
-INSERT_TEXT_FROM_FILE(gen-identities.py)
+INSERT_TEXT_FROM_FILE(gen-yang-modules.py)
 ]]></artwork>
           <postamble>&lt;CODE ENDS&gt;</postamble>
         </figure>
       </t>
 
       <section title='Initial Module for the "Encryption Algorithm Names" Registry' anchor="ssh-enc-algs-model">
-        <section title="Data Model Overview">
-          <t>This section provides an overview of the "iana-ssh-encryption-algs" module
-            in terms of its identities and protocol-accessible nodes.</t>
-          <section title="Identities" toc="exclude">
-            <t>The following diagram lists the base "identity" statements defined in the
-              module, of which there is just one, and illustrates that all the derived identity
-              statements are generated from the associated IANA-maintained registry
-              <xref target="IANA-ENC-ALGS"/>.</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
-Identities:
-  +-- encryption-alg-base
-    +-- <identity-name from IANA registry>
-]]></artwork>
-              </figure>
-            </t>
-            <!--<aside>-->
-              <t>The diagram above uses syntax that is similar to but not
-                defined in <xref target="RFC8340"/>.</t>
-            <!--</aside>-->
-          </section>
-          <section title="Typedefs" toc="exclude">
-            <t>The following diagram illustrates the "typedef" statements
-              defined in the "iana-ssh-encryption-algs" module:</t>
-            <t>
-              <figure>
-               <artwork><![CDATA[
-Typedefs:
-  identityref
-    +-- encryption-algorithm-ref
-]]></artwork>
-              </figure>
-            </t>
-            <!--<aside>-->
-              <t>The diagram above uses syntax that is similar to but not
-                defined in <xref target="RFC8340"/>.</t>
-            <!--</aside>-->
-            <t>Comments:</t>
-            <ul>
-              <li>The typedef defined in the "iana-ssh-encryption-algs" module
-                extends the "identityref" type defined in <xref target="RFC7950"/>.</li>
-            </ul>
-          </section>
-        </section>
-        <section title="YANG Module">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "YYYY-MM-DD" reflects the day on which the extraction
             occurred.  Applications SHOULD use the IANA-maintained module, not the module
@@ -1167,56 +1238,9 @@ INSERT_TEXT_FROM_FILE(iana-ssh-encryption-algs@YYYY-MM-DD.yang)
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
           </t>
-        </section>
       </section>
 
-      <section title='Initial Module for the "MAC Algorithm Names" Registry' anchor="ssh-keyex-algs-model">
-        <section title="Data Model Overview">
-          <t>This section provides an overview of the "iana-ssh-mac-algs" module
-            in terms of its identities and protocol-accessible nodes.</t>
-          <section title="Identities" toc="exclude">
-            <t>The following diagram lists the base "identity" statements defined in the
-              module, of which there is just one, and illustrates that all the derived identity
-              statements are generated from the associated IANA-maintained registry
-              <xref target="IANA-MAC-ALGS"/>.</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
-Identities:
-  +-- mac-alg-base
-    +-- <identity-name from IANA registry>
-]]></artwork>
-              </figure>
-            </t>
-            <!--<aside>-->
-              <t>The diagram above uses syntax that is similar to but not
-                defined in <xref target="RFC8340"/>.</t>
-            <!--</aside>-->
-          </section>
-          <section title="Typedefs" toc="exclude">
-            <t>The following diagram illustrates the "typedef" statements
-              defined in the "iana-ssh-mac-algs" module:</t>
-            <t>
-              <figure>
-               <artwork><![CDATA[
-Typedefs:
-  identityref
-    +-- mac-algorithm-ref
-]]></artwork>
-              </figure>
-            </t>
-            <!--<aside>-->
-              <t>The diagram above uses syntax that is similar to but not
-                defined in <xref target="RFC8340"/>.</t>
-            <!--</aside>-->
-            <t>Comments:</t>
-            <ul>
-              <li>The typedef defined in the "iana-ssh-mac-algs" module
-                extends the "identityref" type defined in <xref target="RFC7950"/>.</li>
-            </ul>
-          </section>
-        </section>
-        <section title="YANG Module">
+      <section title='Initial Module for the "MAC Algorithm Names" Registry' anchor="ssh-mac-algs-model">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "YYYY-MM-DD" reflects the day on which the extraction
             occurred.  Applications SHOULD use the IANA-maintained module, not the module 
@@ -1232,56 +1256,9 @@ INSERT_TEXT_FROM_FILE(iana-ssh-mac-algs@YYYY-MM-DD.yang)
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
           </t>
-        </section>
       </section>
 
-      <section title='Initial Module for the "Public Key Algorithm Names" Registry' anchor="ssh-mac-algs-model">
-        <section title="Data Model Overview">
-          <t>This section provides an overview of the "iana-ssh-public-key-algs" module
-            in terms of its identities and protocol-accessible nodes.</t>
-          <section title="Identities" toc="exclude">
-            <t>The following diagram lists the base "identity" statements defined in the
-              module, of which there is just one, and illustrates that all the derived identity
-              statements are generated from the associated IANA-maintained registry
-              <xref target="IANA-PUBKEY-ALGS"/>.</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
-Identities:
-  +-- public-key-alg-base
-    +-- <identity-name from IANA registry>
-]]></artwork>
-              </figure>
-            </t>
-            <!--<aside>-->
-              <t>The diagram above uses syntax that is similar to but not
-                defined in <xref target="RFC8340"/>.</t>
-            <!--</aside>-->
-          </section>
-          <section title="Typedefs" toc="exclude">
-            <t>The following diagram illustrates the "typedef" statements
-              defined in the "iana-ssh-public-key-algs" module:</t>
-            <t>
-              <figure>
-               <artwork><![CDATA[
-Typedefs:
-  identityref
-    +-- public-key-algorithm-ref
-]]></artwork>
-              </figure>
-            </t>
-            <!--<aside>-->
-              <t>The diagram above uses syntax that is similar to but not
-                defined in <xref target="RFC8340"/>.</t>
-            <!--</aside>-->
-            <t>Comments:</t>
-            <ul>
-              <li>The typedef defined in the "iana-ssh-public-key-algs" module
-                extends the "identityref" type defined in <xref target="RFC7950"/>.</li>
-            </ul>
-          </section>
-        </section>
-        <section title="YANG Module">
+      <section title='Initial Module for the "Public Key Algorithm Names" Registry' anchor="ssh-pubkey-algs-model">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "YYYY-MM-DD" reflects the day on which the extraction
             occurred.  Applications SHOULD use the IANA-maintained module, not the module 
@@ -1298,56 +1275,9 @@ INSERT_TEXT_FROM_FILE(iana-ssh-public-key-algs@YYYY-MM-DD.yang)
               <postamble>&lt;CODE ENDS&gt;</postamble>
             </figure>
           </t>
-        </section>
       </section>
 
-      <section title='Initial Module for the "Key Exchange Method Names" Registry' anchor="ssh-pubkey-algs-model">
-        <section title="Data Model Overview">
-          <t>This section provides an overview of the "iana-ssh-key-exchange-algs" module
-            in terms of its identities and protocol-accessible nodes.</t>
-          <section title="Identities" toc="exclude">
-            <t>The following diagram lists the base "identity" statements defined in the
-              module, of which there is just one, and illustrates that all the derived identity
-              statements are generated from the associated IANA-maintained registry
-              <xref target="IANA-KEYEX-ALGS"/>.</t>
-            <t>
-              <figure>
-                <artwork><![CDATA[
-Identities:
-  +-- key-exchange-alg-base
-    +-- <identity-name from IANA registry>
-]]></artwork>
-              </figure>
-            </t>
-            <!--<aside>-->
-              <t>The diagram above uses syntax that is similar to but not
-                defined in <xref target="RFC8340"/>.</t>
-            <!--</aside>-->
-          </section>
-          <section title="Typedefs" toc="exclude">
-            <t>The following diagram illustrates the "typedef" statements
-              defined in the "iana-ssh-key-exchange-algs" module:</t>
-            <t>
-              <figure>
-               <artwork><![CDATA[
-Typedefs:
-  identityref
-    +-- key-exchange-algorithm-ref
-]]></artwork>
-              </figure>
-            </t>
-            <!--<aside>-->
-              <t>The diagram above uses syntax that is similar to but not
-                defined in <xref target="RFC8340"/>.</t>
-            <!--</aside>-->
-            <t>Comments:</t>
-            <ul>
-              <li>The typedef defined in the "iana-ssh-key-exchange-algs" module
-                extends the "identityref" type defined in <xref target="RFC7950"/>.</li>
-            </ul>
-          </section>
-        </section>
-        <section title="YANG Module">
+      <section title='Initial Module for the "Key Exchange Method Names" Registry' anchor="ssh-keyex-algs-model">
           <t>Following are the complete contents to the initial IANA-maintained YANG module.
             Please note that the date "YYYY-MM-DD" reflects the day on which the extraction
             occurred.  Applications SHOULD use the IANA-maintained module, not the module 
@@ -1365,10 +1295,9 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@YYYY-MM-DD.yang)
             </figure>
           </t>
         </section>
-      </section>
     </section>
 
-    <section title="Change Log" removeInRFC="true" anchor="change-log">
+    <section title="Change Log" anchor="change-log">
       <section title="00 to 01">
         <t>
           <list style="symbols">
@@ -1741,17 +1670,33 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@YYYY-MM-DD.yang)
           </list>
         </t>
       </section>
-        <section title="35 to 36">
-          <t>  
-            <list style="symbols">
-              <t>Addresses 1st-round of IESG reviews.</t>
-            </list>
-          </t> 
-        </section>
+      <section title="35 to 36">
+        <t>  
+          <list style="symbols">
+            <t>Addresses 1st-round of IESG reviews.</t>
+          </list>
+        </t> 
+      </section>
+      <section title="36 to 38">
+        <t>  
+          <list style="symbols">
+            <t>Addresses issues found in OpsDir review of the ssh-client-server draft.</t>
+            <t>Replaced identities with enums in the IANA modules.</t>
+            <t>Updated per Elwyn Davies' Gen-ART review.</t>
+            <t>Updated Introduction to read more like the Abstract</t>
+            <t>Add refs to where the 'operational' and 'system' datastores are defined.</t>
+            <t>Updated Editor-notes to NOT remove the script (just remove the initial IANA modules)</t>
+            <t>Renamed Security Considerations section s/Template for/Considerations for/</t>
+            <t>s/defines/presents/ in a few places.</t>
+            <t>Renamed script from 'gen-identities.py' to 'gen-yang-modules.py'</t>
+            <t>Removed the removeInRFC="true" attribute in Appendix sections</t>
+          </list>
+        </t> 
+      </section>
     </section>
 
     <section title="Acknowledgements" numbered="no">
-      <t>The authors would like to thank for following for lively discussions
+      <t>The authors would like to thank the following for lively discussions
         on list and in the halls (ordered by first name):
         Alan Luchuk,
         Andy Bierman,
@@ -1760,6 +1705,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@YYYY-MM-DD.yang)
         Benoit Claise,
         Bert Wijnen,
         David Lamparter,
+        Elwyn Davies,
         Gary Wu,
         Jürgen Schönwälder,
         Ladislav Lhotka,
@@ -1770,6 +1716,7 @@ INSERT_TEXT_FROM_FILE(iana-ssh-key-exchange-algs@YYYY-MM-DD.yang)
         Michal Vaško,
         Per Andersson,
         Phil Shafer,
+        Qin Wun,
         Radek Krejci,
         Rob Wilton,
         Sean Turner,

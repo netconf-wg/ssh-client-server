@@ -1,6 +1,8 @@
 import re
 import csv
+import textwrap
 import requests
+import requests_cache
 from io import StringIO
 from datetime import datetime
 
@@ -95,23 +97,10 @@ DESCRIPTION
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
-  // Typedefs
-
-  typedef HNAME-algorithm-ref {
-    type identityref {
-      base "HNAME-alg-base";
-    }
+  typedef ssh-HNAME-algorithm {
     description
-      "A reference to an SSH SNAME algorithm identifier.";
-  }
-
-
-  // Identities
-
-  identity HNAME-alg-base {
-    description
-      "Base identity for SSH SNAME algorithms.";
-  }
+      "An enumeration for SSH SNAME algorithms.";
+    type enumeration {
 """
     # Replacements
     rep = {
@@ -192,35 +181,40 @@ def create_module_body(module, f):
             # Function used below
             def write_identity(alg):
                 f.write('\n')
-                if row[first_colname].startswith("3des"):
-                    f.write(f'  identity {re.sub("3des", "triple-des", alg)} {{\n')
-                else:
-                    f.write(f'  identity {alg} {{\n')
-                f.write(f'    base {module["hypenated_name"]}-alg-base;\n')
+                f.write(f'      enum {alg} {{\n')
                 if "HISTORIC" in row["Note"]:
-                    f.write(f'    status obsolete;\n')
+                    f.write(f'        status obsolete;\n')
                 elif "OK to Implement" in row:
-                    if "SHOULD NOT" in row["OK to Implement"]:
-                        f.write(f'    status obsolete;\n')
-                    elif "MAY" in row["OK to Implement"]:
-                        f.write(f'    status deprecated;\n')
-                f.write(f'    description\n')
-                f.write(f'      "Identity for the \'{alg}\' algorithm.')
+                    if "MUST NOT" in row["OK to Implement"]:
+                        f.write(f'        status obsolete;\n')
+                    elif "SHOULD NOT" in row["OK to Implement"]:
+                        f.write(f'        status deprecated;\n')
+                f.write(f'        description\n')
+                description = f'          "Enumeration for the \'{alg}\' algorithm.'
                 if "Section" in row["Note"]:
-                    f.write("  " + row["Note"])
-                f.write(f'";\n')
-                f.write( '    reference\n')
-                f.write( '      "')
-                ref_len = len(refs)
-                for i in range(ref_len):
-                    ref = refs[i]
-                    title = titles[i]
-                    f.write(f'{ref}:\n')
-                    f.write(f'         {title}')
-                    if i != ref_len - 1:
-                        f.write('\n       ')
-                f.write('";\n')
-                f.write('  }\n')
+                    description += " " + row["Note"]
+                description += '";'
+                description = textwrap.fill(description, width=69, subsequent_indent="           ")
+                f.write(f'{description}\n')
+                f.write('        reference\n')
+                f.write('          "')
+                if row["Reference"] == "":
+                    f.write('    Missing in IANA registry.')
+                else:
+                    ref_len = len(refs)
+                    for i in range(ref_len):
+                        ref = refs[i]
+                        f.write(f'{ref}:\n')
+                        title = "             " + titles[i]
+                        if i == ref_len - 1:
+                            title += '";'
+                        title = textwrap.fill(title, width=67, subsequent_indent="             ")
+                        f.write(f'{title}')
+                        if i != ref_len - 1:
+                            f.write('\n       ')
+                f.write('\n')
+                f.write('      }\n')
+
 
             # Write one or more "identity" statements
             if not row[first_colname].endswith("-*"): # just one identity
@@ -248,11 +242,18 @@ def create_module_body(module, f):
 
 def create_module_end(f):
 
-    # Write module's closing brace
-    f.write('\n}\n')
+    # Close out the enumeration, typedef, and module
+    f.write("    }\n")
+    f.write("  }\n")
+    f.write('\n')
+    f.write('}\n')
+
 
 
 def create_module(module):
+
+    # Install cache for 8x speedup
+    requests_cache.install_cache()
 
     # ascertain yang module's name
     yang_module_name = "iana-ssh-" + module["hypenated_name"] + "-algs.yang"

@@ -52,7 +52,7 @@ module ietf-ssh-common {
     "This module defines a common features and groupings for
      Secure Shell (SSH).
 
-     Copyright (c) 2023 IETF Trust and the persons identified
+     Copyright (c) 2024 IETF Trust and the persons identified
      as authors of the code. All rights reserved.
 
      Redistribution and use in source and binary forms, with
@@ -119,9 +119,7 @@ module ietf-ssh-common {
       description
         "Parameters regarding host key.";
       leaf-list host-key-alg {
-        type identityref {
-          base sshpka:public-key-alg-base;
-        }
+        type sshpka:ssh-public-key-algorithm;
         ordered-by user;
         description
           "Acceptable host key algorithms in order of decreasing
@@ -138,9 +136,7 @@ module ietf-ssh-common {
       description
         "Parameters regarding key exchange.";
       leaf-list key-exchange-alg {
-        type identityref {
-          base sshkea:key-exchange-alg-base;
-        }
+        type sshkea:ssh-key-exchange-algorithm;
         ordered-by user;
         description
           "Acceptable key exchange algorithms in order of decreasing
@@ -155,9 +151,7 @@ module ietf-ssh-common {
       description
         "Parameters regarding encryption.";
       leaf-list encryption-alg {
-        type identityref {
-          base sshea:encryption-alg-base;
-        }
+        type sshea:ssh-encryption-algorithm;
         ordered-by user;
         description
           "Acceptable encryption algorithms in order of decreasing
@@ -172,9 +166,7 @@ module ietf-ssh-common {
       description
         "Parameters regarding message authentication code (MAC).";
       leaf-list mac-alg {
-        type identityref {
-          base sshma:mac-alg-base;
-        }
+        type sshma:ssh-mac-algorithm;
         ordered-by user;
         description
           "Acceptable MAC algorithms in order of decreasing
@@ -199,7 +191,7 @@ module ietf-ssh-common {
         "A container for a list of public key algorithms
          supported by the server.";
       leaf-list supported-algorithm {
-        type sshpka:public-key-algorithm-ref;
+        type sshpka:ssh-public-key-algorithm;
         description
           "A public key algorithm supported by the server.";
       }
@@ -209,7 +201,7 @@ module ietf-ssh-common {
         "A container for a list of encryption algorithms
          supported by the server.";
       leaf-list supported-algorithm {
-        type sshea:encryption-algorithm-ref;
+        type sshea:ssh-encryption-algorithm;
         description
           "An encryption algorithm supported by the server.";
       }
@@ -220,7 +212,7 @@ module ietf-ssh-common {
         "A container for a list of key exchange algorithms
          supported by the server.";
       leaf-list supported-algorithm {
-        type sshkea:key-exchange-algorithm-ref;
+        type sshkea:ssh-key-exchange-algorithm;
         description
           "A key exchange algorithm supported by the server.";
       }
@@ -231,7 +223,7 @@ module ietf-ssh-common {
         "A container for a list of MAC algorithms
          supported by the server.";
       leaf-list supported-algorithm {
-        type sshma:mac-algorithm-ref;
+        type sshma:ssh-mac-algorithm;
         description
           "A MAC algorithm supported by the server.";
       }
@@ -241,11 +233,11 @@ module ietf-ssh-common {
   rpc generate-asymmetric-key-pair {
     if-feature "asymmetric-key-pair-generation";
     description
-      "Requests the device to generate an public key using
+      "Requests the device to generate a public key using
        the specified key algorithm.";
     input {
       leaf algorithm {
-        type sshpka:public-key-algorithm-ref;
+        type sshpka:ssh-public-key-algorithm;
         mandatory true;
         description
           "The algorithm to be used when generating the key.";
