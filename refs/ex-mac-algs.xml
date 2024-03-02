@@ -3,5 +3,6 @@
   xmlns:sshma="urn:ietf:params:xml:ns:yang:iana-ssh-mac-algs">
   <supported-algorithm>sshma:hmac-sha2-256</supported-algorithm>
   <supported-algorithm>sshma:hmac-sha2-512</supported-algorithm>
-  <supported-algorithm>sshma:aead-aes-256-gcm</supported-algorithm>
+  <supported-algorithm>sshma:AEAD_AES_128_GCM</supported-algorithm>
+  <supported-algorithm>sshma:AEAD_AES_256_GCM</supported-algorithm>
 </supported-algorithms>

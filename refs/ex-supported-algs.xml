@@ -1,41 +1,33 @@
 <supported-algorithms
   xmlns="urn:ietf:params:xml:ns:yang:ietf-ssh-common">
-  <encryption-algorithms
-    xmlns:sshea="urn:ietf:params:xml:ns:yang:iana-ssh-encryption-algs">
-    <supported-algorithm>sshea:aes256-ctr</supported-algorithm>
-    <supported-algorithm>sshea:aes256-cbc</supported-algorithm>
-    <supported-algorithm>sshea:twofish256-cbc</supported-algorithm>
-    <supported-algorithm>sshea:serpent256-cbc</supported-algorithm>
-    <supported-algorithm>sshea:arcfour256</supported-algorithm>
-    <supported-algorithm>sshea:serpent256-ctr</supported-algorithm>
-    <supported-algorithm>sshea:aead-aes-256-gcm</supported-algorithm>
+  <encryption-algorithms>
+    <supported-algorithm>aes256-ctr</supported-algorithm>
+    <supported-algorithm>arcfour256</supported-algorithm>
+    <supported-algorithm>serpent256-ctr</supported-algorithm>
+    <supported-algorithm>AEAD_AES_128_GCM</supported-algorithm>
+    <supported-algorithm>AEAD_AES_256_GCM</supported-algorithm>
   </encryption-algorithms>
-  <key-exchange-algorithms
-    xmlns:sshkea="urn:ietf:params:xml:ns:yang:iana-ssh-key-exchange-algs">
-    <supported-algorithm>sshkea:diffie-hellman-group-exchange-sha256</supported-algorithm>
-    <supported-algorithm>sshkea:ecdh-sha2-nistp256</supported-algorithm>
-    <supported-algorithm>sshkea:rsa2048-sha256</supported-algorithm>
-    <supported-algorithm>sshkea:gss-group1-sha1-curve25519-sha256</supported-algorithm>
-    <supported-algorithm>sshkea:gss-group14-sha1-nistp256</supported-algorithm>
-    <supported-algorithm>sshkea:gss-gex-sha1-nistp256</supported-algorithm>
-    <supported-algorithm>sshkea:gss-group14-sha256-1.2.840.10045.3.1.1</supported-algorithm>
-    <supported-algorithm>sshkea:curve25519-sha256</supported-algorithm>
+  <key-exchange-algorithms>
+    <supported-algorithm>ecdh-sha2-nistp256</supported-algorithm>
+    <supported-algorithm>rsa2048-sha256</supported-algorithm>
+    <supported-algorithm>gss-group14-sha1-nistp256</supported-algorithm>
+    <supported-algorithm>gss-gex-sha1-nistp256</supported-algorithm>
+    <supported-algorithm>gss-group14-sha256-1.2.840.10045.3.1.1</supported-algorithm>
+    <supported-algorithm>curve25519-sha256</supported-algorithm>
   </key-exchange-algorithms>
-  <mac-algorithms
-    xmlns:sshma="urn:ietf:params:xml:ns:yang:iana-ssh-mac-algs">
-    <supported-algorithm>sshma:hmac-sha2-256</supported-algorithm>
-    <supported-algorithm>sshma:hmac-sha2-512</supported-algorithm>
-    <supported-algorithm>sshma:aead-aes-256-gcm</supported-algorithm>
+  <mac-algorithms>
+    <supported-algorithm>hmac-sha2-256</supported-algorithm>
+    <supported-algorithm>hmac-sha2-512</supported-algorithm>
+    <supported-algorithm>AEAD_AES_256_GCM</supported-algorithm>
   </mac-algorithms>
-  <public-key-algorithms
-    xmlns:sshpka="urn:ietf:params:xml:ns:yang:iana-ssh-public-key-algs">
-    <supported-algorithm>sshpka:rsa-sha2-256</supported-algorithm>
-    <supported-algorithm>sshpka:rsa-sha2-512</supported-algorithm>
-    <supported-algorithm>sshpka:spki-sign-rsa</supported-algorithm>
-    <supported-algorithm>sshpka:pgp-sign-dss</supported-algorithm>
-    <supported-algorithm>sshpka:x509v3-rsa2048-sha256</supported-algorithm>
-    <supported-algorithm>sshpka:ecdsa-sha2-nistp256</supported-algorithm>
-    <supported-algorithm>sshpka:ecdsa-sha2-1.3.132.0.37</supported-algorithm>
-    <supported-algorithm>sshpka:ssh-ed25519</supported-algorithm>
+  <public-key-algorithms>
+    <supported-algorithm>rsa-sha2-256</supported-algorithm>
+    <supported-algorithm>rsa-sha2-512</supported-algorithm>
+    <supported-algorithm>spki-sign-rsa</supported-algorithm>
+    <supported-algorithm>pgp-sign-dss</supported-algorithm>
+    <supported-algorithm>x509v3-rsa2048-sha256</supported-algorithm>
+    <supported-algorithm>ecdsa-sha2-nistp256</supported-algorithm>
+    <supported-algorithm>ecdsa-sha2-1.3.132.0.37</supported-algorithm>
+    <supported-algorithm>ssh-ed25519</supported-algorithm>
   </public-key-algorithms>
 </supported-algorithms>

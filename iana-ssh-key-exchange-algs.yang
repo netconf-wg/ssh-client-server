@@ -16,7 +16,7 @@ module iana-ssh-key-exchange-algs {
      Email:  iana@iana.org";
 
   description
-    "This module defines identities for the key exchange algorithms
+    "This module defines enumerations for the key exchange algorithms
      defined in the 'Key Exchange Method Names' sub-registry of the
      'Secure Shell (SSH) Protocol Parameters' registry maintained
      by IANA.
@@ -33,18 +33,21 @@ module iana-ssh-key-exchange-algs {
 
      The initial version of this YANG module is part of RFC EEEE
      (https://www.rfc-editor.org/info/rfcEEEE); see the RFC
-     itself for full legal notices.";
+     itself for full legal notices.
 
-  revision 2024-02-22 {
+     All versions of this module are published by IANA at
+     https://www.iana.org/assignments/yang-parameters.";
+
+  revision 2024-03-02 {
     description
-      "Reflects contents of the key exchange algorithms registry.";
+      "This initial version of the module was created using
+       the script defined in RFC EEEE to reflect the contents
+       of the key exchange algorithms registry maintained by IANA.";
     reference
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   typedef ssh-key-exchange-algorithm {
-    description
-      "An enumeration for SSH key exchange algorithms.";
     type enumeration {
 
       enum diffie-hellman-group-exchange-sha1 {
@@ -2063,6 +2066,6 @@ module iana-ssh-key-exchange-algs {
              Curve25519 and Curve448";
       }
     }
-  }
+    description      "An enumeration for SSH SNAME algorithms.";  }
 
 }

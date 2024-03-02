@@ -16,7 +16,7 @@ module iana-ssh-public-key-algs {
      Email:  iana@iana.org";
 
   description
-    "This module defines identities for the public key algorithms
+    "This module defines enumerations for the public key algorithms
      defined in the 'Public Key Algorithm Names' sub-registry of the
      'Secure Shell (SSH) Protocol Parameters' registry maintained
      by IANA.
@@ -33,18 +33,21 @@ module iana-ssh-public-key-algs {
 
      The initial version of this YANG module is part of RFC EEEE
      (https://www.rfc-editor.org/info/rfcEEEE); see the RFC
-     itself for full legal notices.";
+     itself for full legal notices.
 
-  revision 2024-02-22 {
+     All versions of this module are published by IANA at
+     https://www.iana.org/assignments/yang-parameters.";
+
+  revision 2024-03-02 {
     description
-      "Reflects contents of the public key algorithms registry.";
+      "This initial version of the module was created using
+       the script defined in RFC EEEE to reflect the contents
+       of the public key algorithms registry maintained by IANA.";
     reference
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   typedef ssh-public-key-algorithm {
-    description
-      "An enumeration for SSH public key algorithms.";
     type enumeration {
 
       enum ssh-dss {
@@ -386,6 +389,6 @@ module iana-ssh-public-key-algs {
              Shell (SSH) Protocol";
       }
     }
-  }
+    description      "An enumeration for SSH SNAME algorithms.";  }
 
 }

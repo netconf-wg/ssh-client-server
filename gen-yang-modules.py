@@ -13,7 +13,7 @@ MODULES = [
         "spaced_name": "encryption",
         "hypenated_name": "encryption",
         "prefix": "sshea",
-        "description": """    "This module defines identities for the encryption algorithms
+        "description": """    "This module defines enumerations for the encryption algorithms
      defined in the 'Encryption Algorithm Names' sub-registry of the
      'Secure Shell (SSH) Protocol Parameters' registry maintained
      by IANA.""",
@@ -23,7 +23,7 @@ MODULES = [
         "spaced_name": "public key",
         "hypenated_name": "public-key",
         "prefix": "sshpka",
-        "description": """    "This module defines identities for the public key algorithms
+        "description": """    "This module defines enumerations for the public key algorithms
      defined in the 'Public Key Algorithm Names' sub-registry of the
      'Secure Shell (SSH) Protocol Parameters' registry maintained
      by IANA."""
@@ -33,7 +33,7 @@ MODULES = [
         "spaced_name": "mac",
         "hypenated_name": "mac",
         "prefix": "sshma",
-        "description": """    "This module defines identities for the MAC algorithms
+        "description": """    "This module defines enumerations for the MAC algorithms
      defined in the 'MAC Algorithm Names' sub-registry of the
      'Secure Shell (SSH) Protocol Parameters' registry maintained
      by IANA."""
@@ -43,7 +43,7 @@ MODULES = [
         "spaced_name": "key exchange",
         "hypenated_name": "key-exchange",
         "prefix": "sshkea",
-        "description": """    "This module defines identities for the key exchange algorithms
+        "description": """    "This module defines enumerations for the key exchange algorithms
      defined in the 'Key Exchange Method Names' sub-registry of the
      'Secure Shell (SSH) Protocol Parameters' registry maintained
      by IANA."""
@@ -88,18 +88,21 @@ DESCRIPTION
 
      The initial version of this YANG module is part of RFC EEEE
      (https://www.rfc-editor.org/info/rfcEEEE); see the RFC
-     itself for full legal notices.";
+     itself for full legal notices.
+
+     All versions of this module are published by IANA at
+     https://www.iana.org/assignments/yang-parameters.";
 
   revision DATE {
     description
-      "Reflects contents of the SNAME algorithms registry.";
+      "This initial version of the module was created using
+       the script defined in RFC EEEE to reflect the contents
+       of the SNAME algorithms registry maintained by IANA.";
     reference
       "RFC EEEE: YANG Groupings for SSH Clients and SSH Servers";
   }
 
   typedef ssh-HNAME-algorithm {
-    description
-      "An enumeration for SSH SNAME algorithms.";
     type enumeration {
 """
     # Replacements
@@ -179,7 +182,7 @@ def create_module_body(module, f):
                     raise Exception("ref not found")
 
             # Function used below
-            def write_identity(alg):
+            def write_enumeration(alg):
                 f.write('\n')
                 f.write(f'      enum {alg} {{\n')
                 if "HISTORIC" in row["Note"]:
@@ -216,12 +219,12 @@ def create_module_body(module, f):
                 f.write('      }\n')
 
 
-            # Write one or more "identity" statements
-            if not row[first_colname].endswith("-*"): # just one identity
+            # Write one or more "enumeration" statements
+            if not row[first_colname].endswith("-*"): # just one enumeration
                 # Avoid duplicate entries caused by the "ecdh-sha2-*" family expansion
                 if not row[first_colname].startswith("ecdh-sha2-nistp"):
-                    write_identity(row[first_colname])
-            else: # a family of identities
+                    write_enumeration(row[first_colname])
+            else: # a family of enumerations
                 curve_ids = [
                     "nistp256",
                     "nistp384",
@@ -237,13 +240,15 @@ def create_module_body(module, f):
                     "1.3.132.0.38",
                 ]
                 for curve_id in curve_ids:
-                    write_identity(row[first_colname][:-1] + curve_id)
+                    write_enumeration(row[first_colname][:-1] + curve_id)
 
 
 def create_module_end(f):
 
     # Close out the enumeration, typedef, and module
     f.write("    }\n")
+    f.write("    description")
+    f.write('      "An enumeration for SSH SNAME algorithms.";')
     f.write("  }\n")
     f.write('\n')
     f.write('}\n')
