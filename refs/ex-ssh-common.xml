@@ -6,6 +6,7 @@
   <host-key>
     <host-key-alg>x509v3-rsa2048-sha256</host-key-alg>
     <host-key-alg>ssh-rsa</host-key-alg>
+    <host-key-alg>ssh-rsa@openssh.com</host-key-alg>
   </host-key>
   <key-exchange>
     <key-exchange-alg>diffie-hellman-group-exchange-sha256</key-exchange-alg>
@@ -14,6 +15,7 @@
     <encryption-alg>aes256-ctr</encryption-alg>
     <encryption-alg>aes192-ctr</encryption-alg>
     <encryption-alg>aes128-ctr</encryption-alg>
+    <encryption-alg>aes256-gcm@openssh.com</encryption-alg>
   </encryption>
   <mac>
     <mac-alg>hmac-sha2-256</mac-alg>

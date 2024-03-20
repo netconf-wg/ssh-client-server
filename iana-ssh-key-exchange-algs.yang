@@ -38,7 +38,7 @@ module iana-ssh-key-exchange-algs {
      All versions of this module are published by IANA at
      https://www.iana.org/assignments/yang-parameters.";
 
-  revision 2024-03-02 {
+  revision 2024-03-16 {
     description
       "This initial version of the module was created using
        the script defined in RFC EEEE to reflect the contents
@@ -2066,6 +2066,8 @@ module iana-ssh-key-exchange-algs {
              Curve25519 and Curve448";
       }
     }
-    description      "An enumeration for SSH SNAME algorithms.";  }
+    description
+      "An enumeration for SSH key exchange algorithms.";
+  }
 
 }

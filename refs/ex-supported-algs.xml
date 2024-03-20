@@ -6,6 +6,7 @@
     <supported-algorithm>serpent256-ctr</supported-algorithm>
     <supported-algorithm>AEAD_AES_128_GCM</supported-algorithm>
     <supported-algorithm>AEAD_AES_256_GCM</supported-algorithm>
+    <supported-algorithm>aes256-gcm@openssh.com</supported-algorithm>
   </encryption-algorithms>
   <key-exchange-algorithms>
     <supported-algorithm>ecdh-sha2-nistp256</supported-algorithm>
@@ -29,5 +30,6 @@
     <supported-algorithm>ecdsa-sha2-nistp256</supported-algorithm>
     <supported-algorithm>ecdsa-sha2-1.3.132.0.37</supported-algorithm>
     <supported-algorithm>ssh-ed25519</supported-algorithm>
+    <supported-algorithm>ssh-rsa@openssh.com</supported-algorithm>
   </public-key-algorithms>
 </supported-algorithms>

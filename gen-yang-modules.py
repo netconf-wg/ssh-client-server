@@ -243,16 +243,15 @@ def create_module_body(module, f):
                     write_enumeration(row[first_colname][:-1] + curve_id)
 
 
-def create_module_end(f):
+def create_module_end(module, f):
 
     # Close out the enumeration, typedef, and module
     f.write("    }\n")
-    f.write("    description")
-    f.write('      "An enumeration for SSH SNAME algorithms.";')
+    f.write("    description\n")
+    f.write(f'      "An enumeration for SSH {module["spaced_name"]} algorithms.";\n')
     f.write("  }\n")
     f.write('\n')
     f.write('}\n')
-
 
 
 def create_module(module):
@@ -267,7 +266,7 @@ def create_module(module):
     with open(yang_module_name, "w") as f:
         create_module_begin(module, f)
         create_module_body(module, f)
-        create_module_end(f)
+        create_module_end(module, f)
 
 
 def main():
